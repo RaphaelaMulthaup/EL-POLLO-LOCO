@@ -25,11 +25,14 @@ class Character extends MovableObject {
         setInterval(() => {
             if (this.world.keyboard.RIGHT) {
                 this.x += this.speed;
-            }    
+            }
+            if (this.world.keyboard.LEFT) {
+                this.x -= this.speed;
+            }
         }, 1000 / 60);  
 
         setInterval(() => {
-            if (this.world.keyboard.RIGHT) {
+            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 // Walk animation
                 let i = this.currentImage % this.IMAGES_WALKING.length; //let i = 7 % (Modulu) 6; 1 Rest 1
                 // i = 0,1,2,3,4,5,0,1,2,3,4,5,0,1,2,3,4,5...
