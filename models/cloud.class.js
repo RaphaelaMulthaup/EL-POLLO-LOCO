@@ -5,16 +5,15 @@ class Cloud extends MovableObject{
     height = 480;
     speed = 0.1;
 
-    constructor(){
+    constructor(minX){
         super().loadImg('../img/5_background/layers/4_clouds/1.png');
 
-        this.x = - 100 + Math.random() * 200;
+        this.x = minX + Math.random() * 200;
         this.animate();
     }
 
     animate(){
-        let direction = Math.random() < 0.5 ? 'left' : 'right';
-        if (direction == 'left') {
+        if (directionClouds == 'left') {
             this.moveLeft();
         } else {
             this.moveRight();

@@ -1,9 +1,11 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let directionClouds;
 
 function init(){
     canvas = document.getElementById('canvas');
+    directionClouds = Math.random() < 0.5 ? 'left' : 'right';
     world = new World(canvas, keyboard);
     console.log('My character is ', world.character);
 }
