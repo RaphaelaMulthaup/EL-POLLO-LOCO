@@ -13,7 +13,7 @@ class Cloud extends MovableObject{
     }
 
     animate(){
-        if (directionClouds == 'left') {
+        if (this.directionClouds == 'left') {
             this.moveLeft();
         } else {
             this.moveRight();
