@@ -29,8 +29,8 @@ class Chicken extends MovableObject{
     animate(){
         this.moveLeft();
 
-        if (this.x > this.character.x - ) {
-            console.log('Chicken ist rechts vom Charakter');
+        if (this.x > this.character.x - 60 && this.x < this.character.x + 660) {
+            // HIer den Ton einfügen
         }
 
         setInterval(() => {
