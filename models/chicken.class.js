@@ -9,6 +9,8 @@ class Chicken extends MovableObject{
         '../img/3_enemies_chicken/chicken_normal/1_walk/3_w.png'
     ];
     speed = 0.15 + Math.random() * 0.5;
+    world;
+    character;
 
     constructor(){
         super().loadImg('../img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
@@ -19,8 +21,17 @@ class Chicken extends MovableObject{
         this.animate();
     }
 
+    setWorld(world){
+        this.world = world;
+        this.character = world.character;
+    }
+
     animate(){
         this.moveLeft();
+
+        if (this.x > this.character.x - ) {
+            console.log('Chicken ist rechts vom Charakter');
+        }
 
         setInterval(() => {
             let i = this.currentImage % this.IMAGES_WALKING.length; //let i = 7 % (Modulu) 6; 1 Rest 1
