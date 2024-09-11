@@ -20,6 +20,7 @@ class Character extends MovableObject {
     constructor(){
         super().loadImg('../img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
+        this.walking_sound.volume = 0.4;
         this.animate();
     }
 
