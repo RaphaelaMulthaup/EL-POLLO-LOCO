@@ -1,8 +1,9 @@
 class Endboss extends MovableObject {
 
-    height = 300;
-    width = 150;
-    y = 145;
+    height = 400;
+    width = 343;
+    y = 65;
+    x = 2440;
     IMAGES_WALKING = [
         '../img/4_enemie_boss_chicken/2_alert/G5.png',
         '../img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -15,7 +16,6 @@ class Endboss extends MovableObject {
     ];
     world;
     character;
-    x = 700;
 
     constructor(){
         super().loadImg('../img/4_enemie_boss_chicken/2_alert/G5.png');
