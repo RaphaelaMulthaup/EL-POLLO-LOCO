@@ -36,6 +36,30 @@ class MovableObject {
         });
 
     }
+
+    draw(ctx){
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    }
+
+    drawFrame(ctx){
+        ctx.beginPath();
+        ctx.lineWidth = '3';
+        ctx.strokeStyle = 'blue';
+        ctx.rect(this.x, this.y, this.width, this.height);
+        ctx.stroke();
+    }
+
+    flipImg(ctx){
+        ctx.save();
+        ctx.translate(this.width, 0);
+        ctx.scale(-1, 1);
+        this.x = this.x * -1;
+    }
+
+    flipImgBack(ctx){
+        this.x = this.x * -1;
+        ctx.restore();
+    }
     
     moveLeft(){
         this.x -= this.speed;
