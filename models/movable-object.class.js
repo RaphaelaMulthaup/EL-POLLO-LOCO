@@ -51,6 +51,13 @@ class MovableObject {
         }
     }
 
+    isColliding (obj) {
+        return  (this.x + this.width) >= obj.x &&
+            this.x <= (obj.x + obj.width) &&
+            (this.y + this.height) >= obj.y &&
+            this.y <= (obj.y + obj.height)
+    }
+
     flipImg(ctx){
         ctx.save();
         ctx.translate(this.width, 0);
