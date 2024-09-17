@@ -59,6 +59,17 @@ class MovableObject {
             this.y <= (obj.y + obj.height)
     }
 
+    hit(){
+        this.energy -= 5;
+        if (this.energy <= 0) {
+            this.energy = 0;
+        }
+    }
+
+    isDead(){
+        return this.energy == 0;
+    }
+
     flipImg(ctx){
         ctx.save();
         ctx.translate(this.width, 0);
