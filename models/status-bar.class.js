@@ -1,4 +1,5 @@
 class StatusBar extends DrawableObject {
+    persentage = 100;
 
     constructor(){
         super();
@@ -7,22 +8,23 @@ class StatusBar extends DrawableObject {
         this.height= 58;
     }
 
-    setPersentage(persentage, statusBar){
-        statusBar.persentage = persentage;
-        let path = statusBar.IMAGES[this.resolveImageIndex(statusBar)];
-        statusBar.img = statusBar.imageCache[path];
+    setPersentage(persentage){
+        this.loadImages(this.IMAGES);
+        this.persentage = persentage;
+        let path = this.IMAGES[this.resolveImageIndex()];
+        this.img = this.imageCache[path];
     }
 
-    resolveImageIndex(statusBar){
-        if (statusBar.persentage == 100) {
+    resolveImageIndex(){
+        if (this.persentage == 100) {
             return 5;
-        } else if (statusBar.persentage > 80) {
+        } else if (this.persentage > 80) {
             return 4;
-        } else if (statusBar.persentage > 60) {
+        } else if (this.persentage > 60) {
             return 3;
-        } else if (statusBar.persentage > 40) {
+        } else if (this.persentage > 40) {
             return 2;
-        } else if (statusBar.persentage > 20) {
+        } else if (this.persentage > 20) {
             return 1;
         } else {
             return 0;

@@ -1,6 +1,8 @@
 class World {
     character = new Character();
     statusBarLife = new StatusBarLife();
+    statusBarCoins = new StatusBarCoins();
+    statusBarBottles = new StatusBarBottles();
     level = level1;
     canvas;
     ctx;
@@ -34,6 +36,8 @@ class World {
         this.ctx.translate(-this.camera_x, 0);
         // -------- space for fixed objects --------
         this.addToMap(this.statusBarLife);
+        this.addToMap(this.statusBarCoins);
+        this.addToMap(this.statusBarBottles);
         this.ctx.translate(this.camera_x, 0);
 
 
@@ -73,7 +77,7 @@ class World {
             this.level.enemies.forEach(enemy => {
                 if (this.character.isColliding(enemy)) {
                     this.character.hit();
-                    this.statusBar.setPersentage(this.character.energy);
+                    this.statusBarLife.setPersentage(this.character.energy);
                 }
             });
         }, 200);
