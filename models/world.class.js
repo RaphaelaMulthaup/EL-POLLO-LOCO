@@ -17,6 +17,7 @@ class World {
         this.draw();
         this.setWorld();
         this.checkCollisions();
+        this.trowBottle();
     }
 
     setWorld(){
@@ -81,6 +82,14 @@ class World {
                 }
             });
         }, 200);
+    }
+
+    trowBottle(){
+        setInterval(() => {
+            if (this.keyboard.D) {
+                let throwableBottle = new ThrowableBottle(this.character);
+            }
+        }, 1000 / 60);
     }
 
 }
