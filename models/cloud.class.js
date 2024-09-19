@@ -7,7 +7,8 @@ class Cloud extends MovableObject{
     world;
 
     constructor(minX){
-        super().loadImg('../img/5_background/layers/4_clouds/1.png');
+        super();
+        this.loadImg('../img/5_background/layers/4_clouds/1.png');
 
         this.x = minX + Math.random() * 200;
         this.waitForWorld();
