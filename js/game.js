@@ -28,7 +28,7 @@ window.addEventListener('keydown', (event) => {
         keyboard.RIGHT = true;
     }
     if (event.code == 'KeyD') {
-        keyboard.D = true;
+        keyboard.D = true;        
     }
 });
 

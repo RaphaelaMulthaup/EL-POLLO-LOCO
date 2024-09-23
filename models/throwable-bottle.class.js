@@ -14,19 +14,61 @@ class ThrowableBottle extends MovableObject{
         '../img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png',
         '../img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
-    speedX = 20;
+    speed = 5;
     otherDirection;
+
 
     constructor(character){
         super();
-        this.x = character.x + 130;
-        this.y = character.y + 180;
-        this.height = 50;
-        this.width = 50;
-        this.speedY = 30;
         this.otherDirection = character.otherDirection;
+        this.x = character.x + 40;
+        this.y = character.y + 140;
+        this.height = 70;
+        this.width = 70;
+        this.speedY = 30;
+        this.loadImg(this.IMAGES_ROTATION[0]);
         this.loadImages(this.IMAGES_ROTATION);
         this.loadImages(this.IMAGES_SPLASH);
-        this.applyGravity();
+        this.applyGravity(365);
+        this.animate();    
+    }
+
+    animate(){
+        let rotation = setInterval(() => {
+            this.playAnimation(this.IMAGES_ROTATION);
+
+            if (!this.isAboveGround(365)) {
+                clearInterval(rotation);
+                clearInterval(movement);
+                this.playSplashAnimation();
+            }
+        }, 100);
+
+        let movement = setInterval(() => {
+            if (this.characterIsWalking()) {
+                this.speed = 10;
+            }
+            if (this.otherDirection) {
+                this.moveLeft();
+            } else {
+                this.moveRight()
+            }
+        }, 1000 / 60);
+    }
+
+    playSplashAnimation() {
+        let index = 0;
+    
+        let splashInterval = setInterval(() => {
+            if (index < this.IMAGES_SPLASH.length) {
+                this.img = this.imageCache[this.IMAGES_SPLASH[index]];
+                index++;
+            } else {
+                clearInterval(splashInterval);
+                setTimeout(() => {
+                    world.removeThrowableBottle(this);
+                }, 50);
+            }
+        }, 35);
     }
 }

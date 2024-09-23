@@ -5,17 +5,17 @@ class MovableObject extends DrawableObject{
     energy = 100;
     lastHit = 0;
 
-    applyGravity(){
+    applyGravity(imgTouchesGround){
         setInterval(() => {
-            if (this.isAboveGround() || this.speedY > 0) {
+            if (this.isAboveGround(imgTouchesGround) || this.speedY > 0) {
                 this.y -= this.speedY;
-                this.speedY -= this.acceleration;  
+                this.speedY -= this.acceleration;                  
             }
         }, 1000 / 25);
     }
 
-    isAboveGround(){
-        return this.y < 145;
+    isAboveGround(imgTouchesGround){
+        return this.y < imgTouchesGround;
     }
 
     isColliding (obj) {
@@ -72,5 +72,9 @@ class MovableObject extends DrawableObject{
 
     jump(){
         this.speedY = 30;
+    }
+
+    characterIsWalking(){
+        return world.keyboard.RIGHT || world.keyboard.LEFT;
     }
 }

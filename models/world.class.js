@@ -9,6 +9,7 @@ class World {
     keyboard;
     camera_x = 0;
     directionClouds = Math.random() < 0.5 ? 'left' : 'right';
+    throwableBottles = [];
 
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');
@@ -17,7 +18,7 @@ class World {
         this.draw();
         this.setWorld();
         this.checkCollisions();
-        this.trowBottle();
+        this.checkThrowBottle();
     }
 
     setWorld(){
@@ -45,6 +46,7 @@ class World {
         this.addToMap(this.character);
 
         this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.throwableBottles);
 
         this.ctx.translate(-this.camera_x, 0);
 
@@ -84,12 +86,23 @@ class World {
         }, 200);
     }
 
-    trowBottle(){
+    checkThrowBottle(){
+        let lastThrowTime = 0; // Speichert die Zeit des letzten Wurfs
+    
         setInterval(() => {
-            if (this.keyboard.D) {
+            let currentTime = new Date().getTime(); // Aktuelle Zeit in Millisekunden
+    
+            if (this.keyboard.D && currentTime - lastThrowTime >= 500) {
+                // Flasche nur werfen, wenn 2 Sekunden vergangen sind seit dem letzten Wurf
                 let throwableBottle = new ThrowableBottle(this.character);
+                this.throwableBottles.push(throwableBottle);  // Füge die Flasche zur Liste hinzu
+                lastThrowTime = currentTime; // Aktualisiere den letzten Wurfzeitpunkt
             }
-        }, 1000 / 60);
+        }, 1000 / 60); // Überprüfe 60 Mal pro Sekunde
     }
 
+    removeThrowableBottle(bottle) {
+        let index = this.throwableBottles.indexOf(bottle);
+        this.throwableBottles.splice(index, 1);
+    }
 }
