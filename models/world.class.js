@@ -10,6 +10,7 @@ class World {
     camera_x = 0;
     directionClouds = Math.random() < 0.5 ? 'left' : 'right';
     throwableBottles = [];
+    lastThrowTime = 0;
 
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');
@@ -17,8 +18,7 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
-        this.checkCollisions();
-        this.checkThrowBottle();
+        this.checkEvents();
     }
 
     setWorld(){
@@ -75,30 +75,31 @@ class World {
         }
     }
 
-    checkCollisions(){
+    checkEvents(){
         setInterval(() => {
-            this.level.enemies.forEach(enemy => {
-                if (this.character.isColliding(enemy)) {
-                    this.character.hit();
-                    this.statusBarLife.setPersentage(this.character.energy);
-                }
-            });
+            this.checkCollisions();
+            this.checkThrowBottle();
         }, 200);
     }
 
-    checkThrowBottle(){
-        let lastThrowTime = 0; // Speichert die Zeit des letzten Wurfs
-    
-        setInterval(() => {
-            let currentTime = new Date().getTime(); // Aktuelle Zeit in Millisekunden
-    
-            if (this.keyboard.D && currentTime - lastThrowTime >= 500) {
-                // Flasche nur werfen, wenn 2 Sekunden vergangen sind seit dem letzten Wurf
-                let throwableBottle = new ThrowableBottle(this.character);
-                this.throwableBottles.push(throwableBottle);  // Füge die Flasche zur Liste hinzu
-                lastThrowTime = currentTime; // Aktualisiere den letzten Wurfzeitpunkt
+    checkCollisions(){
+        this.level.enemies.forEach(enemy => {
+            if (this.character.isColliding(enemy)) {
+                this.character.hit();
+                this.statusBarLife.setPersentage(this.character.energy);
             }
-        }, 1000 / 60); // Überprüfe 60 Mal pro Sekunde
+        });
+    }
+
+    checkThrowBottle(){
+        let currentTime = new Date().getTime(); // Aktuelle Zeit in Millisekunden
+    
+        if (this.keyboard.D && currentTime - this.lastThrowTime >= 500) {
+            // Flasche nur werfen, wenn 2 Sekunden vergangen sind seit dem letzten Wurf
+            let throwableBottle = new ThrowableBottle(this.character);
+            this.throwableBottles.push(throwableBottle);  // Füge die Flasche zur Liste hinzu
+            this.lastThrowTime = currentTime; // Aktualisiere den letzten Wurfzeitpunkt
+        }
     }
 
     removeThrowableBottle(bottle) {
