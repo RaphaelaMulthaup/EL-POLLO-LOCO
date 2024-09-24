@@ -93,8 +93,8 @@ class World {
         });
         this.level.collectibleObjects.forEach(obj => {
             if (this.character.isColliding(obj, 60)) {
-                console.log('FLASCHE');
-                
+                let index = this.level.collectibleObjects.indexOf(obj);
+                this.level.collectibleObjects.splice(index, 1);
             }
         });
     }
