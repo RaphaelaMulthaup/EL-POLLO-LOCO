@@ -1,5 +1,5 @@
 class StatusBar extends DrawableObject {
-    persentage = 100;
+    persentage;
 
     constructor(){
         super();

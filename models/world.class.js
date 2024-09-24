@@ -10,6 +10,7 @@ class World {
     camera_x = 0;
     directionClouds = Math.random() < 0.5 ? 'left' : 'right';
     throwableBottles = [];
+    collectedBottles = 0;
     lastThrowTime = 0;
 
     constructor(canvas, keyboard){
@@ -95,6 +96,9 @@ class World {
             if (this.character.isColliding(obj, 60)) {
                 let index = this.level.collectibleObjects.indexOf(obj);
                 this.level.collectibleObjects.splice(index, 1);
+                this.collectedBottles += 1;
+                console.log(this.collectedBottles);
+                this.statusBarBottles.setPersentage(this.collectedBottles * 20);
             }
         });
     }
