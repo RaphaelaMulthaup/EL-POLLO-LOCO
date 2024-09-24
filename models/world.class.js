@@ -48,6 +48,8 @@ class World {
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableBottles);
 
+        this.addObjectsToMap(this.level.collectibleObjects);
+
         this.ctx.translate(-this.camera_x, 0);
 
         // draw() wird immer wieder aufgerufen
@@ -63,15 +65,15 @@ class World {
         });
     }
 
-    addToMap(mo){
-        if (mo.otherDirection) {
-            mo.flipImg(this.ctx);
+    addToMap(obj){
+        if (obj.otherDirection) {
+            obj.flipImg(this.ctx);
         }
-        mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
+        obj.draw(this.ctx);
+        obj.drawFrame(this.ctx);
 
-        if (mo.otherDirection) {
-            mo.flipImgBack(this.ctx);
+        if (obj.otherDirection) {
+            obj.flipImgBack(this.ctx);
         }
     }
 
@@ -84,9 +86,15 @@ class World {
 
     checkCollisions(){
         this.level.enemies.forEach(enemy => {
-            if (this.character.isColliding(enemy)) {
+            if (this.character.isColliding(enemy, 40)) {
                 this.character.hit();
                 this.statusBarLife.setPersentage(this.character.energy);
+            }
+        });
+        this.level.collectibleObjects.forEach(obj => {
+            if (this.character.isColliding(obj, 60)) {
+                console.log('FLASCHE');
+                
             }
         });
     }
