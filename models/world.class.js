@@ -80,53 +80,60 @@ class World {
     }
 
     checkEvents(){
-        setInterval(() => {
             this.checkCollisions();
             this.checkThrowBottle();
-        }, 1000 / 60);
     }
 
     // Diese Funktion später noch auseinander nehmen, wenn alle Collisionen gecoded sind. Eventuell auch etwas auseinandern nehmen und per Funktionsparameter individuallisiern.
     checkCollisions(){
-        this.level.enemies.forEach(enemy => {
-            if (this.character.isColliding(enemy, 40, 0)) {
-                this.character.hit();
-                this.statusBarLife.setPersentage(this.character.energy);
-            }
-        });
-        this.level.collectibleObjects.forEach(obj => {
-            if (obj instanceof CollectibleBottle && this.character.isColliding(obj, 60, 0) && this.collectedBottles < 5) {
-                let index = this.level.collectibleObjects.indexOf(obj);
-                this.level.collectibleObjects.splice(index, 1);
-                this.collectedBottles += 1;
-                this.statusBarBottles.setPersentage(this.collectedBottles * 20);
-            }
-            if (obj instanceof CollectibleCoin && this.character.isColliding(obj, 50, 180) && this.collectedCoins < 5) {
-                let index = this.level.collectibleObjects.indexOf(obj);
-                this.level.collectibleObjects.splice(index, 1);
-                this.collectedCoins += 1;
-                this.statusBarCoins.setPersentage(this.collectedCoins * 20);
-                if (this.collectedCoins == 5) {
-                    setTimeout(() => {
-                        this.collectedCoins = 0;
-                        this.statusBarCoins.setPersentage(this.collectedCoins * 20);
-                    }, 1000);
+        setInterval(() => {
+            this.level.enemies.forEach(enemy => {
+                if (this.character.isColliding(enemy, 40, 0)) {
+                    this.character.hit();
+                    this.statusBarLife.setPersentage(this.character.energy);
                 }
-            }
-        });
+            });
+            this.level.collectibleObjects.forEach(obj => {
+                if (obj instanceof CollectibleBottle && this.character.isColliding(obj, 60, 0) && this.collectedBottles < 5) {
+                    let index = this.level.collectibleObjects.indexOf(obj);
+                    this.level.collectibleObjects.splice(index, 1);
+                    this.collectedBottles += 1;
+                    this.statusBarBottles.setPersentage(this.collectedBottles * 20);
+                }
+                if (obj instanceof CollectibleCoin && this.character.isColliding(obj, 50, 180) && this.collectedCoins < 5) {
+                    let index = this.level.collectibleObjects.indexOf(obj);
+                    this.level.collectibleObjects.splice(index, 1);
+                    this.collectedCoins += 1;
+                    this.statusBarCoins.setPersentage(this.collectedCoins * 20);
+                    if (this.collectedCoins == 5) {
+                        setTimeout(() => {
+                            this.collectedCoins = 0;
+                            this.statusBarCoins.setPersentage(this.collectedCoins * 20);
+                            this.character.energy += 20;
+                            if (this.character.energy > 100) {
+                                this.character.energy = 100;    
+                            }
+                            this.statusBarLife.setPersentage(this.character.energy);
+                        }, 1000);
+                    }
+                }
+            });
+        }, 200);
     }
 
     checkThrowBottle(){
-        let currentTime = new Date().getTime(); // Aktuelle Zeit in Millisekunden
-    
-        if (this.keyboard.D && currentTime - this.lastThrowTime >= 500 && this.collectedBottles != 0) {
-            // Flasche nur werfen, wenn 2 Sekunden vergangen sind seit dem letzten Wurf
-            let throwableBottle = new ThrowableBottle(this.character);
-            this.throwableBottles.push(throwableBottle);  // Füge die Flasche zur Liste hinzu
-            this.lastThrowTime = currentTime; // Aktualisiere den letzten Wurfzeitpunkt
-            this.collectedBottles -= 1;
-            this.statusBarBottles.setPersentage(this.collectedBottles * 20);
-        }
+        setInterval(() => {
+            let currentTime = new Date().getTime(); // Aktuelle Zeit in Millisekunden
+        
+            if (this.keyboard.D && currentTime - this.lastThrowTime >= 500 && this.collectedBottles != 0) {
+                // Flasche nur werfen, wenn 2 Sekunden vergangen sind seit dem letzten Wurf
+                let throwableBottle = new ThrowableBottle(this.character);
+                this.throwableBottles.push(throwableBottle);  // Füge die Flasche zur Liste hinzu
+                this.lastThrowTime = currentTime; // Aktualisiere den letzten Wurfzeitpunkt
+                this.collectedBottles -= 1;
+                this.statusBarBottles.setPersentage(this.collectedBottles * 20);
+            }
+        }, 1000 / 60);
     }
 
     removeThrowableBottle(bottle) {
