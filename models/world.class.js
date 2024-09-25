@@ -11,6 +11,7 @@ class World {
     directionClouds = Math.random() < 0.5 ? 'left' : 'right';
     throwableBottles = [];
     collectedBottles = 0;
+    collectedCoins = 0;
     lastThrowTime = 0;
 
     constructor(canvas, keyboard){
@@ -85,23 +86,28 @@ class World {
         }, 200);
     }
 
+    // Diese Funktion später noch auseinander nehmen, wenn alle Collisionen gecoded sind. Eventuell auch etwas auseinandern nehmen und per Funktionsparameter individuallisiern.
     checkCollisions(){
         this.level.enemies.forEach(enemy => {
-            if (this.character.isColliding(enemy, 40)) {
+            if (this.character.isColliding(enemy, 40, 0)) {
                 this.character.hit();
                 this.statusBarLife.setPersentage(this.character.energy);
             }
         });
-        if (this.collectedBottles < 5) {
-            this.level.collectibleObjects.forEach(obj => {
-                if (this.character.isColliding(obj, 60)) {
-                    let index = this.level.collectibleObjects.indexOf(obj);
-                    this.level.collectibleObjects.splice(index, 1);
-                    this.collectedBottles += 1;
-                    this.statusBarBottles.setPersentage(this.collectedBottles * 20);
-                }
-            });
-        }
+        this.level.collectibleObjects.forEach(obj => {
+            if (obj instanceof CollectibleBottle && this.character.isColliding(obj, 60, 0) && this.collectedBottles < 5) {
+                let index = this.level.collectibleObjects.indexOf(obj);
+                this.level.collectibleObjects.splice(index, 1);
+                this.collectedBottles += 1;
+                this.statusBarBottles.setPersentage(this.collectedBottles * 20);
+            }
+            if (obj instanceof CollectibleCoin && this.character.isColliding(obj, 50, 180) && this.collectedCoins < 5) {
+                let index = this.level.collectibleObjects.indexOf(obj);
+                this.level.collectibleObjects.splice(index, 1);
+                this.collectedCoins += 1;
+                this.statusBarCoins.setPersentage(this.collectedCoins * 20);
+            }
+        });
     }
 
     checkThrowBottle(){

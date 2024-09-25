@@ -18,11 +18,11 @@ class MovableObject extends DrawableObject{
         return this.y < imgTouchesGround;
     }
 
-    isColliding (obj, overlap) {
+    isColliding (obj, overlap, overlapAboveCharacter) {
         return  (this.x + this.width - overlap) >= obj.x &&
             (this.x + overlap) <= (obj.x + obj.width) &&
             (this.y + this.height) >= obj.y &&
-            this.y <= (obj.y + obj.height)
+            (this.y + overlapAboveCharacter) <= (obj.y + obj.height)
     }
 
     hit(){
