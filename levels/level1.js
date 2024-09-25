@@ -29,8 +29,6 @@ const level1 = new Level(
         new CollectibleCoin(),
         new CollectibleCoin(),
         new CollectibleCoin(),
-        new CollectibleCoin(),
-        new CollectibleCoin(),
         new CollectibleCoin()
     ],
     [

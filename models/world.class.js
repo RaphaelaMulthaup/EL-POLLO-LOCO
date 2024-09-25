@@ -106,6 +106,12 @@ class World {
                 this.level.collectibleObjects.splice(index, 1);
                 this.collectedCoins += 1;
                 this.statusBarCoins.setPersentage(this.collectedCoins * 20);
+                if (this.collectedCoins == 5) {
+                    setTimeout(() => {
+                        this.collectedCoins = 0;
+                        this.statusBarCoins.setPersentage(this.collectedCoins * 20);
+                    }, 1000);
+                }
             }
         });
     }
