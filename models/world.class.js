@@ -13,6 +13,7 @@ class World {
     collectedBottles = 0;
     collectedCoins = 0;
     lastThrowTime = 0;
+    coinsAnimation = [];
 
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');
@@ -42,6 +43,7 @@ class World {
         this.addToMap(this.statusBarLife);
         this.addToMap(this.statusBarCoins);
         this.addToMap(this.statusBarBottles);
+        this.addObjectsToMap(this.coinsAnimation);
         this.ctx.translate(this.camera_x, 0);
 
 
@@ -72,7 +74,7 @@ class World {
             obj.flipImg(this.ctx);
         }
         obj.draw(this.ctx);
-        obj.drawFrame(this.ctx);
+        // obj.drawFrame(this.ctx);
 
         if (obj.otherDirection) {
             obj.flipImgBack(this.ctx);
@@ -114,6 +116,12 @@ class World {
                                 this.character.energy = 100;    
                             }
                             this.statusBarLife.setPersentage(this.character.energy);
+                            for (let i = 0; i < 5; i++) {
+                                setTimeout(() => {
+                                    let coinAnimation = new CoinAnimation();
+                                    this.coinsAnimation.push(coinAnimation);
+                                }, 200 * i);
+                            }
                         }, 1000);
                     }
                 }
