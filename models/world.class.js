@@ -107,7 +107,7 @@ class World {
     checkThrowBottle(){
         let currentTime = new Date().getTime(); // Aktuelle Zeit in Millisekunden
     
-        if (this.keyboard.D && currentTime - this.lastThrowTime >= 500) {
+        if (this.keyboard.D && currentTime - this.lastThrowTime >= 500 && this.collectedBottles != 0) {
             // Flasche nur werfen, wenn 2 Sekunden vergangen sind seit dem letzten Wurf
             let throwableBottle = new ThrowableBottle(this.character);
             this.throwableBottles.push(throwableBottle);  // Füge die Flasche zur Liste hinzu
