@@ -112,6 +112,7 @@ class World {
             let throwableBottle = new ThrowableBottle(this.character);
             this.throwableBottles.push(throwableBottle);  // Füge die Flasche zur Liste hinzu
             this.lastThrowTime = currentTime; // Aktualisiere den letzten Wurfzeitpunkt
+            this.collectedBottles -= 1;
         }
     }
 
