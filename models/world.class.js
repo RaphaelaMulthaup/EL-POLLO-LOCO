@@ -83,7 +83,7 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowBottle();
-        }, 200);
+        }, 1000 / 60);
     }
 
     // Diese Funktion später noch auseinander nehmen, wenn alle Collisionen gecoded sind. Eventuell auch etwas auseinandern nehmen und per Funktionsparameter individuallisiern.
@@ -125,6 +125,7 @@ class World {
             this.throwableBottles.push(throwableBottle);  // Füge die Flasche zur Liste hinzu
             this.lastThrowTime = currentTime; // Aktualisiere den letzten Wurfzeitpunkt
             this.collectedBottles -= 1;
+            this.statusBarBottles.setPersentage(this.collectedBottles * 20);
         }
     }
 
