@@ -92,15 +92,16 @@ class World {
                 this.statusBarLife.setPersentage(this.character.energy);
             }
         });
-        this.level.collectibleObjects.forEach(obj => {
-            if (this.character.isColliding(obj, 60)) {
-                let index = this.level.collectibleObjects.indexOf(obj);
-                this.level.collectibleObjects.splice(index, 1);
-                this.collectedBottles += 1;
-                console.log(this.collectedBottles);
-                this.statusBarBottles.setPersentage(this.collectedBottles * 20);
-            }
-        });
+        if (this.collectedBottles < 5) {
+            this.level.collectibleObjects.forEach(obj => {
+                if (this.character.isColliding(obj, 60)) {
+                    let index = this.level.collectibleObjects.indexOf(obj);
+                    this.level.collectibleObjects.splice(index, 1);
+                    this.collectedBottles += 1;
+                    this.statusBarBottles.setPersentage(this.collectedBottles * 20);
+                }
+            });
+        }
     }
 
     checkThrowBottle(){

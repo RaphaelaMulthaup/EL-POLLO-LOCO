@@ -18,13 +18,13 @@ class StatusBar extends DrawableObject {
     resolveImageIndex(){
         if (this.persentage == 100) {
             return 5;
-        } else if (this.persentage > 80) {
+        } else if (this.persentage >= 80) {
             return 4;
-        } else if (this.persentage > 60) {
+        } else if (this.persentage >= 60) {
             return 3;
-        } else if (this.persentage > 40) {
+        } else if (this.persentage >= 40) {
             return 2;
-        } else if (this.persentage > 20) {
+        } else if (this.persentage >= 20) {
             return 1;
         } else {
             return 0;
