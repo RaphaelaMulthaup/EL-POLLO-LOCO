@@ -91,7 +91,7 @@ class World {
         setInterval(() => {
             this.level.enemies.forEach(enemy => {
                 if (this.character.isColliding(enemy, 40, 0)) {
-                    this.character.hit();
+                    this.character.hit(enemy.constructor.name);
                     this.statusBarLife.setPersentage(this.character.energy);
                 }
             });
@@ -122,7 +122,7 @@ class World {
                                     this.coinsAnimation.push(coinAnimation);
                                 }, 200 * i);
                             }
-                        }, 1000);
+                        }, 500);
                     }
                 }
             });

@@ -25,8 +25,13 @@ class MovableObject extends DrawableObject{
             (this.y + overlapAboveCharacter) <= (obj.y + obj.height)
     }
 
-    hit(){
-        this.energy -= 5;
+    hit(enemyTyp){
+        if (enemyTyp == 'Chicken') {
+            this.energy -= 5;
+        }
+        if (enemyTyp == 'Chick') {
+            this.energy -= 2.5;
+        }
         if (this.energy <= 0) {
             this.energy = 0;
         } else {
