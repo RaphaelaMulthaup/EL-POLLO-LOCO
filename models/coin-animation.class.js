@@ -1,4 +1,7 @@
 class CoinAnimation extends MovableObject {
+
+sound = new Audio('../audio/coin.mp3');
+
     constructor(){
         super();
         this.loadImg('../img/8_coin/coin_1.png');
@@ -7,6 +10,7 @@ class CoinAnimation extends MovableObject {
         this.width = 100;
         this.height = 100;
         this.moveUpwarts();
+        this.sound.play();
     }
 
     moveUpwarts(){
