@@ -2,7 +2,7 @@ class Character extends MovableObject {
 
     height = 300;
     width = 150;
-    y = 45;
+    y = 145;
     x = 40;
     IMAGES_WALKING = [
         '../img/2_character_pepe/2_walk/W-21.png',
@@ -55,30 +55,43 @@ class Character extends MovableObject {
     }
 
     animate(){
-        setInterval(() => {
-            this.walking_sound.pause();
+        let intervalCharacterMovement = setInterval(() => {
+            if (this.isDead()) {
+                this.y += 5;
+                setTimeout(() => {
+                    clearInterval(intervalCharacterMovement);
+                }, 700);
 
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.moveRight();
-                this.otherDirection = false;
-                this.walking_sound.play();
-            }
+            } else {
+                this.walking_sound.pause();
 
-            if (this.world.keyboard.LEFT && this.x > 0) {
-                this.moveLeft();
-                this.otherDirection = true;
-                this.walking_sound.play();
-            }
+                if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+                    this.moveRight();
+                    this.otherDirection = false;
+                    this.walking_sound.play();
+                }
 
-            if (this.world.keyboard.SPACE && !this.isAboveGround(145)) {
-                this.jump();
+                if (this.world.keyboard.LEFT && this.x > 0) {
+                    this.moveLeft();
+                    this.otherDirection = true;
+                    this.walking_sound.play();
+                }
+
+                if (this.world.keyboard.SPACE && !this.isAboveGround(145)) {
+                    this.jump();
+                }
             }
             this.world.camera_x = -this.x + 100;
-        }, 1000 / 60);  
+        }, 1000 / 60);
 
-        setInterval(() => {
+        let index = 0;
+        let intervalCharacterAnimation = setInterval(() => {
             if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD);
+                this.img = this.imageCache[this.IMAGES_DEAD[index]];
+                index++;
+                if (index >= 7) {
+                    clearInterval(intervalCharacterAnimation);
+                }
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround(145)) {
@@ -91,4 +104,22 @@ class Character extends MovableObject {
             }
         }, 100);  
     }
+
+    // CharacterDeadAnimation() {
+    //     let index = 0;
+    
+    //     let intervalCharacterDeadAnimation = setInterval(() => {
+    //         if (index < this.IMAGES_DEAD.length) {
+    //             this.img = this.imageCache[this.IMAGES_DEAD[index]];
+    //             index++;
+    //         } else {                
+    //             clearInterval(intervalCharacterDeadAnimation);
+    //             clearInterval(this.intervalCharacterAnimation);
+
+    //             // setTimeout(() => {
+    //             //     world.removeThrowableBottle(this);
+    //             // }, 50);
+    //         }
+    //     }, 200);
+    // }
 }
