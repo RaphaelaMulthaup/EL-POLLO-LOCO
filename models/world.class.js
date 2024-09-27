@@ -93,7 +93,8 @@ class World {
             this.level.enemies.forEach(enemy => {
                 if (this.character.isColliding(enemy, 40, 0)) {
                     this.character.hit(enemy.constructor.name);
-                    this.statusBarLife.setPersentage(this.character.energy);
+                    this.statusBarLife.setPercentageLifes(this.character.energy);
+                    console.log(this.character.energy);
                 }
             });
             this.level.collectibleObjects.forEach(obj => {
@@ -101,22 +102,22 @@ class World {
                     let index = this.level.collectibleObjects.indexOf(obj);
                     this.level.collectibleObjects.splice(index, 1);
                     this.collectedBottles += 1;
-                    this.statusBarBottles.setPersentage(this.collectedBottles * 20);
+                    this.statusBarBottles.setPercentage(this.collectedBottles * 20);
                 }
                 if (obj instanceof CollectibleCoin && this.character.isColliding(obj, 50, 180) && this.collectedCoins < 5) {
                     let index = this.level.collectibleObjects.indexOf(obj);
                     this.level.collectibleObjects.splice(index, 1);
                     this.collectedCoins += 1;
-                    this.statusBarCoins.setPersentage(this.collectedCoins * 20);
+                    this.statusBarCoins.setPercentage(this.collectedCoins * 20);
                     if (this.collectedCoins == 5) {
                         setTimeout(() => {
                             this.collectedCoins = 0;
-                            this.statusBarCoins.setPersentage(this.collectedCoins * 20);
+                            this.statusBarCoins.setPercentage(this.collectedCoins * 20);
                             this.character.energy += 20;
                             if (this.character.energy > 100) {
                                 this.character.energy = 100;    
                             }
-                            this.statusBarLife.setPersentage(this.character.energy);
+                            this.statusBarLife.setPercentageLifes(this.character.energy);
                             for (let i = 0; i < 5; i++) {
                                 setTimeout(() => {
                                     let coinAnimation = new CoinAnimation();
@@ -140,7 +141,7 @@ class World {
                 this.throwableBottles.push(throwableBottle);  // Füge die Flasche zur Liste hinzu
                 this.lastThrowTime = currentTime; // Aktualisiere den letzten Wurfzeitpunkt
                 this.collectedBottles -= 1;
-                this.statusBarBottles.setPersentage(this.collectedBottles * 20);
+                this.statusBarBottles.setPercentage(this.collectedBottles * 20);
             }
         }, 1000 / 60);
     }

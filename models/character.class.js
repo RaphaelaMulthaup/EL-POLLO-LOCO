@@ -41,7 +41,8 @@ class Character extends MovableObject {
     speed = 5;
     otherDirection = false;
     walking_sound = new Audio('../audio/running.mp3');
-    dying_sound = new Audio('../audio/dying.mp3')
+    dying_sound = new Audio('../audio/dying.mp3');
+    numberReductionsY = 0;
 
     constructor(){
         super();
@@ -62,8 +63,51 @@ class Character extends MovableObject {
                 setTimeout(() => {
                     this.dying_sound.pause();
                 }, 1610);
-                this.y += 5;
+
+
+                let initialY = this.y; // Speichere die Startposition der Y-Achse
+
+                // Starte die Animation nach 200ms
                 setTimeout(() => {
+                    let frameCount = 0; // Zähle die Frames
+                    let intervalMovementDying = setInterval(() => {
+                        if (frameCount === 2) {
+                            // Beim 3. Frame: setze y auf -150
+                            this.y = initialY - 150;
+                        } else if (frameCount > 2 && frameCount <= 6) {
+                            // Von Frame 4 bis 7: bringe die y-Achse schrittweise zurück zur Ausgangsposition
+                            this.y += (150 / 4); // 150 gleichmäßig auf 4 Frames verteilen
+                        }
+                        frameCount++;
+
+                        // Stoppe die Bewegung nach 7 Frames
+                        if (frameCount > 6) {
+                            clearInterval(intervalMovementDying);
+                        }
+                    }, 100); // 100ms zwischen den Frames (10 FPS)
+                }, 200); // 200ms Verzögerung vor Beginn der Bewegung
+
+                // setTimeout(() => {
+                //     this.y -= 150;
+                //     let intervalMovmentDying = setInterval(() => {
+                //         this.y += 6.25;
+                //     }, 1000 /60);
+                //     setTimeout(() => {
+                //         clearInterval(intervalMovmentDying);
+                //     }, 400);
+                // }, 200);
+
+                // let intervalYMovement = setInterval(() => {
+                //     if (this.numberReductionsY < 300) {
+                //         this.y -= 0.5;
+                //         this.numberReductionsY ++;
+                //     } else {
+                //     this.y += 0.5; 
+                //     }
+                // }, 1000 /60);
+
+                setTimeout(() => {
+                    // clearInterval(intervalYMovement);
                     clearInterval(intervalCharacterMovement);
                 }, 600);
 

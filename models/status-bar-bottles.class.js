@@ -11,6 +11,6 @@ class StatusBarBottles extends StatusBar {
     constructor(){
         super();
         this.y = 100;
-        this.setPersentage(0);
+        this.setPercentage(0);
     }
 }

@@ -12,6 +12,35 @@ class StatusBarLife extends StatusBar {
     constructor(){
         super();
         this.y = 10;
-        this.setPersentage(100);
+        this.setPercentageLifes(100);
     }
+
+    setPercentageLifes(percentage){
+        this.loadImages(this.IMAGES);
+        this.percentage = percentage;
+        let path = this.IMAGES[this.resolveImageIndexLifes()];
+        this.img = this.imageCache[path];
+    }
+
+    resolveImageIndexLifes(){
+        console.log(this.percentage);
+        
+        if (this.percentage > 80) {
+            console.log('Voller Balken');
+            
+            return 5;
+        } else if (this.percentage > 60) {
+            return 4;
+        } else if (this.percentage > 40) {
+            return 3;
+        } else if (this.percentage > 20) {
+            return 2;
+        } else if (this.percentage > 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+
 }

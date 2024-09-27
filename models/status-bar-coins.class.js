@@ -12,6 +12,6 @@ class StatusBarCoins extends StatusBar {
     constructor(){
         super();
         this.y = 55;
-        this.setPersentage(0);
+        this.setPercentage(0);
     }
 }
