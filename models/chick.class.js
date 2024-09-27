@@ -12,6 +12,9 @@ class Chick extends MovableEnemy {
 
     constructor(){
         super();
+        console.log('Chick consructor wird ausgeführt');
+        
+        this.loadImg('../img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
 
         this.x = 720 + Math.random() * 4314;
         this.speed = 1 + Math.random();

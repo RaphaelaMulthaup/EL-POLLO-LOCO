@@ -41,6 +41,7 @@ class Character extends MovableObject {
     speed = 5;
     otherDirection = false;
     walking_sound = new Audio('../audio/running.mp3');
+    dying_sound = new Audio('../audio/dying.mp3')
 
     constructor(){
         super();
@@ -57,10 +58,14 @@ class Character extends MovableObject {
     animate(){
         let intervalCharacterMovement = setInterval(() => {
             if (this.isDead()) {
+                this.dying_sound.play();
+                setTimeout(() => {
+                    this.dying_sound.pause();
+                }, 1610);
                 this.y += 5;
                 setTimeout(() => {
                     clearInterval(intervalCharacterMovement);
-                }, 700);
+                }, 600);
 
             } else {
                 this.walking_sound.pause();
