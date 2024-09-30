@@ -75,8 +75,8 @@ class MovableObject extends DrawableObject{
         this.currentImage ++;
     }
 
-    jump(){
-        this.speedY = 30;
+    jump(speedY){
+        this.speedY = speedY;
     }
 
     characterIsWalking(){
