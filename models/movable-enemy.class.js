@@ -2,6 +2,7 @@ class MovableEnemy extends MovableObject {
 
     world;
     character;
+    isCollidingWithCharacter = false;
 
     constructor(){
         super();

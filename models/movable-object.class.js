@@ -27,20 +27,20 @@ class MovableObject extends DrawableObject{
 
     hit(enemyTyp){
         if (enemyTyp == 'Chicken') {
-            this.energy -= 5;
+            this.energy -= 20;
         }
         if (enemyTyp == 'Chick') {
-            this.energy -= 2.5;
+            this.energy -= 10;
         }
         if (this.energy <= 0) {
             this.energy = 0;
         } else {
-            this.lastHit = new Date().getTime();
+            this.lastHit = new Date().getTime();        
         }
     }
 
     isHurt(){
-        return this.lastHit + 1000 >= new Date().getTime();  //ist in der letztn Sekunde getroffen worden
+        return this.lastHit + 1000 >= new Date().getTime();
     } 
 
     isDead(){

@@ -57,6 +57,7 @@ class Character extends MovableObject {
     }
 
     animate(){
+        // movement and sound
         let intervalCharacterMovement = setInterval(() => {
             if (this.isDead()) {
                 setTimeout(() => {
@@ -65,81 +66,42 @@ class Character extends MovableObject {
                 }  
                 }, 200);
 
-
                 this.dying_sound.play();
                 setTimeout(() => {
                     this.dying_sound.pause();
                 }, 1610);
 
-
-                // let initialY = this.y; // Speichere die Startposition der Y-Achse
-
-                // Starte die Animation nach 200ms
-                // setTimeout(() => {
-                //     let frameCount = 0; // Zähle die Frames
-                //     let intervalMovementDying = setInterval(() => {
-                //         if (frameCount === 2) {
-                //             // Beim 3. Frame: setze y auf -150
-                //             this.y = initialY - 150;
-                //         } else if (frameCount > 2 && frameCount <= 6) {
-                //             // Von Frame 4 bis 7: bringe die y-Achse schrittweise zurück zur Ausgangsposition
-                //             this.y += (150 / 4); // 150 gleichmäßig auf 4 Frames verteilen
-                //         }
-                //         frameCount++;
-
-                //         // Stoppe die Bewegung nach 7 Frames
-                //         if (frameCount > 6) {
-                //             clearInterval(intervalMovementDying);
-                //         }
-                //     }, 100); // 100ms zwischen den Frames (10 FPS)
-                // }, 200); // 200ms Verzögerung vor Beginn der Bewegung
-
-                // setTimeout(() => {
-                //     this.y -= 150;
-                //     let intervalMovmentDying = setInterval(() => {
-                //         this.y += 6.25;
-                //     }, 1000 /60);
-                //     setTimeout(() => {
-                //         clearInterval(intervalMovmentDying);
-                //     }, 400);
-                // }, 200);
-
-                // let intervalYMovement = setInterval(() => {
-                //     if (this.numberReductionsY < 300) {
-                //         this.y -= 0.5;
-                //         this.numberReductionsY ++;
-                //     } else {
-                //     this.y += 0.5; 
-                //     }
-                // }, 1000 /60);
-
                 setTimeout(() => {
-                    // clearInterval(intervalYMovement);
                     clearInterval(intervalCharacterMovement);
                 }, 600);
 
             } else {
                 this.walking_sound.pause();
 
-                if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                    this.moveRight();
-                    this.otherDirection = false;
-                    this.walking_sound.play();
-                }
+                if (!this.isHurt()) { 
 
-                if (this.world.keyboard.LEFT && this.x > 0) {
-                    this.moveLeft();
-                    this.otherDirection = true;
-                    this.walking_sound.play();
-                }
+                    if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+                        this.moveRight();
+                        this.otherDirection = false;
+                        this.walking_sound.play();
+                    }
 
-                if (this.world.keyboard.SPACE && !this.isAboveGround(145)) {
-                    this.jump(30);
+                    if (this.world.keyboard.LEFT && this.x > 0) {
+                        this.moveLeft();
+                        this.otherDirection = true;
+                        this.walking_sound.play();
+                    }
+
+                    if (this.world.keyboard.SPACE && !this.isAboveGround(145)) {
+                        this.jump(30);
+                    }
+
                 }
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
 
+        // animation images
         let index = 0;
         let intervalCharacterAnimation = setInterval(() => {
             if (this.isDead()) {

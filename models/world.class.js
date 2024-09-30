@@ -92,10 +92,14 @@ class World {
         setInterval(() => {
             this.level.enemies.forEach(enemy => {
                 if (this.character.isColliding(enemy, 40, 0)) {
-                    this.character.hit(enemy.constructor.name);
-                    this.statusBarLife.setPercentageLifes(this.character.energy);
-                    console.log(this.character.energy);
-                }
+                    if (!enemy.isCollidingWithCharacter) {                       
+                        this.character.hit(enemy.constructor.name);
+                        this.statusBarLife.setPercentageLifes(this.character.energy);
+                        enemy.isCollidingWithCharacter = true;
+                    } 
+                } else {
+                        enemy.isCollidingWithCharacter = false;
+                    }
             });
             this.level.collectibleObjects.forEach(obj => {
                 if (obj instanceof CollectibleBottle && this.character.isColliding(obj, 60, 0) && this.collectedBottles < 5) {

@@ -10,8 +10,6 @@ function init(){
 
 
 window.addEventListener('keydown', (event) => {
-    console.log(event);
-    
     if (event.code == 'Space') {
         keyboard.SPACE = true;
     }
