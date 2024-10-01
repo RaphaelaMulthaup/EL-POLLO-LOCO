@@ -12,7 +12,6 @@ class Chick extends MovableEnemy {
 
     constructor(){
         super();
-        console.log('Chick consructor wird ausgeführt');
         
         this.loadImg('../img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
 

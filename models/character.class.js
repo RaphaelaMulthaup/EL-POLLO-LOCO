@@ -78,7 +78,8 @@ class Character extends MovableObject {
             } else {
                 this.walking_sound.pause();
 
-                if (!this.isHurt()) { 
+                if (!this.isHurt() && !this.world.introAnimationEndboss) { 
+
 
                     if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                         this.moveRight();
@@ -117,7 +118,7 @@ class Character extends MovableObject {
             } else if (this.isAboveGround(145)) {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else {
-                if (this.characterIsWalking()) {
+                if (this.characterIsWalking() && !this.world.introAnimationEndboss) {
                     // Walk animation
                     this.playAnimation(this.IMAGES_WALKING);
                 } 

@@ -23,11 +23,7 @@ class StatusBarLife extends StatusBar {
     }
 
     resolveImageIndexLifes(){
-        console.log(this.percentage);
-        
         if (this.percentage > 80) {
-            console.log('Voller Balken');
-            
             return 5;
         } else if (this.percentage > 60) {
             return 4;

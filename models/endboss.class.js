@@ -3,7 +3,7 @@ class Endboss extends MovableObject {
     height = 400;
     width = 343;
     y = 65;
-    x = 2600;
+    x = 2700;
     IMAGES_WALKING = [
         '../img/4_enemie_boss_chicken/1_walk/G1.png',
         '../img/4_enemie_boss_chicken/1_walk/G2.png',
@@ -22,6 +22,8 @@ class Endboss extends MovableObject {
     ];
     world;
     character;
+    speed = 3;
+    threatening_sound = new Audio('../audio/threatening.mp3');
 
     constructor(world){
         super();
@@ -38,11 +40,24 @@ class Endboss extends MovableObject {
     }
 
     animate(){
-        if (this.character.x > 2400) {
-            setInterval(() => {
+        setInterval(() => {
+            if (this.character.x > 2100 && this.x > 2450) {
                 this.playAnimation(this.IMAGES_WALKING);
-            }, 200);
-        }
+                this.threatening_sound.play();
+            }
+        }, 200);
 
+        setInterval(() => {
+            
+            if (this.character.x > 2100 && this.x > 2450) {
+                this.moveLeft();
+                if (this.character.x > 2200) {
+                    this.world.introAnimationEndboss = true;
+                    setTimeout(() => {
+                        this.world.introAnimationEndboss = false;
+                    }, 1000);
+                }
+            }
+        }, 1000 / 60);
     }
 }
