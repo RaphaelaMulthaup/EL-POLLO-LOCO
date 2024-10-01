@@ -1,5 +1,6 @@
 class World {
     character = new Character();
+    endboss = new Endboss(this);
     statusBarLife = new StatusBarLife();
     statusBarCoins = new StatusBarCoins();
     statusBarBottles = new StatusBarBottles();
@@ -19,6 +20,7 @@ class World {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.level.enemies.push(this.endboss);  
         this.draw();
         this.setWorld();
         this.checkEvents();
