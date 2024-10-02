@@ -29,6 +29,7 @@ class Endboss extends MovableObject {
         super();
         this.loadImg('../img/4_enemie_boss_chicken/2_alert/G5.png');
         this.loadImages(this.IMAGES_WALKING);
+        this.loadImages(this.IMAGES_ALERT);
         this.world = world;
         this.character = world.character;
         this.animate();
@@ -44,6 +45,9 @@ class Endboss extends MovableObject {
             if (this.character.x > 2100 && this.x > 2450) {
                 this.playAnimation(this.IMAGES_WALKING);
                 this.threatening_sound.play();
+                this.world.firstEncounterEndbossHappend = true;
+            } else if (this.world.firstEncounterEndbossHappend) {
+                this.playAnimation(this.IMAGES_ALERT);
             }
         }, 200);
 

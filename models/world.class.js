@@ -16,6 +16,7 @@ class World {
     lastThrowTime = 0;
     coinsAnimation = [];
     introAnimationEndboss = false;
+    firstEncounterEndbossHappend = false;
 
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');
