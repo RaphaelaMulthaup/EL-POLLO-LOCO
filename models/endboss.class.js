@@ -24,6 +24,7 @@ class Endboss extends MovableObject {
     character;
     speed = 3;
     threatening_sound = new Audio('../audio/threatening.mp3');
+    endboss_alert_sound = new Audio('../audio/endboss.mp3');
 
     constructor(world){
         super();
@@ -41,6 +42,7 @@ class Endboss extends MovableObject {
     }
 
     animate(){
+        // movement and sound
         setInterval(() => {
             if (this.character.x > 2100 && this.x > 2450) {
                 this.playAnimation(this.IMAGES_WALKING);
@@ -51,8 +53,8 @@ class Endboss extends MovableObject {
             }
         }, 200);
 
+        // animation images
         setInterval(() => {
-            
             if (this.character.x > 2100 && this.x > 2450) {
                 this.moveLeft();
                 if (this.character.x > 2200) {
@@ -63,5 +65,15 @@ class Endboss extends MovableObject {
                 }
             }
         }, 1000 / 60);
+
+        setInterval(() => {
+            this.endboss_alert_sound.volume = 0.5;
+            if (this.world.firstEncounterEndbossHappend){
+                this.endboss_alert_sound.play();
+                setTimeout(() => {
+                    this.endboss_alert_sound.pause();
+                }, 1500);
+            }
+        }, 2500 + Math.random() * 2500);
     }
 }
