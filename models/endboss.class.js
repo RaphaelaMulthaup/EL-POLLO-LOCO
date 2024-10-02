@@ -45,6 +45,7 @@ class Endboss extends MovableObject {
         this.world = world;
         this.character = world.character;
         this.animate();
+        this.displayStatusBarEndboss();
     }
 
     setWorld(world){
@@ -90,5 +91,14 @@ class Endboss extends MovableObject {
                 }, 1500);
             }
         }, 2500 + Math.random() * 2500);
+    }
+
+    displayStatusBarEndboss(){
+        setInterval(() => {
+            if (this.character.x > 2100) {
+                let statusBarEndboss = new StatusBarEndboss();
+                this.world.statusBarEndboss.push(statusBarEndboss);
+            }
+        }, 200);
     }
 }

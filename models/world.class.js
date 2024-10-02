@@ -4,6 +4,7 @@ class World {
     statusBarLife = new StatusBarLife();
     statusBarCoins = new StatusBarCoins();
     statusBarBottles = new StatusBarBottles();
+    statusBarEndboss = [];
     level = level1;
     canvas;
     ctx;
@@ -48,6 +49,7 @@ class World {
         this.addToMap(this.statusBarLife);
         this.addToMap(this.statusBarCoins);
         this.addToMap(this.statusBarBottles);
+        this.addObjectsToMap(this.statusBarEndboss);
         this.addObjectsToMap(this.coinsAnimation);
         this.ctx.translate(this.camera_x, 0);
 
