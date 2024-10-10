@@ -35,6 +35,7 @@ class MovableEnemy extends MovableObject {
 
         let intervalDyingSoundEnemy = setInterval(() => {
             if (!this.isAlive) {
+                this.dying_sound.volume = 0.3;
                 this.dying_sound.play();
                 if (this instanceof Chicken) {
                     setTimeout(() => {
