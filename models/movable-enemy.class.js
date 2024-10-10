@@ -16,12 +16,14 @@ class MovableEnemy extends MovableObject {
 
     animate(){
 
+        // movement
         setInterval(() => {
             if (this.isAlive) {
                 this.moveLeft();
             }
         }, 1000 / 60); 
-            
+        
+        // sound
         setInterval(() => {
             if (this.isAlive) {
                 this.walking_sound.volume = 0.3;
@@ -33,6 +35,7 @@ class MovableEnemy extends MovableObject {
             }
         }, 5000);
 
+        // img animation
         setInterval(() => {
             if (this.isAlive) {
                 this.playAnimation(this.IMAGES_WALKING);
