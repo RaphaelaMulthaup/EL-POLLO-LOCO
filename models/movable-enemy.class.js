@@ -60,4 +60,16 @@ class MovableEnemy extends MovableObject {
             }
         }, 200);
     }
+
+    deadFromCollision(bottle){
+        bottle.collisionWithEnemy = true;
+        if (this.isAlive) {
+            this.isAlive = false; // Setze den Gegner auf "tot"
+            setTimeout(() => {
+                let enemyIndex = this.world.level.enemies.indexOf(this);
+                this.world.level.enemies.splice(enemyIndex, 1);   
+            }, 1000);
+        }
+
+    }
 }
