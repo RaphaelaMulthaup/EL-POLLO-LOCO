@@ -30,12 +30,27 @@ class MovableEnemy extends MovableObject {
                 if (this.x > this.character.x - 60 && this.x < this.character.x + 660) {
                     this.walking_sound.play();
                 }
-            } else {
-                this.dying_sound.play();
             }
         }, 5000);
 
-        // img animation
+        let intervalDyingSoundEnemy = setInterval(() => {
+            if (!this.isAlive) {
+                this.dying_sound.play();
+                if (this instanceof Chicken) {
+                    setTimeout(() => {
+                        this.dying_sound.pause();
+                        clearInterval(intervalDyingSoundEnemy);
+                    }, 800);
+                } if (this instanceof Chick) {
+                    setTimeout(() => {
+                        this.dying_sound.pause();
+                        clearInterval(intervalDyingSoundEnemy);
+                    }, 500);
+                }
+            }
+        }, 1000 / 60);
+
+        // img animation and dying sound
         setInterval(() => {
             if (this.isAlive) {
                 this.playAnimation(this.IMAGES_WALKING);
