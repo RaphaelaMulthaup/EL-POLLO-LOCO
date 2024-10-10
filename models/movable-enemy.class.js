@@ -3,6 +3,7 @@ class MovableEnemy extends MovableObject {
     world;
     character;
     isCollidingWithCharacter = false;
+    isAlive = true;
 
     constructor(){
         super();
@@ -14,19 +15,30 @@ class MovableEnemy extends MovableObject {
     }
 
     animate(){
+
         setInterval(() => {
-            this.moveLeft();
+            if (this.isAlive) {
+                this.moveLeft();
+            }
         }, 1000 / 60); 
             
         setInterval(() => {
-            this.walking_sound.volume = 0.3;
-            if (this.x > this.character.x - 60 && this.x < this.character.x + 660) {
-                this.walking_sound.play();
+            if (this.isAlive) {
+                this.walking_sound.volume = 0.3;
+                if (this.x > this.character.x - 60 && this.x < this.character.x + 660) {
+                    this.walking_sound.play();
+                }
+            } else {
+                this.dying_sound.play();
             }
         }, 5000);
 
         setInterval(() => {
-            this.playAnimation(this.IMAGES_WALKING);
+            if (this.isAlive) {
+                this.playAnimation(this.IMAGES_WALKING);
+            } else {
+                this.playAnimation(this.IMAGE_DYING);
+            }
         }, 200);
     }
 }

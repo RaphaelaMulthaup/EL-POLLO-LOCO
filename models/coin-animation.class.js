@@ -4,7 +4,7 @@ sound = new Audio('../audio/coin.mp3');
 
     constructor(){
         super();
-        this.loadImg('../img/8_coin/coin_1.png');
+        this.loadImg('img/8_coin/coin_1.png');
         this.x = 175;
         this.y = 44;
         this.width = 100;

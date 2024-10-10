@@ -24,8 +24,8 @@ class World {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.level.enemies.push(this.endboss);  
-        this.draw();
         this.setWorld();
+        this.draw();
         this.checkEvents();
     }
 
@@ -91,6 +91,7 @@ class World {
     checkEvents(){
             this.checkCollisions();
             this.checkThrowBottle();
+            this.checkCollisionsBottlesEmemies();
     }
 
     // Diese Funktion später noch auseinander nehmen, wenn alle Collisionen gecoded sind. Eventuell auch etwas auseinandern nehmen und per Funktionsparameter individuallisiern.
@@ -146,13 +147,27 @@ class World {
             let currentTime = new Date().getTime(); // Aktuelle Zeit in Millisekunden
         
             if (this.keyboard.D && currentTime - this.lastThrowTime >= 500 && this.collectedBottles != 0  && !this.introAnimationEndboss) {
-                // Flasche nur werfen, wenn 2 Sekunden vergangen sind seit dem letzten Wurf
                 let throwableBottle = new ThrowableBottle(this.character);
                 this.throwableBottles.push(throwableBottle);  // Füge die Flasche zur Liste hinzu
                 this.lastThrowTime = currentTime; // Aktualisiere den letzten Wurfzeitpunkt
                 this.collectedBottles -= 1;
                 this.statusBarBottles.setPercentage(this.collectedBottles * 20);
             }
+        }, 1000 / 60);
+    }
+
+    checkCollisionsBottlesEmemies(){
+        setInterval(() => {
+            this.throwableBottles.forEach((bottle, bottleIndex) => {
+                this.level.enemies.forEach((enemy) => {
+                    if (bottle.isColliding(enemy, 40, 0)) {
+                        if (enemy.isAlive && (enemy instanceof Chick || enemy instanceof Chicken)) {
+                            enemy.isAlive = false; // Setze den Gegner auf "tot"
+                            this.throwableBottles.splice(bottleIndex, 1); // Entferne die Flasche nach einem Treffer
+                        }
+                    }
+                });
+            });
         }, 1000 / 60);
     }
 
