@@ -16,6 +16,7 @@ class ThrowableBottle extends MovableObject{
     ];
     speed = 5;
     otherDirection;
+    collisionWithEnemy = false;
 
 
     constructor(character){
@@ -37,7 +38,7 @@ class ThrowableBottle extends MovableObject{
         let rotation = setInterval(() => {
             this.playAnimation(this.IMAGES_ROTATION);
 
-            if (!this.isAboveGround(365)) {
+            if (!this.isAboveGround(365) || this.collisionWithEnemy) {
                 clearInterval(rotation);
                 clearInterval(movement);
                 this.playSplashAnimation();

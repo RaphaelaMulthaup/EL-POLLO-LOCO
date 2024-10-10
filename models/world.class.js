@@ -161,9 +161,11 @@ class World {
             this.throwableBottles.forEach((bottle, bottleIndex) => {
                 this.level.enemies.forEach((enemy) => {
                     if (bottle.isColliding(enemy, 40, 0)) {
+                        bottle.collisionWithEnemy = true;
                         if (enemy.isAlive && (enemy instanceof Chick || enemy instanceof Chicken)) {
                             enemy.isAlive = false; // Setze den Gegner auf "tot"
-                            this.throwableBottles.splice(bottleIndex, 1); // Entferne die Flasche nach einem Treffer
+
+                            // this.throwableBottles.splice(bottleIndex, 1); // Entferne die Flasche nach einem Treffer
                         }
                     }
                 });
