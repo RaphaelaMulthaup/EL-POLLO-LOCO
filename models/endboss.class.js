@@ -49,6 +49,7 @@ class Endboss extends MovableObject {
     energy = 5;
     isHurt = false;
     initialHit = false;
+    isWalking = false;
 
     constructor(world){
         super();
@@ -79,27 +80,30 @@ class Endboss extends MovableObject {
             } else if (this.world.firstEncounterEndbossHappend) {
                 if (this.isHurt) {
                     if (this.energy == 0) {
+                        this.isWalking = false;
                         this.playAnimation(this.IMAGES_DYING);
                     } else {
                         this.initialHit = true;
+                        this.isWalking = false;
                         this.playAnimation(this.IMAGES_HURT);
                         this.endboss_hurt_sound.play();
+                        setTimeout(() => {
+                            this.isWalking = true;
+                            // this.playAnimation(this.IMAGES_WALKING);
+                        }, 1000);
                     }
                 }
-                // if (/*Endboss wurde initial getroffen*/) {
-
-                //     /*Dieser Teil in der if-Abfrage muss immer wiederholt werden*/
-                //     /*boss läuft */
-                //     setTimeout(() => {
-                //         /*läuft nicht mehr */
-                //         /*Attak*/
-                //     }, timeout);
-                // } 
-                else if (this.character.x > 2150) {
-                    this.playAnimation(this.IMAGES_ATTACK);
-                } else {
-                    this.playAnimation(this.IMAGES_ALERT);
+                if (!this.initialHit) {
+                    if (this.character.x > 2150) {
+                        this.playAnimation(this.IMAGES_ATTACK);
+                    } else {
+                        this.playAnimation(this.IMAGES_ALERT);
+                    }
+                } else if (this.isWalking) {
+                    this.playAnimation(this.IMAGES_WALKING);
+                    /*Attack */
                 }
+
             }
         }, 200);
 
