@@ -45,6 +45,7 @@ class Endboss extends MovableObject {
     speed = 3;
     threatening_sound = new Audio('../audio/threatening.mp3');
     endboss_alert_sound = new Audio('../audio/endboss.mp3');
+    endboss_hurt_sound = new Audio('../audio/endboss_hurt_1572ms.mp3');
     energy = 5;
     isHurt = false;
     initialHit = false;
@@ -82,6 +83,7 @@ class Endboss extends MovableObject {
                     } else {
                         this.initialHit = true;
                         this.playAnimation(this.IMAGES_HURT);
+                        this.endboss_hurt_sound.play();
                     }
                 }
                 // if (/*Endboss wurde initial getroffen*/) {
