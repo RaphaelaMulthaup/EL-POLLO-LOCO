@@ -30,11 +30,24 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/3_attack/G19.png',
         'img/4_enemie_boss_chicken/3_attack/G20.png'
     ];
+    IMAGES_DYING = [
+        'img/4_enemie_boss_chicken/5_dead/G24.png',
+        'img/4_enemie_boss_chicken/5_dead/G25.png',
+        'img/4_enemie_boss_chicken/5_dead/G26.png'
+    ];
+    IMAGES_HURT = [
+        'img/4_enemie_boss_chicken/4_hurt/G21.png',
+        'img/4_enemie_boss_chicken/4_hurt/G22.png',
+        'img/4_enemie_boss_chicken/4_hurt/G23.png'
+    ];
     world;
     character;
     speed = 3;
     threatening_sound = new Audio('../audio/threatening.mp3');
     endboss_alert_sound = new Audio('../audio/endboss.mp3');
+    energy = 5;
+    isHurt = false;
+    initialHit = false;
 
     constructor(world){
         super();
@@ -42,6 +55,8 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_ATTACK);
+        this.loadImages(this.IMAGES_DYING);
+        this.loadImages(this.IMAGES_HURT);
         this.world = world;
         this.character = world.character;
         this.animate();
@@ -61,7 +76,24 @@ class Endboss extends MovableObject {
                 this.threatening_sound.play();
                 this.world.firstEncounterEndbossHappend = true;
             } else if (this.world.firstEncounterEndbossHappend) {
-                if (this.character.x > 2150) {
+                if (this.isHurt) {
+                    if (this.energy == 0) {
+                        this.playAnimation(this.IMAGES_DYING);
+                    } else {
+                        this.initialHit = true;
+                        this.playAnimation(this.IMAGES_HURT);
+                    }
+                }
+                // if (/*Endboss wurde initial getroffen*/) {
+
+                //     /*Dieser Teil in der if-Abfrage muss immer wiederholt werden*/
+                //     /*boss läuft */
+                //     setTimeout(() => {
+                //         /*läuft nicht mehr */
+                //         /*Attak*/
+                //     }, timeout);
+                // } 
+                else if (this.character.x > 2150) {
                     this.playAnimation(this.IMAGES_ATTACK);
                 } else {
                     this.playAnimation(this.IMAGES_ALERT);
@@ -100,5 +132,18 @@ class Endboss extends MovableObject {
                 this.world.statusBarEndboss.push(statusBarEndboss);
             }
         }, 200);
+    }
+
+    isHit(bottle){
+        if (!this.isHurt) {
+            this.isHurt = true;        
+            bottle.collisionWithEnemy = true;
+            this.energy -= 1;
+            console.log(this.energy); 
+            setTimeout(() => {
+                this.isHurt = false;        
+            }, 1000);
+        }
+
     }
 }

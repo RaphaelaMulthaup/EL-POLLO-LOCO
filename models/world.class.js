@@ -164,7 +164,9 @@ class World {
                         enemy.deadFromCollision(bottle);
                     } else if (enemy instanceof Chick && bottle.isColliding(enemy, 55, 0)) {
                         enemy.deadFromCollision(bottle);
-                    }
+                    } else if (enemy instanceof Endboss && bottle.isColliding(enemy, 100, 100)) {
+                        enemy.isHit(bottle);
+                    } 
                 });
             });
         }, 1000 / 60);
