@@ -46,10 +46,12 @@ class Endboss extends MovableObject {
     threatening_sound = new Audio('../audio/threatening.mp3');
     endboss_alert_sound = new Audio('../audio/endboss.mp3');
     endboss_hurt_sound = new Audio('../audio/endboss_hurt_1572ms.mp3');
+    endboss_backroundmusic = new Audio('../audio/endboss_backroundmusic.mp3')
     energy = 5;
     isHurt = false;
     initialHit = false;
     isWalking = false;
+    threateningSound = false;
 
     constructor(world){
         super();
@@ -75,7 +77,11 @@ class Endboss extends MovableObject {
         setInterval(() => {
             if (this.character.x > 2100 && this.x > 2450) {
                 this.playAnimation(this.IMAGES_WALKING);
+                this.threateningSound = true;
                 this.threatening_sound.play();
+                setTimeout(() => {
+                    this.threateningSound = false;
+                }, 5000);
                 this.world.firstEncounterEndbossHappend = true;
             } else if (this.world.firstEncounterEndbossHappend) {
                 if (this.isHurt) {
@@ -104,6 +110,10 @@ class Endboss extends MovableObject {
                     /*Attack */
                 }
 
+            }
+            if (this.initialHit && !this.threateningSound) {
+                this.endboss_backroundmusic.volume = 0.3;
+                this.endboss_backroundmusic.play();
             }
         }, 200);
 
