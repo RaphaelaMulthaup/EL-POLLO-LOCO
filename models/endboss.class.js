@@ -90,12 +90,12 @@ class Endboss extends MovableObject {
                         this.playAnimation(this.IMAGES_DYING);
                     } else {
                         this.initialHit = true;
+                        this.speed = 1.5;
                         this.isWalking = false;
                         this.playAnimation(this.IMAGES_HURT);
                         this.endboss_hurt_sound.play();
                         setTimeout(() => {
                             this.isWalking = true;
-                            // this.playAnimation(this.IMAGES_WALKING);
                         }, 1000);
                     }
                 }
@@ -127,6 +127,10 @@ class Endboss extends MovableObject {
                         this.world.introAnimationEndboss = false;
                     }, 1000);
                 }
+            }
+            if (this.initialHit && this.isWalking) {
+                this.moveLeft();
+                /*Attack */
             }
         }, 1000 / 60);
 
