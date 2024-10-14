@@ -52,6 +52,7 @@ class Endboss extends MovableObject {
     initialHit = false;
     isWalking = false;
     threateningSound = false;
+    isAttacking = false;
 
     constructor(world){
         super();
@@ -90,7 +91,6 @@ class Endboss extends MovableObject {
                         this.playAnimation(this.IMAGES_DYING);
                     } else {
                         this.initialHit = true;
-                        this.speed = 1.5;
                         this.isWalking = false;
                         this.playAnimation(this.IMAGES_HURT);
                         this.endboss_hurt_sound.play();
@@ -107,15 +107,17 @@ class Endboss extends MovableObject {
                     }
                 } else if (this.isWalking) {
                     this.playAnimation(this.IMAGES_WALKING);
-                    /*Attack */
                 }
-
             }
             if (this.initialHit && !this.threateningSound) {
                 this.endboss_backroundmusic.volume = 0.3;
                 this.endboss_backroundmusic.play();
             }
+       
         }, 200);
+
+        this.randomAttacks();
+
 
         // movement
         setInterval(() => {
@@ -130,7 +132,19 @@ class Endboss extends MovableObject {
             }
             if (this.initialHit && this.isWalking) {
                 this.moveLeft();
+
+
+
                 /*Attack */
+
+                // setTimeout(() => {
+                //     this.isWalking = false; // Stoppe Bewegung für Attack
+                //     this.playAnimation(this.IMAGES_ATTACK); // Attack-Animation abspielen
+                //     setTimeout(() => {
+                //         this.isWalking = true; // Nach der Attack wieder laufen
+                //         this.playAnimation(this.IMAGES_WALKING);
+                //     }, 2000); // Attack-Animation 2 Sekunden abspielen
+                // }, 2000 + Math.random() * 5000);
             }
         }, 1000 / 60);
 
@@ -165,5 +179,30 @@ class Endboss extends MovableObject {
             }, 1000);
         }
 
+    }
+
+    randomAttacks(){
+        setTimeout(() => {
+            this.triggerAttack();
+            this.randomAttacks();
+        }, 5000 + Math.random() * 2000);
+    }
+
+    triggerAttack(){
+        if (!this.isWalking || this.isAttacking) return; // Attack nur ausführen, wenn der Endboss gerade läuft und nicht bereits angreift
+        this.isWalking = false;
+        this.isAttacking = true; // Flag setzen, dass der Endboss angreift
+
+
+        let attackInterval = setInterval(() => {
+            this.playAnimation(this.IMAGES_ATTACK); // Attack-Animation abspielen
+        }, 200); // Alle 200ms das nächste Bild der Attack-Animation anzeigen
+
+        setTimeout(() => {
+            clearInterval(attackInterval); // Das Intervall nach der Attack-Dauer beenden
+            this.isWalking = true;
+            this.isAttacking = false; // Nach der Attacke wieder laufen und Attack-Flag zurücksetzen
+            this.playAnimation(this.IMAGES_WALKING); // Walking-Animation fortsetzen
+        }, 3000); // Attack-Animation 2 Sekunden abspielen
     }
 }
