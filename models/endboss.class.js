@@ -46,7 +46,8 @@ class Endboss extends MovableObject {
     threatening_sound = new Audio('../audio/threatening.mp3');
     endboss_alert_sound = new Audio('../audio/endboss.mp3');
     endboss_hurt_sound = new Audio('../audio/endboss_hurt_1572ms.mp3');
-    endboss_backroundmusic = new Audio('../audio/endboss_backroundmusic.mp3')
+    endboss_backroundmusic = new Audio('../audio/endboss_backroundmusic.mp3');
+    endboss_dying_sound = new Audio('../audio/endboss_dying_6000ms.mp3');
     energy = 5;
     isHurt = false;
     initialHit = false;
@@ -90,6 +91,8 @@ class Endboss extends MovableObject {
                     if (this.energy == 0) {
                         this.isWalking = false;
                         this.playAnimation(this.IMAGES_DYING);
+                        this.endboss_backroundmusic.volume = 0.15;
+                        this.endboss_dying_sound.play();
                     } else {
                         this.initialHit = true;
                         this.isWalking = false;
@@ -110,7 +113,7 @@ class Endboss extends MovableObject {
                     this.playAnimation(this.IMAGES_WALKING);
                 }
             }
-            if (this.initialHit && !this.threateningSound) {
+            if (this.initialHit && !this.threateningSound && this.energy > 0) {
                 this.endboss_backroundmusic.volume = 0.3;
                 this.endboss_backroundmusic.play();
             }
@@ -149,9 +152,10 @@ class Endboss extends MovableObject {
             }
         }, 1000 / 60);
 
+        
         setInterval(() => {
             this.endboss_alert_sound.volume = 0.5;
-            if (this.world.firstEncounterEndbossHappend){
+            if (this.world.firstEncounterEndbossHappend && this.energy > 0){
                 this.endboss_alert_sound.play();
                 setTimeout(() => {
                     this.endboss_alert_sound.pause();
