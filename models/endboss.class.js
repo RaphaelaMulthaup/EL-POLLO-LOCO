@@ -100,7 +100,7 @@ class Endboss extends MovableObject {
                         this.endboss_hurt_sound.play();
                         setTimeout(() => {
                             this.isWalking = true;
-                        }, 1000);
+                        }, 2000);
                     }
                 }
                 if (!this.initialHit) {
@@ -134,7 +134,7 @@ class Endboss extends MovableObject {
                     }, 1000);
                 }
             }
-            if (this.initialHit && this.isWalking) {
+            if (this.initialHit && this.isWalking && !this.isAttacking) {
                 this.moveLeft();
 
 
@@ -182,7 +182,7 @@ class Endboss extends MovableObject {
             this.world.statusBarEndboss[0].setPercentage(this.energy * 20); 
             setTimeout(() => {
                 this.isHurt = false;        
-            }, 1000);
+            }, 2000);
         }
 
     }
@@ -195,13 +195,11 @@ class Endboss extends MovableObject {
     }
 
     triggerAttack(){
-        if (!this.isWalking || this.isAttacking) return; // Attack nur ausführen, wenn der Endboss gerade läuft und nicht bereits angreift
+        if (!this.isWalking || this.isAttacking || this.isHurt) return; // Attack nur ausführen, wenn der Endboss gerade läuft und nicht bereits angreift
         this.isWalking = false;
         this.isAttacking = true; // Flag setzen, dass der Endboss angreift
 
-        if (!this.is) {
-            
-        }
+        this.playAnimation(this.IMAGES_ATTACK);
         let attackInterval = setInterval(() => {
             if (!this.isHurt) {
                 this.playAnimation(this.IMAGES_ATTACK); // Attack-Animation abspielen
