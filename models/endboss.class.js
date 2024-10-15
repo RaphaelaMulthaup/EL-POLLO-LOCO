@@ -199,9 +199,13 @@ class Endboss extends MovableObject {
         this.isWalking = false;
         this.isAttacking = true; // Flag setzen, dass der Endboss angreift
 
-
+        if (!this.is) {
+            
+        }
         let attackInterval = setInterval(() => {
-            this.playAnimation(this.IMAGES_ATTACK); // Attack-Animation abspielen
+            if (!this.isHurt) {
+                this.playAnimation(this.IMAGES_ATTACK); // Attack-Animation abspielen
+            }
         }, 200); // Alle 200ms das nächste Bild der Attack-Animation anzeigen
 
         setTimeout(() => {
