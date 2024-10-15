@@ -155,7 +155,7 @@ class Endboss extends MovableObject {
         
         setInterval(() => {
             this.endboss_alert_sound.volume = 0.5;
-            if (this.world.firstEncounterEndbossHappend && this.energy > 0){
+            if (this.world.firstEncounterEndbossHappend && this.energy > 0 && !this.initialHit){
                 this.endboss_alert_sound.play();
                 setTimeout(() => {
                     this.endboss_alert_sound.pause();
