@@ -76,6 +76,7 @@ class Endboss extends MovableObject {
     animate(){
         // images animation and sound
         setInterval(() => {
+            // sobald Pepe hinten ankommt (solange Endboss noch nicht nach vorne gekommen ist(passiert nur einmal))
             if (this.character.x > 2100 && this.x > 2450) {
                 this.playAnimation(this.IMAGES_WALKING);
                 this.threateningSound = true;
@@ -160,10 +161,11 @@ class Endboss extends MovableObject {
     }
 
     displayStatusBarEndboss(){
-        setInterval(() => {
-            if (this.character.x > 2100) {
+        let intervalDisplayStatusBarEnndboss = setInterval(() => {
+            if (this.world.firstEncounterEndbossHappend) {
                 let statusBarEndboss = new StatusBarEndboss();
                 this.world.statusBarEndboss.push(statusBarEndboss);
+                clearInterval(intervalDisplayStatusBarEnndboss);
             }
         }, 200);
     }
@@ -173,7 +175,7 @@ class Endboss extends MovableObject {
             this.isHurt = true;        
             bottle.collisionWithEnemy = true;
             this.energy -= 1;
-            console.log(this.energy); 
+            this.world.statusBarEndboss[0].setPercentage(this.energy * 20); 
             setTimeout(() => {
                 this.isHurt = false;        
             }, 1000);
