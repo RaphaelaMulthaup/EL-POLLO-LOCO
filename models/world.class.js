@@ -104,10 +104,8 @@ class World {
             this.level.enemies.forEach(enemy => {
                 if ((enemy instanceof Chicken || enemy instanceof Chick) && this.characterIsLandingOn(enemy) && !enemy.isCollidingWithCharacter) {
                     enemy.dying();
-                } else if (this.character.isColliding(enemy) && enemy.isAlive) {
+                } else if (this.character.isColliding(enemy) && enemy.isAlive && !enemy.isCollidingWithCharacter) {
                     this.lateralCollision(enemy);
-                } else {
-                    enemy.isCollidingWithCharacter = false;
                 }
             });
         }, 200);
@@ -123,6 +121,9 @@ class World {
         this.character.hit(enemy.constructor.name);
         this.statusBarLife.setPercentageLifes(this.character.energy);
         enemy.isCollidingWithCharacter = true;
+        setTimeout(() => {
+            enemy.isCollidingWithCharacter = false;
+        }, 1500);
     }
 
     checkCollisionWithCollectibleObject(){
