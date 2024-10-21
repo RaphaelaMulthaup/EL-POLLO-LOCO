@@ -1,4 +1,4 @@
-class Chick extends MovableEnemy {
+class Chick extends MovableObject {
 
     height = 50;
     width = 50;
@@ -11,8 +11,8 @@ class Chick extends MovableEnemy {
     IMAGE_DYING = [
         'img/3_enemies_chicken/chicken_small/2_dead/dead.png'
     ];
-    walking_sound = new Audio('../audio/chick.mp3');
-    dying_sound = new Audio('../audio/chickDying.mp3');
+    walking_sound = new Audio('audio/chick.mp3');
+    dying_sound = new Audio('audio/chickDying.mp3');
 
 
     constructor(){
@@ -25,6 +25,6 @@ class Chick extends MovableEnemy {
 
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGE_DYING);
-        this.animate();
+        this.bringToLife();
     }
 }

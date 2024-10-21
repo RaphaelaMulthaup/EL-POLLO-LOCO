@@ -43,17 +43,18 @@ class Endboss extends MovableObject {
     world;
     character;
     speed = 3;
-    threatening_sound = new Audio('../audio/threatening.mp3');
-    endboss_alert_sound = new Audio('../audio/endboss.mp3');
-    endboss_hurt_sound = new Audio('../audio/endboss_hurt_1572ms.mp3');
-    endboss_backroundmusic = new Audio('../audio/endboss_backroundmusic.mp3');
-    endboss_dying_sound = new Audio('../audio/endboss_dying_6000ms.mp3');
+    threatening_sound = new Audio('audio/threatening.mp3');
+    endboss_alert_sound = new Audio('audio/endboss.mp3');
+    endboss_hurt_sound = new Audio('audio/endboss_hurt_1572ms.mp3');
+    endboss_backgroundmusic = new Audio('audio/endboss_backgroundmusic.mp3');
+    endboss_dying_sound = new Audio('audio/endboss_dying_6000ms.mp3');
     energy = 5;
     isHurt = false;
     initialHit = false;
-    isWalking = false;
-    threateningSound = false;
+    randomAttackInterval;
     isAttacking = false;
+    endbossHurtSoundIsPlaying = false;
+    dyingSoundIsPlaying = false;
 
     constructor(world){
         super();
@@ -65,8 +66,10 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_HURT);
         this.world = world;
         this.character = world.character;
-        this.animate();
         this.displayStatusBarEndboss();
+        this.bringToLife();
+        this.checkFirstEncounter();
+
     }
 
     setWorld(world){
@@ -74,99 +77,188 @@ class Endboss extends MovableObject {
         this.character = world.character;
     }
 
+    bringToLife(){
+        this.animate();
+        this.endbossMovesLeft();
+        this.playSound();   
+    }
+
     animate(){
-        // images animation and sound
+        this.animateWalking();
+        this.animateAlert();
+        this.animateAttacking();
+        this.animateHurt();
+        this.animateDying();
+    }
+
+    animateWalking(){
+        //as soon as the character has reached the back, but the final boss has not yet reached his position (only happens once)
         setInterval(() => {
-            // sobald Pepe hinten ankommt (solange Endboss noch nicht nach vorne gekommen ist(passiert nur einmal))
             if (this.character.x > 2100 && this.x > 2450) {
+                this.playAnimation(this.IMAGES_WALKING); 
+            }
+            if (!this.isAttacking && !this.energy == 0 && this.initialHit && !this.isHurt) {
                 this.playAnimation(this.IMAGES_WALKING);
-                this.threateningSound = true;
-                this.threatening_sound.play();
-                setTimeout(() => {
-                    this.threateningSound = false;
-                }, 5000);
-                this.world.firstEncounterEndbossHappend = true;
-            } else if (this.world.firstEncounterEndbossHappend) {
-                if (this.isHurt) {
-                    if (this.energy == 0) {
-                        this.isWalking = false;
-                        this.playAnimation(this.IMAGES_DYING);
-                        this.endboss_backroundmusic.volume = 0.15;
-                        this.endboss_dying_sound.play();
-                    } else {
-                        this.initialHit = true;
-                        this.isWalking = false;
-                        this.playAnimation(this.IMAGES_HURT);
-                        this.endboss_hurt_sound.play();
-                        setTimeout(() => {
-                            this.isWalking = true;
-                        }, 2000);
-                    }
-                }
-                if (!this.initialHit) {
-                    if (this.character.x > 2150) {
-                        this.playAnimation(this.IMAGES_ATTACK);
-                    } else {
-                        this.playAnimation(this.IMAGES_ALERT);
-                    }
-                } else if (this.isWalking) {
-                    this.playAnimation(this.IMAGES_WALKING);
-                }
             }
-            if (this.initialHit && !this.threateningSound && this.energy > 0) {
-                this.endboss_backroundmusic.volume = 0.3;
-                this.endboss_backroundmusic.play();
-            }
-       
+  
         }, 200);
+    }
 
-        this.randomAttacks();
-
-
-        // movement
+    animateAlert(){
         setInterval(() => {
+            if (!this.initialHit && this.world.firstEncounterEndbossHappend && this.character.x <= 2150) {
+                this.playAnimation(this.IMAGES_ALERT); 
+            }    
+        }, 200);
+    }
+
+    animateAttacking(){
+        setInterval(() => {
+            if (!this.initialHit && this.world.firstEncounterEndbossHappend && this.character.x > 2150) {
+                this.playAnimation(this.IMAGES_ATTACK);
+            }
+            if (this.isAttacking && !this.energy == 0) {
+                this.playAnimation(this.IMAGES_ATTACK);
+            }
+        }, 200);
+    }
+
+    animateHurt(){
+        setInterval(() => {
+            if (this.isHurt) {
+                this.initialHit = true;
+                clearInterval(this.randomAttackInterval);
+                this.playAnimation(this.IMAGES_HURT);
+                this.randomAttacks();
+            }    
+        }, 200);
+    }
+
+    animateDying(){
+        setInterval(() => {
+            if (this.energy == 0) {
+                this.playDyingAnimation(this.IMAGES_DYING);
+            }    
+        }, 200);
+    }
+
+    endbossMovesLeft(){
+        setInterval(() => {
+            //as soon as the character has reached the back, but the final boss has not yet reached his position (only happens once)
             if (this.character.x > 2100 && this.x > 2450) {
                 this.moveLeft();
-                if (this.character.x > 2200) {
-                    this.world.introAnimationEndboss = true;
-                    setTimeout(() => {
-                        this.world.introAnimationEndboss = false;
-                    }, 1000);
-                }
-            }
-            if (this.initialHit && this.isWalking && !this.isAttacking) {
+            }        
+        }, 1000 / 60);
+        setInterval(() => {  
+            if (!this.isAttacking && !this.energy == 0 && this.initialHit && !this.isHurt) {
+                this.speed = 5;
                 this.moveLeft();
-
-
-
-                /*Attack */
-
-                // setTimeout(() => {
-                //     this.isWalking = false; // Stoppe Bewegung für Attack
-                //     this.playAnimation(this.IMAGES_ATTACK); // Attack-Animation abspielen
-                //     setTimeout(() => {
-                //         this.isWalking = true; // Nach der Attack wieder laufen
-                //         this.playAnimation(this.IMAGES_WALKING);
-                //     }, 2000); // Attack-Animation 2 Sekunden abspielen
-                // }, 2000 + Math.random() * 5000);
             }
         }, 1000 / 60);
+    }
 
-        
+    playSound(){
+        this.playThreateningSound();
+        this.playAlertSound();       
+        this.playEndbossBackgroundmusic();
+        this.playDyingSound();
+        this.playHurtSound();
+    }
+
+    playThreateningSound(){
         setInterval(() => {
+            //as soon as the character has reached the back, but the final boss has not yet reached his position (only happens once)
+            if (this.character.x > 2100 && this.x > 2450) {
+                this.threatening_sound.play();           
+            }            
+        }, 200);
+    }
+
+    playAlertSound(){
+        let intervalAlertAttackCondition = setInterval(() => {
+            if (!this.initialHit && this.world.firstEncounterEndbossHappend) {
+                this.playRandomAlertSound();
+                clearInterval(intervalAlertAttackCondition);
+            } 
+        }, 200);
+    }
+
+    playRandomAlertSound(){
+        if (!this.initialHit && this.world.firstEncounterEndbossHappend) {
             this.endboss_alert_sound.volume = 0.5;
-            if (this.world.firstEncounterEndbossHappend && this.energy > 0 && !this.initialHit){
-                this.endboss_alert_sound.play();
-                setTimeout(() => {
-                    this.endboss_alert_sound.pause();
-                }, 1500);
-            }
+            this.endboss_alert_sound.currentTime = 0;
+            this.endboss_alert_sound.play();
+            setTimeout(() => {
+                this.endboss_alert_sound.pause();
+            }, 1500);
+        }
+        setTimeout(() => {
+            this.playRandomAlertSound();
         }, 2500 + Math.random() * 2500);
+    }
+
+    playEndbossBackgroundmusic(){
+        setInterval(() => {
+            if (this.initialHit && !this.threateningSound && !this.energy == 0) {
+                this.endboss_backgroundmusic.volume = 0.3;
+                this.endboss_backgroundmusic.play();
+            }
+        }, 200);
+        setInterval(() => {
+            if (this.energy == 0) {
+                this.endboss_backgroundmusic.volume = 0.15;
+            }
+        }, 200);
+    }
+
+    playHurtSound(){
+        setInterval(() => {
+            if (this.isHurt && !this.endbossHurtSoundIsPlaying) {
+                this.endbossHurtSoundIsPlaying = true;
+                this.endboss_hurt_sound.currentTime = 0;
+                this.endboss_hurt_sound.play();
+                setTimeout(() => {
+                    this.endboss_hurt_sound.pause();
+                }, 1200);
+                setTimeout(() => {
+                    this.endbossHurtSoundIsPlaying = false;
+                }, 2000);
+            }
+        }, 200);
+    }
+
+    playDyingSound(){
+        let intervalDyingSound = setInterval(() => {
+            if (this.energy == 0 && !this.dyingSoundIsPlaying) {
+                this.dyingSoundIsPlaying = true;
+                this.endboss_dying_sound.play();
+                setTimeout(() => {
+                    clearInterval(intervalDyingSound);
+                }, 5000);
+            }
+        }, 200);
+    }
+
+    checkFirstEncounter(){
+        setInterval(() => {    
+            if (this.x <= 2450) {
+                this.world.firstEncounterEndbossHappend = true;   
+            }
+        }, 200);
+        let intervalCheckIntroAnimationEndboss = setInterval(() => {
+            if (this.x < 2600) {
+                world.introAnimationEndboss = true;
+                setTimeout(() => {
+                    world.introAnimationEndboss = false;
+                    clearInterval(intervalCheckIntroAnimationEndboss);
+                }, 1000);
+            }
+        }, 200);
     }
 
     displayStatusBarEndboss(){
         let intervalDisplayStatusBarEnndboss = setInterval(() => {
-            if (this.world.firstEncounterEndbossHappend) {
+            if (this.character.x > 2100 && this.x > 2450) {
                 let statusBarEndboss = new StatusBarEndboss();
                 this.world.statusBarEndboss.push(statusBarEndboss);
                 clearInterval(intervalDisplayStatusBarEnndboss);
@@ -184,33 +276,23 @@ class Endboss extends MovableObject {
                 this.isHurt = false;        
             }, 2000);
         }
+    }
 
+    playDyingAnimation(images){
+        for (let index = 0; index < 3; index++) {
+            let path = images[index];
+            this.img = this.imageCache[path];
+            this.currentImage ++;
+        }
     }
 
     randomAttacks(){
-        setTimeout(() => {
-            this.triggerAttack();
-            this.randomAttacks();
-        }, 5000 + Math.random() * 2000);
+        this.randomAttackInterval = setInterval(() => {
+            this.isAttacking = true;
+            setTimeout(() => {
+                this.isAttacking = false;
+            }, 2500);
+        }, 3500 + Math.random() * 1500);
     }
 
-    triggerAttack(){
-        if (!this.isWalking || this.isAttacking || this.isHurt) return; // Attack nur ausführen, wenn der Endboss gerade läuft und nicht bereits angreift
-        this.isWalking = false;
-        this.isAttacking = true; // Flag setzen, dass der Endboss angreift
-
-        this.playAnimation(this.IMAGES_ATTACK);
-        let attackInterval = setInterval(() => {
-            if (!this.isHurt) {
-                this.playAnimation(this.IMAGES_ATTACK); // Attack-Animation abspielen
-            }
-        }, 200); // Alle 200ms das nächste Bild der Attack-Animation anzeigen
-
-        setTimeout(() => {
-            clearInterval(attackInterval); // Das Intervall nach der Attack-Dauer beenden
-            this.isWalking = true;
-            this.isAttacking = false; // Nach der Attacke wieder laufen und Attack-Flag zurücksetzen
-            this.playAnimation(this.IMAGES_WALKING); // Walking-Animation fortsetzen
-        }, 3000); // Attack-Animation 2 Sekunden abspielen
-    }
 }

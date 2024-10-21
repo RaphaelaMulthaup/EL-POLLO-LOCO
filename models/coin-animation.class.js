@@ -1,6 +1,6 @@
 class CoinAnimation extends MovableObject {
 
-sound = new Audio('../audio/coin.mp3');
+sound = new Audio('audio/coin.mp3');
 
     constructor(){
         super();

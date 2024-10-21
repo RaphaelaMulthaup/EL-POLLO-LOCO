@@ -46,7 +46,7 @@ class ThrowableBottle extends MovableObject{
         }, 100);
 
         let movement = setInterval(() => {
-            if (this.characterIsWalking()) {
+            if (world.character.characterIsWalking()) {
                 this.speed = 7;
             }
             if (this.otherDirection) {
@@ -67,9 +67,15 @@ class ThrowableBottle extends MovableObject{
             } else {
                 clearInterval(splashInterval);
                 setTimeout(() => {
-                    world.removeThrowableBottle(this);
+                    this.removeThrowableBottle();
                 }, 50);
             }
         }, 35);
     }
+
+    removeThrowableBottle() {
+        let index = world.throwableBottles.indexOf(this);
+        world.throwableBottles.splice(index, 1);
+    }
+
 }

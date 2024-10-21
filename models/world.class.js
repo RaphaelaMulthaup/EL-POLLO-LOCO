@@ -92,10 +92,26 @@ class World {
             this.checkCollisions();
             this.checkThrowBottle();
             this.checkCollisionsBottlesEmemies();
+            this.checkJumpOnEnemy();
     }
 
-    // Diese Funktion später noch auseinander nehmen, wenn alle Collisionen gecoded sind. Eventuell auch etwas auseinandern nehmen und per Funktionsparameter individuallisiern.
+    checkJumpOnEnemy(){
+        // setInterval(() => {
+        //     this.level.enemies.forEach(enemy => {
+        //         if (/*!this.character.isColliding(enemy, 40, 0) && */(enemy instanceof Chicken || enemy instanceof Chick) && this.character.isLandingOn(enemy)/* && enemy.world*/) {
+        //             console.log('draufgesprungen');
+                    
+        //         }
+        //     });
+        // }, 200);
+    }
+
     checkCollisions(){
+        this.checkCollisionWithEnemys();
+        this.checkCollisionWithCollectibleObject();
+    }
+
+    checkCollisionWithEnemys(){
         setInterval(() => {
             this.level.enemies.forEach(enemy => {
                 if (this.character.isColliding(enemy, 40, 0)) {
@@ -108,48 +124,75 @@ class World {
                         enemy.isCollidingWithCharacter = false;
                     }
             });
-            this.level.collectibleObjects.forEach(obj => {
+        }, 200);
+    }
+
+    checkCollisionWithCollectibleObject(){
+        setInterval(() => {
+            this.level.collectibleObjects.forEach((obj, indexOfObj) => {
                 if (obj instanceof CollectibleBottle && this.character.isColliding(obj, 60, 0) && this.collectedBottles < 5) {
-                    let index = this.level.collectibleObjects.indexOf(obj);
-                    this.level.collectibleObjects.splice(index, 1);
-                    this.collectedBottles += 1;
-                    this.statusBarBottles.setPercentage(this.collectedBottles * 20);
+                    this.collectBottle(indexOfObj);
                 }
                 if (obj instanceof CollectibleCoin && this.character.isColliding(obj, 50, 180) && this.collectedCoins < 5) {
-                    let index = this.level.collectibleObjects.indexOf(obj);
-                    this.level.collectibleObjects.splice(index, 1);
-                    this.collectedCoins += 1;
-                    this.statusBarCoins.setPercentage(this.collectedCoins * 20);
+                    this.collectCoin(indexOfObj);
                     if (this.collectedCoins == 5) {
-                        setTimeout(() => {
-                            this.collectedCoins = 0;
-                            this.statusBarCoins.setPercentage(this.collectedCoins * 20);
-                            this.character.energy += 20;
-                            if (this.character.energy > 100) {
-                                this.character.energy = 100;    
-                            }
-                            this.statusBarLife.setPercentageLifes(this.character.energy);
-                            for (let i = 0; i < 5; i++) {
-                                setTimeout(() => {
-                                    let coinAnimation = new CoinAnimation();
-                                    this.coinsAnimation.push(coinAnimation);
-                                }, 200 * i);
-                            }
-                        }, 500);
+                        this.turnCoinsIntoEnergy();
                     }
                 }
             });
         }, 200);
     }
 
+    collectBottle(indexOfObj){
+        this.level.collectibleObjects.splice(indexOfObj, 1);
+        this.collectedBottles += 1;
+        this.statusBarBottles.setPercentage(this.collectedBottles * 20);
+    }
+
+    collectCoin(indexOfObj){
+        this.level.collectibleObjects.splice(indexOfObj, 1);
+        this.collectedCoins += 1;
+        this.statusBarCoins.setPercentage(this.collectedCoins * 20);
+    }
+
+    turnCoinsIntoEnergy(){
+        setTimeout(() => {
+            this.setCollectedCoinsToZero();
+            this.increaseEnergy();
+            this.animateFyingCoins();  
+        }, 500);
+    }
+
+    setCollectedCoinsToZero(){
+        this.collectedCoins = 0;
+        this.statusBarCoins.setPercentage(this.collectedCoins * 20);
+    }
+
+    increaseEnergy(){
+        this.character.energy += 20;
+        if (this.character.energy > 100) {
+            this.character.energy = 100;    
+        }
+        this.statusBarLife.setPercentageLifes(this.character.energy);
+    }
+
+    animateFyingCoins(){
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => {
+                let coinAnimation = new CoinAnimation();
+                this.coinsAnimation.push(coinAnimation);
+            }, 200 * i);
+        }
+    }
+
     checkThrowBottle(){
         setInterval(() => {
-            let currentTime = new Date().getTime(); // Aktuelle Zeit in Millisekunden
+            let currentTime = new Date().getTime();
         
             if (this.keyboard.D && currentTime - this.lastThrowTime >= 500 && this.collectedBottles != 0  && !this.introAnimationEndboss) {
                 let throwableBottle = new ThrowableBottle(this.character);
-                this.throwableBottles.push(throwableBottle);  // Füge die Flasche zur Liste hinzu
-                this.lastThrowTime = currentTime; // Aktualisiere den letzten Wurfzeitpunkt
+                this.throwableBottles.push(throwableBottle);
+                this.lastThrowTime = currentTime;
                 this.collectedBottles -= 1;
                 this.statusBarBottles.setPercentage(this.collectedBottles * 20);
             }
@@ -172,8 +215,4 @@ class World {
         }, 1000 / 60);
     }
 
-    removeThrowableBottle(bottle) {
-        let index = this.throwableBottles.indexOf(bottle);
-        this.throwableBottles.splice(index, 1);
-    }
 }

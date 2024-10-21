@@ -44,4 +44,9 @@ class DrawableObject {
         }
     }
 
+    // deleteObject(obj){
+    //     let index = world.level.collectibleObjects.indexOf(obj);
+    //     world.level.collectibleObjects.splice(index, 1);
+    // }
+
 }

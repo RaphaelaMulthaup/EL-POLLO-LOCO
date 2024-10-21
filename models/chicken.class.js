@@ -1,4 +1,4 @@
-class Chicken extends MovableEnemy{
+class Chicken extends MovableObject{
 
     height = 75;
     width = 75;
@@ -11,8 +11,8 @@ class Chicken extends MovableEnemy{
     IMAGE_DYING = [
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
     ];
-    walking_sound = new Audio('../audio/chicken.mp3');
-    dying_sound = new Audio('../audio/chickenDying.mp3');
+    walking_sound = new Audio('audio/chicken.mp3');
+    dying_sound = new Audio('audio/chickenDying.mp3');
 
 
     constructor(){
@@ -24,6 +24,6 @@ class Chicken extends MovableEnemy{
 
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGE_DYING);
-        this.animate();
+        this.bringToLife();
     }
 }
