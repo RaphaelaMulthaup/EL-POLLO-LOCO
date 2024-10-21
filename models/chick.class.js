@@ -13,7 +13,12 @@ class Chick extends MovableObject {
     ];
     walking_sound = new Audio('audio/chick.mp3');
     dying_sound = new Audio('audio/chickDying.mp3');
-
+    offset = {
+        top: 12,
+        left: 12,
+        right: 18,
+        bottom: 12
+    };
 
     constructor(){
         super();

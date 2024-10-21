@@ -17,6 +17,12 @@ class ThrowableBottle extends MovableObject{
     speed = 5;
     otherDirection;
     collisionWithEnemy = false;
+    offset = {
+        top: 17,
+        left: 17,
+        right: 17,
+        bottom: 17
+    };
 
 
     constructor(character){

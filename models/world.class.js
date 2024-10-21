@@ -89,21 +89,9 @@ class World {
     }
 
     checkEvents(){
-            this.checkCollisions();
-            this.checkThrowBottle();
-            this.checkCollisionsBottlesEmemies();
-            this.checkJumpOnEnemy();
-    }
-
-    checkJumpOnEnemy(){
-        // setInterval(() => {
-        //     this.level.enemies.forEach(enemy => {
-        //         if (/*!this.character.isColliding(enemy, 40, 0) && */(enemy instanceof Chicken || enemy instanceof Chick) && this.character.isLandingOn(enemy)/* && enemy.world*/) {
-        //             console.log('draufgesprungen');
-                    
-        //         }
-        //     });
-        // }, 200);
+        this.checkCollisions();
+        this.checkThrowBottle();
+        this.checkCollisionsBottlesEmemies();
     }
 
     checkCollisions(){
@@ -114,26 +102,36 @@ class World {
     checkCollisionWithEnemys(){
         setInterval(() => {
             this.level.enemies.forEach(enemy => {
-                if (this.character.isColliding(enemy, 40, 0)) {
-                    if (!enemy.isCollidingWithCharacter) {                       
-                        this.character.hit(enemy.constructor.name);
-                        this.statusBarLife.setPercentageLifes(this.character.energy);
-                        enemy.isCollidingWithCharacter = true;
-                    } 
+                if ((enemy instanceof Chicken || enemy instanceof Chick) && this.characterIsLandingOn(enemy) && !enemy.isCollidingWithCharacter) {
+                    enemy.dying();
+                } else if (this.character.isColliding(enemy) && enemy.isAlive) {
+                    this.lateralCollision(enemy);
                 } else {
-                        enemy.isCollidingWithCharacter = false;
-                    }
+                    enemy.isCollidingWithCharacter = false;
+                }
             });
         }, 200);
+    }
+
+    characterIsLandingOn(enemy){
+        return this.character.isColliding(enemy) &&
+            enemy.isBelowFromCharacter &&
+            this.character.speedY < 0
+    }
+
+    lateralCollision(enemy){
+        this.character.hit(enemy.constructor.name);
+        this.statusBarLife.setPercentageLifes(this.character.energy);
+        enemy.isCollidingWithCharacter = true;
     }
 
     checkCollisionWithCollectibleObject(){
         setInterval(() => {
             this.level.collectibleObjects.forEach((obj, indexOfObj) => {
-                if (obj instanceof CollectibleBottle && this.character.isColliding(obj, 60, 0) && this.collectedBottles < 5) {
+                if (obj instanceof CollectibleBottle && this.character.isColliding(obj) && this.collectedBottles < 5) {
                     this.collectBottle(indexOfObj);
                 }
-                if (obj instanceof CollectibleCoin && this.character.isColliding(obj, 50, 180) && this.collectedCoins < 5) {
+                if (obj instanceof CollectibleCoin && this.character.isColliding(obj) && this.collectedCoins < 5) {
                     this.collectCoin(indexOfObj);
                     if (this.collectedCoins == 5) {
                         this.turnCoinsIntoEnergy();
@@ -203,11 +201,11 @@ class World {
         setInterval(() => {
             this.throwableBottles.forEach((bottle) => {
                 this.level.enemies.forEach((enemy) => {
-                    if (enemy instanceof Chicken && bottle.isColliding(enemy, 65, 0)) {
+                    if (enemy instanceof Chicken && bottle.isColliding(enemy)) {
                         enemy.deadFromCollision(bottle);
-                    } else if (enemy instanceof Chick && bottle.isColliding(enemy, 55, 0)) {
+                    } else if (enemy instanceof Chick && bottle.isColliding(enemy)) {
                         enemy.deadFromCollision(bottle);
-                    } else if (enemy instanceof Endboss && bottle.isColliding(enemy, 100, 100)) {
+                    } else if (enemy instanceof Endboss && bottle.isColliding(enemy)) {
                         enemy.isHit(bottle);
                     } 
                 });

@@ -55,6 +55,12 @@ class Endboss extends MovableObject {
     isAttacking = false;
     endbossHurtSoundIsPlaying = false;
     dyingSoundIsPlaying = false;
+    offset = {
+        top: 81,
+        left: 73,
+        right: 67,
+        bottom: 112
+    };
 
     constructor(world){
         super();

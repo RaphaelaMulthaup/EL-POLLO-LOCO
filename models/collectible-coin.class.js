@@ -1,4 +1,11 @@
 class CollectibleCoin extends CollectibleObject {
+    offset = {
+        top: 38,
+        left: 38,
+        right: 38,
+        bottom: 38
+    };
+    
     constructor(){
         super();
         this.loadImg('img/8_coin/coin_1.png');

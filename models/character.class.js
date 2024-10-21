@@ -43,6 +43,12 @@ class Character extends MovableObject {
     walking_sound = new Audio('audio/running.mp3');
     dying_sound = new Audio('audio/dying.mp3');
     numberReductionsY = 0;
+    offset = {
+        top: 150,
+        left: 37,
+        right: 56,
+        bottom: 15
+    };
 
     constructor(){
         super();
@@ -129,19 +135,4 @@ class Character extends MovableObject {
     characterIsWalking(){
         return world.keyboard.RIGHT || world.keyboard.LEFT;
     }
-
-    isLandingOn(enemy){
-        return enemy.isBelowFromCharacter
-        
-        
-        // (this.y + this.height - 13) > (enemy.x + 20) &&
-    }
-
-
-    // isColliding (obj, overlap, overlapAboveCharacter) {
-    //     return  (this.x + this.width - overlap) >= obj.x &&
-    //         (this.x + overlap) <= (obj.x + obj.width) &&
-    //         (this.y + this.height) >= obj.y &&
-    //         (this.y + overlapAboveCharacter) <= (obj.y + obj.height)
-    // }
 }

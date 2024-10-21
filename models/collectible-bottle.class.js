@@ -1,4 +1,11 @@
 class CollectibleBottle extends CollectibleObject {
+    offset = {
+        top: 13,
+        left: 31,
+        right: 31,
+        bottom: 9
+    };
+    
     constructor(){
         super();
         this.chooseImg();

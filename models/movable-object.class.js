@@ -97,11 +97,11 @@ class MovableObject extends DrawableObject{
         return this.y < imgTouchesGround;
     }
 
-    isColliding (obj, overlap, overlapAboveCharacter) {
-        return  (this.x + this.width - overlap) >= obj.x &&
-            (this.x + overlap) <= (obj.x + obj.width) &&
-            (this.y + this.height) >= obj.y &&
-            (this.y + overlapAboveCharacter) <= (obj.y + obj.height)
+    isColliding (obj) {
+        return  (this.x + this.width - this.offset.right) >= (obj.x + obj.offset.left) &&
+            (this.x + this.offset.left) <= (obj.x + obj.width - obj.offset.right) &&
+            (this.y + this.height - this.offset.bottom) >=(obj.y + obj.offset.top)  &&
+            (this.y + this.offset.top) <= (obj.y + obj.height - obj.offset.bottom)
     }
 
     hit(enemyTyp){
@@ -160,6 +160,10 @@ class MovableObject extends DrawableObject{
 
     deadFromCollision(bottle){
         bottle.collisionWithEnemy = true;
+        this.dying();
+    }
+
+    dying(){
         if (this.isAlive) {
             this.isAlive = false;
             setTimeout(() => {
@@ -167,16 +171,12 @@ class MovableObject extends DrawableObject{
                 this.world.level.enemies.splice(enemyIndex, 1);   
             }, 1000);
         }
-
     }
-
-
-    
 
     isBelowFromCharacterStatusBoolean(){
         setInterval(() => {
-        if (this.isBelowFromCharacterFunction()) {
-            this.isBelowFromCharacter = true;
+        if (this.world && (this instanceof Chicken || this instanceof Chick) && this.isBelowFromCharacterFunction()) {
+            this.isBelowFromCharacter = true;           
         }
         if (this.isBelowFromCharacter && !this.character.isAboveGround(145)) {
             this.isBelowFromCharacter = false;
@@ -185,9 +185,9 @@ class MovableObject extends DrawableObject{
     }
 
     isBelowFromCharacterFunction(){
-        // return (this.y + 20) > (world.character.y + this.character.height - 13) &&
-        //     (this.x + this.width - 10) > (this.character.x + 40) &&
-        //     (this.x + 10) < (this.character.x + this.character.width - 40)
+        return (this.y + 20) > (this.world.character.y + this.world.character.height - 13) &&
+            (this.x + this.width - 10) > (this.character.x + 40) &&
+            (this.x + 10) < (this.character.x + this.character.width - 40)
     }
 
 }
