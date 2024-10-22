@@ -105,7 +105,7 @@ class MovableObject extends DrawableObject{
     }
 
     hit(enemyTyp){
-        if (enemyTyp == 'Chicken') {
+        if (enemyTyp == 'Chicken' || enemyTyp == 'Endboss') {
             this.energy -= 20;
         }
         if (enemyTyp == 'Chick') {
