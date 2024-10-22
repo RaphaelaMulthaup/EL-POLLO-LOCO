@@ -30,10 +30,13 @@ class MovableObject extends DrawableObject{
         setInterval(() => {
             if (this.isAlive) {
                 this.playAnimation(this.IMAGES_WALKING);
-            } else {
+            }
+        }, 150);
+        setInterval(() => {
+            if (!this.isAlive) {
                 this.playAnimation(this.IMAGE_DYING);
             }
-        }, 200);
+        }, 100);
     }
 
     movement(){
@@ -119,7 +122,7 @@ class MovableObject extends DrawableObject{
     }
 
     isHurt(){
-        return this.lastHit + 1000 >= new Date().getTime();
+        return this.lastHit + 1000 >= new Date().getTime();  
     } 
 
     isDead(){

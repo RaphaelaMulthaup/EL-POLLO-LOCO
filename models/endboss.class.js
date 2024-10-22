@@ -75,7 +75,6 @@ class Endboss extends MovableObject {
         this.displayStatusBarEndboss();
         this.bringToLife();
         this.checkFirstEncounter();
-
     }
 
     setWorld(world){
