@@ -151,30 +151,19 @@ class Character extends MovableObject {
                 this.jump(30);
             }
         }, 1000 / 60);
+        let intervalJumpingWhileDying = setInterval(() => {
+            if (this.isDead() && !this.isAboveGround(145)) {
+                setTimeout(() => {
+                    this.jump(10);
+                    clearInterval(intervalJumpingWhileDying);
+                }, 200);
+            }   
+        }, 1000 / 60);
     }
 
     playSound(){
         this.playWalkingSound();
-        let intervalCharacterMovement = setInterval(() => {
-            if (this.isDead()) {
-                setTimeout(() => {
-                    if (!this.isAboveGround(145)) {
-                    this.jump(10); 
-                }  
-                }, 200);
-
-                this.dying_sound.play();
-                setTimeout(() => {
-                    this.dying_sound.pause();
-                }, 1610);
-
-                setTimeout(() => {
-                    clearInterval(intervalCharacterMovement);
-                }, 600);
-
-            }
-            
-        }, 1000 / 60);
+        this.playDyingSound();
     }
 
     playWalkingSound(){
@@ -185,6 +174,18 @@ class Character extends MovableObject {
                 this.walking_sound.pause();
             }
         }, 200);
+    }
+
+    playDyingSound(){
+        let intervalDyingSound = setInterval(() => {
+            if (this.isDead()) {
+                this.dying_sound.play();
+                setTimeout(() => {
+                    this.dying_sound.pause();
+                    clearInterval(intervalDyingSound);
+                }, 1610);
+            }
+        }, 1000 / 60);
     }
 
     characterIsWalking(){
