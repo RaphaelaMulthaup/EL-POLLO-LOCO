@@ -188,7 +188,7 @@ class World {
         setInterval(() => {
             let currentTime = new Date().getTime();
         
-            if (this.keyboard.D && currentTime - this.lastThrowTime >= 500 && this.collectedBottles != 0  && !this.introAnimationEndboss) {
+            if (this.keyboard.D && currentTime - this.lastThrowTime >= 500 && this.collectedBottles != 0  && !this.introAnimationEndboss && !this.character.isHurt() && !this.character.isDead()) {
                 let throwableBottle = new ThrowableBottle(this.character);
                 this.throwableBottles.push(throwableBottle);
                 this.lastThrowTime = currentTime;
