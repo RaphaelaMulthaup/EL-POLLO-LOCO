@@ -93,11 +93,21 @@ class Character extends MovableObject {
     }
 
     animateJumping(){
+        let index;
         setInterval(() => {
-            if (this.isAboveGround(145) && !this.isDead()) {
-                this.playAnimation(this.IMAGES_JUMPING);
+            if (!this.isAboveGround(145)) {
+                index = 0;   
             }
         }, 100);
+        setInterval(() => {
+            if (this.isAboveGround(145) && !this.isDead()) {
+                this.img = this.imageCache[this.IMAGES_JUMPING[index]];
+                index ++;
+                if (index > 8) {
+                    index = 0;
+                }
+            }
+        }, 90);
     }
 
     animateHurt(){
