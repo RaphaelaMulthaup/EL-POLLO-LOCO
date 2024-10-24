@@ -66,6 +66,7 @@ class Character extends MovableObject {
     otherDirection = false;
     yawning_sound = new Audio('audio/yawn_1605ms.mp3');
     walking_sound = new Audio('audio/running.mp3');
+    jumping_sound = new Audio('audio/jump_1500ms.mp3');
     dying_sound = new Audio('audio/dying.mp3');
     numberReductionsY = 0;
     offset = {
@@ -226,6 +227,7 @@ class Character extends MovableObject {
     playSound(){
         this.playYawningSound();
         this.playWalkingSound();
+        this.playJumpingSound();
         this.playDyingSound();
     }
 
@@ -260,6 +262,19 @@ class Character extends MovableObject {
                 this.walking_sound.play();
             } else {
                 this.walking_sound.pause();
+            }
+        }, 200);
+    }
+
+    playJumpingSound(){
+        setInterval(() => {
+            if (this.speedY > 0 && !this.isDead()) {
+                this.jumping_sound.volume = 0.1;
+                this.jumping_sound.play();
+            }
+            if (this.speedY <= 0) {
+                this.jumping_sound.pause();
+                this.jumping_sound.currentTime = 0;
             }
         }, 200);
     }
