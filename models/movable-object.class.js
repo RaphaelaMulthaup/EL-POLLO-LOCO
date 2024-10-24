@@ -189,8 +189,8 @@ class MovableObject extends DrawableObject{
 
     isBelowFromCharacterFunction(){
         return (this.y + 20) > (this.world.character.y + this.world.character.height - 13) &&
-            (this.x + this.width - 10) > (this.character.x + 40) &&
-            (this.x + 10) < (this.character.x + this.character.width - 40)
+            (this.x + this.width) > (this.character.x + 20) &&
+            (this.x) < (this.character.x + this.character.width - 30)
     }
 
 }

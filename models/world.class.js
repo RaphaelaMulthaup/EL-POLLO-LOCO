@@ -113,7 +113,7 @@ class World {
 
     characterIsLandingOn(enemy){
         return this.character.isColliding(enemy) &&
-            enemy.isBelowFromCharacter &&
+        enemy.isBelowFromCharacter &&
             this.character.speedY < 0
     }
 

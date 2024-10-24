@@ -15,8 +15,8 @@ class Chick extends MovableObject {
     dying_sound = new Audio('audio/chickDying.mp3');
     offset = {
         top: 12,
-        left: 6,
-        right: 12,
+        left: 0,
+        right: 0,
         bottom: 12
     };
 
