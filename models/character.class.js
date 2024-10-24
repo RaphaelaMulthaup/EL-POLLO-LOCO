@@ -64,6 +64,7 @@ class Character extends MovableObject {
     world;
     speed = 5;
     otherDirection = false;
+    yawning_sound = new Audio('audio/yawn_1605ms.mp3');
     walking_sound = new Audio('audio/running.mp3');
     dying_sound = new Audio('audio/dying.mp3');
     numberReductionsY = 0;
@@ -74,6 +75,7 @@ class Character extends MovableObject {
         bottom: 15
     };
     idleTime = 0;
+    isYawning = false;
 
     constructor(){
         super();
@@ -222,8 +224,34 @@ class Character extends MovableObject {
     }
 
     playSound(){
+        this.playYawningSound();
         this.playWalkingSound();
         this.playDyingSound();
+    }
+
+    playYawningSound(){
+        setInterval(() => {
+            if (this.idleTime >= 15000 && !this.isYawning) {
+                this.isYawning = true;
+                this.yawningSoundActive();
+            }
+            if (this.idleTime < 1500) {
+                this.isYawning = false;
+            }
+        }, 200);;
+    }
+
+    yawningSoundActive(){
+        if (this.isYawning) {
+            this.yawning_sound.volume = 0.2;
+            this.yawning_sound.play();
+            setTimeout(() => {
+                this.yawning_sound.pause();
+            }, 1605);
+            setTimeout(() => {
+                this.yawningSoundActive();
+            }, 4000);
+        }
     }
 
     playWalkingSound(){
