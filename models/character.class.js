@@ -67,6 +67,7 @@ class Character extends MovableObject {
     yawning_sound = new Audio('audio/yawn_1605ms.mp3');
     walking_sound = new Audio('audio/running.mp3');
     jumping_sound = new Audio('audio/jump_1500ms.mp3');
+    hurt_sound = new Audio('audio/hurt.mp3');
     dying_sound = new Audio('audio/dying.mp3');
     numberReductionsY = 0;
     offset = {
@@ -228,6 +229,7 @@ class Character extends MovableObject {
         this.playYawningSound();
         this.playWalkingSound();
         this.playJumpingSound();
+        this.playHurtSound();
         this.playDyingSound();
     }
 
@@ -269,7 +271,7 @@ class Character extends MovableObject {
     playJumpingSound(){
         setInterval(() => {
             if (this.speedY > 0 && !this.isDead()) {
-                this.jumping_sound.volume = 0.1;
+                this.jumping_sound.volume = 0.4;
                 this.jumping_sound.play();
             }
             if (this.speedY <= 0) {
@@ -279,9 +281,19 @@ class Character extends MovableObject {
         }, 200);
     }
 
+    playHurtSound(){
+        setInterval(() => {
+            if (this.isHurt() && !this.isDead()) {
+                this.hurt_sound.volume = 0.5;
+                this.hurt_sound.play();
+            }
+        }, 200);
+    }
+
     playDyingSound(){
         let intervalDyingSound = setInterval(() => {
             if (this.isDead()) {
+                this.dying_sound.volume = 0.4;
                 this.dying_sound.play();
                 setTimeout(() => {
                     this.dying_sound.pause();
