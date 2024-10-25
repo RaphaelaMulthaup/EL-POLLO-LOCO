@@ -18,11 +18,12 @@ class ThrowableBottle extends MovableObject{
     otherDirection;
     collisionWithEnemy = false;
     offset = {
-        top: 17,
-        left: 17,
-        right: 17,
-        bottom: 17
+        top: 22,
+        left: 22,
+        right: 22,
+        bottom: 22
     };
+    throwing_bottle_sound = new Audio('audio/throw_bottle_510ms.mp3');
 
 
     constructor(character){
