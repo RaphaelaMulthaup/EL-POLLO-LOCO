@@ -72,8 +72,8 @@ class Character extends MovableObject {
     numberReductionsY = 0;
     offset = {
         top: 150,
-        left: 20,
-        right: 30,
+        left: 37,
+        right: 56,
         bottom: 15
     };
     idleTime = 0;

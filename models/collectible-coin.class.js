@@ -3,7 +3,7 @@ class CollectibleCoin extends CollectibleObject {
         top: 38,
         left: 38,
         right: 38,
-        bottom: 38
+        bottom: 0
     };
     collect_coin_sound = new Audio('audio/coin_collect_250ms.mp3');
     

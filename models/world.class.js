@@ -108,7 +108,7 @@ class World {
                     this.lateralCollision(enemy);
                 }
             });
-        }, 200);
+        }, 50);
     }
 
     characterIsLandingOn(enemy){
