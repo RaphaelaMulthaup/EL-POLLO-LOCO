@@ -5,6 +5,7 @@ class CollectibleCoin extends CollectibleObject {
         right: 38,
         bottom: 38
     };
+    collect_coin_sound = new Audio('audio/coin_collect_250ms.mp3');
     
     constructor(){
         super();

@@ -113,7 +113,7 @@ class World {
 
     characterIsLandingOn(enemy){
         return this.character.isColliding(enemy) &&
-        enemy.isBelowFromCharacter &&
+            enemy.isBelowFromCharacter &&
             this.character.speedY < 0
     }
 
@@ -133,7 +133,7 @@ class World {
                     this.collectBottle(indexOfObj);
                 }
                 if (obj instanceof CollectibleCoin && this.character.isColliding(obj) && this.collectedCoins < 5) {
-                    this.collectCoin(indexOfObj);
+                    this.collectCoin(obj, indexOfObj);
                     if (this.collectedCoins == 5) {
                         this.turnCoinsIntoEnergy();
                     }
@@ -148,7 +148,8 @@ class World {
         this.statusBarBottles.setPercentage(this.collectedBottles * 20);
     }
 
-    collectCoin(indexOfObj){
+    collectCoin(coin, indexOfObj){
+        coin.collect_coin_sound.play();
         this.level.collectibleObjects.splice(indexOfObj, 1);
         this.collectedCoins += 1;
         this.statusBarCoins.setPercentage(this.collectedCoins * 20);
