@@ -5,7 +5,8 @@ class CollectibleBottle extends CollectibleObject {
         right: 31,
         bottom: 9
     };
-    
+    collect_bottle_sound = new Audio('audio/bottle_collect_1000ms.mp3');
+
     constructor(){
         super();
         this.chooseImg();
