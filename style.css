@@ -2,8 +2,11 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #fac77a;
 }
 
 canvas{
     background-color: black;
+    height: 75vh;
+
 }
