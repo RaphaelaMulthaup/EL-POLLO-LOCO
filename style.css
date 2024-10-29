@@ -1,3 +1,12 @@
+/* kranky-regular - latin */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Kranky';
+    font-style: normal;
+    font-weight: 400;
+    src: url('fonts/kranky-v28-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+  }
+
 body{
     display: flex;
     flex-direction: column;
@@ -5,9 +14,14 @@ body{
     background-color: #fac77a;
 }
 
+h1{
+    font-family: 'Kranky';
+    font-size: 5vh;
+}
+
 .canvasContainer{
-    height: 75vh;
-    width: calc(75vh * 1.5);
+    height: 65vh;
+    width: calc(65vh * 1.5);
     position: relative;
     border-radius: 2vw;
     box-shadow: 2px 3px 20px rgba(0, 0, 0, 0.5);
@@ -35,9 +49,29 @@ canvas{
     border-style: solid;
 }
 
+.canvasContainer:hover svg circle {
+    stroke: white;
+    transition: stroke 1s ease;
+}
+
+.canvasContainer:hover svg polygon {
+    fill: white;
+    transition: fill 1s ease;
+}
+
 .startButton{
     height: 50%;
-
     position: absolute;
     top: 25%;
+}
+
+.startButton circle{
+    pointer-events: visible;
+}
+
+.startButton circle:hover{
+    cursor: pointer;
+}
+.startButton polygon:hover{
+    cursor: pointer;
 }

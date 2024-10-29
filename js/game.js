@@ -5,6 +5,7 @@ let keyboard = new Keyboard();
 function init(){
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
+    addEventListener();
 }
 
 
@@ -50,4 +51,15 @@ window.addEventListener('keyup', (event) => {
     }
 
 });
+
+function addEventListener(){
+    document.getElementById('startButton').addEventListener('click', function(event) {
+        let clickCircle = event.target.classList.contains('circleStartButton');
+        let clickPolygon = event.target.tagName === 'polygon';
+
+        if (clickCircle || clickPolygon) {
+            console.log('Start');
+        }
+    });
+}
 
