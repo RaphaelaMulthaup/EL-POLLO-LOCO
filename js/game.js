@@ -58,8 +58,13 @@ function addEventListener(){
         let clickPolygon = event.target.tagName === 'polygon';
 
         if (clickCircle || clickPolygon) {
-            console.log('Start');
+            startGame();
         }
     });
 }
 
+function startGame(){
+    document.getElementById('startButton').classList.add('dNone');
+    document.getElementById('startscreen').classList.add('dNone');
+    initLevel();
+}
