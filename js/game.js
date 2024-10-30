@@ -1,10 +1,13 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let backgroundMusicStartScreen = new Audio('audio/backgroundmusic_startscreen.mp3');
 
 function init(){
     canvas = document.getElementById('canvas');
     addEventListeners();
+    backgroundMusicStartScreen.volume = 0.3;
+    backgroundMusicStartScreen.play();
 }
 
 
@@ -67,4 +70,5 @@ function startGame(){
     document.getElementById('startscreen').classList.add('dNone');
     initLevel();
     world = new World(canvas, keyboard);
+    backgroundMusicStartScreen.pause();
 }
