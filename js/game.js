@@ -4,14 +4,13 @@ let keyboard = new Keyboard();
 
 function init(){
     canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
-    addEventListener();
+    addEventListeners();
 }
 
 
 window.addEventListener('keydown', (event) => {
     if (event.code == 'Space') {
-        keyboard.SPACE = true;
+        keyboard.SPACE = true; 
     }
     if (event.code == 'ArrowUp') {
         keyboard.UP = true;
@@ -52,7 +51,7 @@ window.addEventListener('keyup', (event) => {
 
 });
 
-function addEventListener(){
+function addEventListeners(){
     document.getElementById('startButton').addEventListener('click', function(event) {
         let clickCircle = event.target.classList.contains('circleStartButton');
         let clickPolygon = event.target.tagName === 'polygon';
@@ -67,4 +66,5 @@ function startGame(){
     document.getElementById('startButton').classList.add('dNone');
     document.getElementById('startscreen').classList.add('dNone');
     initLevel();
+    world = new World(canvas, keyboard);
 }
