@@ -2,6 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let backgroundMusicStartScreen = new Audio('audio/backgroundmusic_startscreen.mp3');
+let backgroundMusicGame = new Audio('audio/backgroundmusic_game.mp3');
 
 function init(){
     canvas = document.getElementById('canvas');
@@ -70,5 +71,20 @@ function startGame(){
     document.getElementById('startscreen').classList.add('dNone');
     initLevel();
     world = new World(canvas, keyboard);
-    backgroundMusicStartScreen.pause();
+    changeBackgroundMusic();
+}
+
+function changeBackgroundMusic(){
+    let index = 10
+    setInterval(() => {
+        if (index > 0) {
+            backgroundMusicStartScreen.volume -= 0.03
+            index --;   
+        }
+    }, 50);
+    setTimeout(() => {
+        backgroundMusicStartScreen.pause(); 
+    }, 1000);
+    backgroundMusicGame.volume = 0.1;
+    backgroundMusicGame.play();
 }
