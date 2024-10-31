@@ -150,7 +150,8 @@ class World {
     }
 
     playCollectBottleSound(bottle){
-        bottle.collect_bottle_sound.volume = 0.4;
+        bottle.collect_bottle_sound = sounds.collectBottleSoundData.audio;
+        setVolume(bottle.collect_bottle_sound, 'collectBottleSoundData');
         bottle.collect_bottle_sound.currentTime = 0.6;
         bottle.collect_bottle_sound.play();
     }

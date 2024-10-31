@@ -174,7 +174,8 @@ class Endboss extends MovableObject {
         setInterval(() => {
             //as soon as the character has reached the back, but the final boss has not yet reached his position (only happens once)
             if (this.character.x > 2100 && this.x > 2450) {
-                this.threatening_sound.play();           
+                this.threatening_sound.play(); 
+                backgroundMusicGame.pause();          
             }            
         }, 200);
     }

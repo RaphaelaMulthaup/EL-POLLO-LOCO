@@ -1,16 +1,30 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let backgroundMusicStartScreen = new Audio('audio/backgroundmusic_startscreen.mp3');
-let backgroundMusicGame = new Audio('audio/backgroundmusic_game.mp3');
+let backgroundMusicStartScreen;
+let backgroundMusicGame;
+let sounds = {
+    backgroundMusicStartScreenData: {
+        audio: new Audio('audio/backgroundmusic_startscreen.mp3'),
+        currentVolume: 0.3
+    },
+    backgroundMusicGameData: {
+        audio: new Audio('audio/backgroundmusic_game.mp3'),
+        currentVolume: 0.1
+    },
+    collectBottleSoundData: {
+        audio: new Audio('audio/bottle_collect_1000ms.mp3'),
+        currentVolume: 0.4
+    }
+};
+let muted = false;
+
 
 function init(){
     canvas = document.getElementById('canvas');
     addEventListeners();
-    backgroundMusicStartScreen.volume = 0.3;
-    backgroundMusicStartScreen.play();
+    playSound('backgroundMusicStartScreen', 'backgroundMusicStartScreenData');
 }
-
 
 window.addEventListener('keydown', (event) => {
     if (event.code == 'Space') {
@@ -59,7 +73,6 @@ function addEventListeners(){
     document.getElementById('startButton').addEventListener('click', function(event) {
         let clickCircle = event.target.classList.contains('circleStartButton');
         let clickPolygon = event.target.tagName === 'polygon';
-
         if (clickCircle || clickPolygon) {
             startGame();
         }
@@ -78,13 +91,55 @@ function changeBackgroundMusic(){
     let index = 10
     setInterval(() => {
         if (index > 0) {
-            backgroundMusicStartScreen.volume -= 0.03
+            sounds.backgroundMusicStartScreenData.currentVolume -= 0.03;
+            setVolume(backgroundMusicStartScreen, 'backgroundMusicStartScreenData');
             index --;   
         }
     }, 50);
     setTimeout(() => {
         backgroundMusicStartScreen.pause(); 
     }, 1000);
-    backgroundMusicGame.volume = 0.1;
+    backgroundMusicGame = sounds.backgroundMusicGameData.audio;
+    setVolume(backgroundMusicGame, 'backgroundMusicGameData');
     backgroundMusicGame.play();
+}
+
+function muteUnmute(){
+    let img = document.getElementById('muteUnmute');
+    if (img.src.includes('img/mute.png')) {
+        mute(img);
+    } else {
+        unmute(img);
+    }
+}
+
+function mute(img){
+    img.src = 'img/unmute.png';
+    muted = true;
+    Object.keys(sounds).forEach(sound => {
+        sounds[sound].audio.volume = 0;
+    });
+}
+
+function unmute(img){
+    img.src = 'img/mute.png';
+    muted = false;
+    Object.keys(sounds).forEach(sound => {
+        sounds[sound].audio.volume = sounds[sound].currentVolume;
+    });
+}
+
+function playSound(soundName, soundData){
+    let currentSound = globalThis[soundName];
+    currentSound = sounds[soundData].audio;
+    setVolume(currentSound, soundData);
+    currentSound.play();
+}
+
+function setVolume(sound, soundData){
+    if (!muted) {
+        sound.volume = sounds[soundData].currentVolume;
+    } else {
+        sound.volume = 0;
+    }
 }

@@ -79,3 +79,18 @@ canvas{
 .startButton polygon:hover{
     cursor: pointer;
 }
+
+.muteUnmute{
+    position: absolute;
+    bottom: 3%;
+    right: 2%;
+    height: 7%;
+    opacity: 0.7;
+}
+
+.muteUnmute:hover{
+    height: 8%;
+    opacity: 1;
+    bottom: 2.5%;
+    right: 1.5%;
+}
