@@ -65,10 +65,6 @@ class Character extends MovableObject {
     speed = 5;
     otherDirection = false;
     yawning_sound = new Audio('audio/yawn_1605ms.mp3');
-    walking_sound = new Audio('audio/running.mp3');
-    jumping_sound = new Audio('audio/jump_1500ms.mp3');
-    hurt_sound = new Audio('audio/hurt.mp3');
-    dying_sound = new Audio('audio/dying.mp3');
     numberReductionsY = 0;
     offset = {
         top: 150,
@@ -78,6 +74,8 @@ class Character extends MovableObject {
     };
     idleTime = 0;
     isYawning = false;
+    characterHurtSoundIsPlaying = false;
+    characterJumpingSoundIsPlaying = false;
 
     constructor(){
         super();
@@ -89,7 +87,6 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONG_IDLE);
         this.applyGravity(145);
-        this.walking_sound.volume = 0.4;
         this.bringToLife();
         this.camera();
     }
@@ -261,31 +258,34 @@ class Character extends MovableObject {
     playWalkingSound(){
         setInterval(() => {
             if (this.characterIsWalking() && this.x > 0 && this.x < this.world.level.level_end_x && !this.isHurt() && !this.isDead() && !this.world.introAnimationEndboss && !this.isAboveGround(145)) {
-                this.walking_sound.play();
+                playSound('characterWalkingSound');
             } else {
-                this.walking_sound.pause();
+                pauseSound('characterWalkingSound');
             }
         }, 200);
     }
 
     playJumpingSound(){
         setInterval(() => {
-            if (this.speedY > 0 && !this.isDead()) {
-                this.jumping_sound.volume = 0.4;
-                this.jumping_sound.play();
+            if (this.speedY > 0 && !this.isDead() && !this.characterJumpingSoundIsPlaying) {
+                this.characterJumpingSoundIsPlaying = true;
+                playSound('characterJumpingSound');
             }
             if (this.speedY <= 0) {
-                this.jumping_sound.pause();
-                this.jumping_sound.currentTime = 0;
+                pauseSound('characterJumpingSound');
+                this.characterJumpingSoundIsPlaying = false;
             }
         }, 200);
     }
 
     playHurtSound(){
         setInterval(() => {
-            if (this.isHurt() && !this.isDead()) {
-                this.hurt_sound.volume = 0.5;
-                this.hurt_sound.play();
+            if (this.isHurt() && !this.isDead() && !this.characterHurtSoundIsPlaying) {
+                this.characterHurtSoundIsPlaying = true;
+                playSound('characterHurtSound');
+                setTimeout(() => {
+                    this.characterHurtSoundIsPlaying = false;
+                }, 1000);
             }
         }, 200);
     }
@@ -293,11 +293,10 @@ class Character extends MovableObject {
     playDyingSound(){
         let intervalDyingSound = setInterval(() => {
             if (this.isDead()) {
-                this.dying_sound.volume = 0.4;
-                this.dying_sound.play();
+                clearInterval(intervalDyingSound);
+                playSound('characterDyingSound');
                 setTimeout(() => {
-                    this.dying_sound.pause();
-                    clearInterval(intervalDyingSound);
+                    pauseSound('characterDyingSound');
                 }, 1610);
             }
         }, 1000 / 60);

@@ -1,20 +1,96 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let backgroundMusicStartScreen;
-let backgroundMusicGame;
 let sounds = {
-    backgroundMusicStartScreenData: {
+    backgroundMusicStartScreen: {
         audio: new Audio('audio/backgroundmusic_startscreen.mp3'),
-        currentVolume: 0.3
+        currentVolume: 0.3,
+        currentTime: 0
     },
-    backgroundMusicGameData: {
+    backgroundMusicGame: {
         audio: new Audio('audio/backgroundmusic_game.mp3'),
-        currentVolume: 0.1
+        currentVolume: 0.1,
+        currentTime: 0
     },
-    collectBottleSoundData: {
+    collectBottleSound: {
         audio: new Audio('audio/bottle_collect_1000ms.mp3'),
-        currentVolume: 0.4
+        currentVolume: 0.4,
+        currentTime: 0.6
+    },
+    breakingBottleSound: {
+        audio: new Audio('audio/breaking-bottle_2147ms.mp3'),
+        currentVolume: 0.4,
+        currentTime: 0.754
+    },
+    chickWalkingSound: {
+        audio: new Audio('audio/chick.mp3'),
+        currentVolume: 0.3,
+        currentTime: 0
+    },
+    chickenWalkingSound: {
+        audio: new Audio('audio/chicken.mp3'),
+        currentVolume: 0.3,
+        currentTime: 0
+    },
+    chickDyingingSound: {
+        audio: new Audio('audio/chickDying.mp3'),
+        currentVolume: 0.3,
+        currentTime: 0
+    },
+    chickenDyingingSound: {
+        audio: new Audio('audio/chickenDying.mp3'),
+        currentVolume: 0.3,
+        currentTime: 0
+    },
+    collectCoinSound: {
+        audio: new Audio('audio/coin_collect_250ms.mp3'),
+        currentVolume: 1,
+        currentTime: 0
+    },
+    flyingCoinSound: {
+        audio: new Audio('audio/coin.mp3'),
+        currentVolume: 1,
+        currentTime: 0
+    },
+    characterDyingSound: {
+        audio: new Audio('audio/dying.mp3'),
+        currentVolume: 0.4,
+        currentTime: 0
+    },
+    endbossBackgroundMusic: {
+        audio: new Audio('audio/endboss_backgroundmusic.mp3'),
+        currentVolume: 0.3,
+        currentTime: 0
+    },
+    endbossDyingSound: {
+        audio: new Audio('audio/endboss_dying_6000ms.mp3'),
+        currentVolume: 1,
+        currentTime: 0
+    },
+    endbossHurtSound: {
+        audio: new Audio('audio/endboss_hurt_1572ms.mp3'),
+        currentVolume: 1,
+        currentTime: 0
+    },
+    endbossAlertSound: {
+        audio: new Audio('audio/endboss.mp3'),
+        currentVolume: 0.5,
+        currentTime: 0
+    },
+    characterHurtSound: {
+        audio: new Audio('audio/hurt.mp3'),
+        currentVolume: 0.5,
+        currentTime: 0
+    },
+    characterJumpingSound: {
+        audio: new Audio('audio/jump_1500ms.mp3'),
+        currentVolume: 0.4,
+        currentTime: 0
+    },
+    characterWalkingSound: {
+        audio: new Audio('audio/running.mp3'),
+        currentVolume: 0.4,
+        currentTime: 0
     }
 };
 let muted = false;
@@ -23,7 +99,7 @@ let muted = false;
 function init(){
     canvas = document.getElementById('canvas');
     addEventListeners();
-    playSound('backgroundMusicStartScreen', 'backgroundMusicStartScreenData');
+    playSound('backgroundMusicStartScreen');
 }
 
 window.addEventListener('keydown', (event) => {
@@ -91,17 +167,15 @@ function changeBackgroundMusic(){
     let index = 10
     setInterval(() => {
         if (index > 0) {
-            sounds.backgroundMusicStartScreenData.currentVolume -= 0.03;
-            setVolume(backgroundMusicStartScreen, 'backgroundMusicStartScreenData');
+            sounds.backgroundMusicStartScreen.currentVolume -= 0.03;
+            setVolume('backgroundMusicStartScreen');
             index --;   
         }
     }, 50);
     setTimeout(() => {
-        backgroundMusicStartScreen.pause(); 
+        pauseSound('backgroundMusicStartScreen');
     }, 1000);
-    backgroundMusicGame = sounds.backgroundMusicGameData.audio;
-    setVolume(backgroundMusicGame, 'backgroundMusicGameData');
-    backgroundMusicGame.play();
+    playSound('backgroundMusicGame');
 }
 
 function muteUnmute(){
@@ -129,17 +203,28 @@ function unmute(img){
     });
 }
 
-function playSound(soundName, soundData){
-    let currentSound = globalThis[soundName];
-    currentSound = sounds[soundData].audio;
-    setVolume(currentSound, soundData);
+function playSound(soundName){
+    let currentSound = setSound(soundName);
     currentSound.play();
 }
 
-function setVolume(sound, soundData){
+function setSound(soundName){
+    let currentSound = setVolume(soundName);
+    currentSound.currentTime = sounds[soundName].currentTime;
+    return currentSound;
+}
+
+function setVolume(soundName){
+    let currentSound = sounds[soundName].audio;
     if (!muted) {
-        sound.volume = sounds[soundData].currentVolume;
+        currentSound.volume = sounds[soundName].currentVolume;
     } else {
-        sound.volume = 0;
+        currentSound.volume = 0;
     }
+    return currentSound;
+}
+
+function pauseSound(soundName){
+    let currentSound = sounds[soundName].audio;
+    currentSound.pause(); 
 }

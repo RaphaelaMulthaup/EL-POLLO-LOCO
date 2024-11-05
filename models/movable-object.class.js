@@ -54,10 +54,12 @@ class MovableObject extends DrawableObject{
 
     playWalkingSound(){
         setInterval(() => {
-            if (this.isAlive) {
-                this.walking_sound.volume = 0.3;
-                if (this.x > this.character.x - 60 && this.x < this.character.x + 660) {
-                    this.walking_sound.play();
+            if (this.isAlive && this.x > this.character.x - 60 && this.x < this.character.x + 660) {
+                if (this instanceof Chick) {
+                    playSound('chickWalkingSound');
+                }
+                if (this instanceof Chicken){
+                    playSound('chickenWalkingSound');
                 }
             }
         }, 5000);
@@ -66,25 +68,21 @@ class MovableObject extends DrawableObject{
     playDyingSound(){
         let intervalDyingSoundEnemy = setInterval(() => {
             if (!this.isAlive) {
-                this.dying_sound.volume = 0.3;
-                this.dying_sound.play();
-                this.pauseDyingSound(intervalDyingSoundEnemy);
+                clearInterval(intervalDyingSoundEnemy);
+                if (this instanceof Chick) {
+                    playSound('chickDyingingSound');
+                    setTimeout(() => {
+                        pauseSound('chickenDyingingSound');
+                    }, 500);
+                }
+                if (this instanceof Chicken) {
+                    playSound('chickenDyingingSound');
+                    setTimeout(() => {
+                        pauseSound('chickenDyingingSound');
+                    }, 800);
+                }
             }
         }, 1000 / 60);
-    }
-
-    pauseDyingSound(intervalDyingSoundEnemy){
-        if (this instanceof Chicken) {
-            setTimeout(() => {
-                this.dying_sound.pause();
-                clearInterval(intervalDyingSoundEnemy);
-            }, 800);
-        } if (this instanceof Chick) {
-            setTimeout(() => {
-                this.dying_sound.pause();
-                clearInterval(intervalDyingSoundEnemy);
-            }, 500);
-        }
     }
 
     applyGravity(imgTouchesGround){

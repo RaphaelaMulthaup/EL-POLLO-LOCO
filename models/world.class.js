@@ -130,10 +130,10 @@ class World {
         setInterval(() => {
             this.level.collectibleObjects.forEach((obj, indexOfObj) => {
                 if (obj instanceof CollectibleBottle && this.character.isColliding(obj) && this.collectedBottles < 5) {
-                    this.collectBottle(obj, indexOfObj);
+                    this.collectBottle(indexOfObj);
                 }
                 if (obj instanceof CollectibleCoin && this.character.isColliding(obj) && this.collectedCoins < 5) {
-                    this.collectCoin(obj, indexOfObj);
+                    this.collectCoin(indexOfObj);
                     if (this.collectedCoins == 5) {
                         this.turnCoinsIntoEnergy();
                     }
@@ -142,22 +142,19 @@ class World {
         }, 200);
     }
 
-    collectBottle(bottle, indexOfObj){
-        this.playCollectBottleSound(bottle);
+    collectBottle(indexOfObj){
+        this.playCollectBottleSound();
         this.level.collectibleObjects.splice(indexOfObj, 1);
         this.collectedBottles += 1;
         this.statusBarBottles.setPercentage(this.collectedBottles * 20);
     }
 
-    playCollectBottleSound(bottle){
-        bottle.collect_bottle_sound = sounds.collectBottleSoundData.audio;
-        setVolume(bottle.collect_bottle_sound, 'collectBottleSoundData');
-        bottle.collect_bottle_sound.currentTime = 0.6;
-        bottle.collect_bottle_sound.play();
+    playCollectBottleSound(){
+        playSound('collectBottleSound');
     }
 
-    collectCoin(coin, indexOfObj){
-        coin.collect_coin_sound.play();
+    collectCoin(indexOfObj){
+        playSound('collectCoinSound');
         this.level.collectibleObjects.splice(indexOfObj, 1);
         this.collectedCoins += 1;
         this.statusBarCoins.setPercentage(this.collectedCoins * 20);

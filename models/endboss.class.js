@@ -44,10 +44,6 @@ class Endboss extends MovableObject {
     character;
     speed = 3;
     threatening_sound = new Audio('audio/threatening.mp3');
-    endboss_alert_sound = new Audio('audio/endboss.mp3');
-    endboss_hurt_sound = new Audio('audio/endboss_hurt_1572ms.mp3');
-    endboss_backgroundmusic = new Audio('audio/endboss_backgroundmusic.mp3');
-    endboss_dying_sound = new Audio('audio/endboss_dying_6000ms.mp3');
     energy = 5;
     isHurt = false;
     initialHit = false;
@@ -175,7 +171,7 @@ class Endboss extends MovableObject {
             //as soon as the character has reached the back, but the final boss has not yet reached his position (only happens once)
             if (this.character.x > 2100 && this.x > 2450) {
                 this.threatening_sound.play(); 
-                backgroundMusicGame.pause();          
+                pauseSound('backgroundMusicGame');          
             }            
         }, 200);
     }
@@ -191,11 +187,9 @@ class Endboss extends MovableObject {
 
     playRandomAlertSound(){
         if (!this.initialHit && this.world.firstEncounterEndbossHappend) {
-            this.endboss_alert_sound.volume = 0.5;
-            this.endboss_alert_sound.currentTime = 0;
-            this.endboss_alert_sound.play();
+            playSound('endbossAlertSound');
             setTimeout(() => {
-                this.endboss_alert_sound.pause();
+                pauseSound('endbossAlertSound');
             }, 1500);
         }
         setTimeout(() => {
@@ -204,15 +198,16 @@ class Endboss extends MovableObject {
     }
 
     playEndbossBackgroundmusic(){
-        setInterval(() => {
+        let intervalEndbossBackgroundMusic = setInterval(() => {
             if (this.initialHit && !this.threateningSound && !this.energy == 0) {
-                this.endboss_backgroundmusic.volume = 0.3;
-                this.endboss_backgroundmusic.play();
+                clearInterval(intervalEndbossBackgroundMusic);
+                playSound('endbossBackgroundMusic');
             }
         }, 200);
         setInterval(() => {
             if (this.energy == 0) {
-                this.endboss_backgroundmusic.volume = 0.15;
+                sounds.endbossBackgroundMusic.currentVolume = 0.15;
+                setVolume('endbossBackgroundMusic');
             }
         }, 200);
     }
@@ -221,10 +216,9 @@ class Endboss extends MovableObject {
         setInterval(() => {
             if (this.isHurt && !this.endbossHurtSoundIsPlaying) {
                 this.endbossHurtSoundIsPlaying = true;
-                this.endboss_hurt_sound.currentTime = 0;
-                this.endboss_hurt_sound.play();
+                playSound('endbossHurtSound');
                 setTimeout(() => {
-                    this.endboss_hurt_sound.pause();
+                    pauseSound('endbossHurtSound');
                 }, 1200);
                 setTimeout(() => {
                     this.endbossHurtSoundIsPlaying = false;
@@ -237,7 +231,7 @@ class Endboss extends MovableObject {
         let intervalDyingSound = setInterval(() => {
             if (this.energy == 0 && !this.dyingSoundIsPlaying) {
                 this.dyingSoundIsPlaying = true;
-                this.endboss_dying_sound.play();
+                playSound('endbossDyingSound');
                 setTimeout(() => {
                     clearInterval(intervalDyingSound);
                 }, 5000);

@@ -5,7 +5,6 @@ class CollectibleBottle extends CollectibleObject {
         right: 31,
         bottom: 9
     };
-    collect_bottle_sound;
 
     constructor(){
         super();

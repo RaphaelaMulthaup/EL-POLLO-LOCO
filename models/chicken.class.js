@@ -11,8 +11,6 @@ class Chicken extends MovableObject{
     IMAGE_DYING = [
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
     ];
-    walking_sound = new Audio('audio/chicken.mp3');
-    dying_sound = new Audio('audio/chickenDying.mp3');
     offset = {
         top: 23,
         left: 8,

@@ -24,7 +24,6 @@ class ThrowableBottle extends MovableObject{
         bottom: 22
     };
     throwing_bottle_sound = new Audio('audio/throw_bottle_510ms.mp3');
-    breaking_bottle_sound = new Audio('audio/breaking-bottle_2147ms.mp3');
 
 
     constructor(character){
@@ -50,7 +49,7 @@ class ThrowableBottle extends MovableObject{
                 clearInterval(rotation);
                 clearInterval(movement);
                 this.playSplashAnimation();
-                this.playSplashSound();
+                playSound('breakingBottleSound');
             }
         }, 100);
 
@@ -79,12 +78,6 @@ class ThrowableBottle extends MovableObject{
                 }, 50);
             }
         }, 35);
-    }
-
-    playSplashSound(){
-        this.breaking_bottle_sound.volume = 0.4;
-        this.breaking_bottle_sound.currentTime = 0.754;
-        this.breaking_bottle_sound.play();
     }
 
     removeThrowableBottle() {
