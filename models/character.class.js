@@ -224,6 +224,7 @@ class Character extends MovableObject {
 
     playSound(){
         this.playYawningSound();
+        setStoppableInterval(this.playYawningSound, 200)
         this.playWalkingSound();
         this.playJumpingSound();
         this.playHurtSound();
@@ -231,15 +232,13 @@ class Character extends MovableObject {
     }
 
     playYawningSound(){
-        setInterval(() => {
-            if (this.idleTime >= 15000 && !this.isYawning) {
-                this.isYawning = true;
-                this.yawningSoundActive();
-            }
-            if (this.idleTime < 1500) {
-                this.isYawning = false;
-            }
-        }, 200);;
+        if (this.idleTime >= 15000 && !this.isYawning) {
+            this.isYawning = true;
+            this.yawningSoundActive();
+        }
+        if (this.idleTime < 1500) {
+            this.isYawning = false;
+        }
     }
 
     yawningSoundActive(){

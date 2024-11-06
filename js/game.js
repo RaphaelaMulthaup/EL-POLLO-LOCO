@@ -2,6 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let muted = false;
+let stoppableIntervalIds = [];
 
 function init(){
     canvas = document.getElementById('canvas');
@@ -134,4 +135,9 @@ function setVolume(soundName){
 function pauseSound(soundName){
     let currentSound = sounds[soundName].audio;
     currentSound.pause(); 
+}
+
+function setStoppableInterval(fn, time){
+    let id = setInterval(fn, time);
+    stoppableIntervalIds.push(id);
 }

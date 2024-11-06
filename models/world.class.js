@@ -18,6 +18,7 @@ class World {
     coinsAnimation = [];
     introAnimationEndboss = false;
     firstEncounterEndbossHappend = false;
+    playerWon = false;
 
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');
@@ -36,6 +37,7 @@ class World {
     }
 
     draw() {
+        if (this.playerWon) return;
         
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
@@ -92,6 +94,7 @@ class World {
         this.checkCollisions();
         this.checkThrowBottle();
         this.checkCollisionsBottlesEmemies();
+        this.checkGameWasWon();
     }
 
     checkCollisions(){
@@ -221,4 +224,17 @@ class World {
         }, 1000 / 60);
     }
 
+    checkGameWasWon(){
+        let intervalCheckGameWasWon = setInterval(() => {
+            if (this.level.enemies[this.level.enemies.length - 1].energy == 0) {
+                clearInterval(intervalCheckGameWasWon);
+                setTimeout(() => {
+                    this.playerWon = true;
+                    // Object.keys(sounds).forEach(key => {
+                    //     pauseSound(key);
+                    // });
+                }, 600);
+            }
+        }, 1000 / 60);
+    }
 }
