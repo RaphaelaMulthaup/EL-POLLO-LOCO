@@ -197,17 +197,12 @@ class World {
             if (this.keyboard.D && currentTime - this.lastThrowTime >= 500 && this.collectedBottles != 0  && !this.introAnimationEndboss && !this.character.isHurt() && !this.character.isDead()) {
                 let throwableBottle = new ThrowableBottle(this.character);
                 this.throwableBottles.push(throwableBottle);
-                this.playThrowingBottleSound(throwableBottle);
+                playSound('throwingBottleSound');
                 this.lastThrowTime = currentTime;
                 this.collectedBottles -= 1;
                 this.statusBarBottles.setPercentage(this.collectedBottles * 20);
             }
         }, 1000 / 60);
-    }
-
-    playThrowingBottleSound(throwableBottle){
-        throwableBottle.throwing_bottle_sound.currentTime = 0.053;
-        throwableBottle.throwing_bottle_sound.play();
     }
 
     checkCollisionsBottlesEmemies(){

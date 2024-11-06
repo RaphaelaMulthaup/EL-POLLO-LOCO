@@ -64,7 +64,6 @@ class Character extends MovableObject {
     world;
     speed = 5;
     otherDirection = false;
-    yawning_sound = new Audio('audio/yawn_1605ms.mp3');
     numberReductionsY = 0;
     offset = {
         top: 150,
@@ -76,6 +75,7 @@ class Character extends MovableObject {
     isYawning = false;
     characterHurtSoundIsPlaying = false;
     characterJumpingSoundIsPlaying = false;
+    characterWalkingSoundIsPlaying = false;
 
     constructor(){
         super();
@@ -244,10 +244,9 @@ class Character extends MovableObject {
 
     yawningSoundActive(){
         if (this.isYawning) {
-            this.yawning_sound.volume = 0.2;
-            this.yawning_sound.play();
+            playSound('characterYawningSound');
             setTimeout(() => {
-                this.yawning_sound.pause();
+                pauseSound('characterYawningSound');
             }, 1605);
             setTimeout(() => {
                 this.yawningSoundActive();
@@ -258,9 +257,13 @@ class Character extends MovableObject {
     playWalkingSound(){
         setInterval(() => {
             if (this.characterIsWalking() && this.x > 0 && this.x < this.world.level.level_end_x && !this.isHurt() && !this.isDead() && !this.world.introAnimationEndboss && !this.isAboveGround(145)) {
-                playSound('characterWalkingSound');
+                if (!this.characterWalkingSoundIsPlaying) {
+                    playSound('characterWalkingSound');
+                    this.characterWalkingSoundIsPlaying = true;
+                }
             } else {
                 pauseSound('characterWalkingSound');
+                this.characterWalkingSoundIsPlaying = false;
             }
         }, 200);
     }

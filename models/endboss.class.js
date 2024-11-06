@@ -43,7 +43,6 @@ class Endboss extends MovableObject {
     world;
     character;
     speed = 3;
-    threatening_sound = new Audio('audio/threatening.mp3');
     energy = 5;
     isHurt = false;
     initialHit = false;
@@ -167,10 +166,11 @@ class Endboss extends MovableObject {
     }
 
     playThreateningSound(){
-        setInterval(() => {
+        let intervalThreateningSound = setInterval(() => {
             //as soon as the character has reached the back, but the final boss has not yet reached his position (only happens once)
             if (this.character.x > 2100 && this.x > 2450) {
-                this.threatening_sound.play(); 
+                clearInterval(intervalThreateningSound);
+                playSound('threateningSound'); 
                 pauseSound('backgroundMusicGame');          
             }            
         }, 200);

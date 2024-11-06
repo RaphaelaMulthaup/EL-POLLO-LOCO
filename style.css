@@ -93,4 +93,5 @@ canvas{
     opacity: 1;
     bottom: 2.5%;
     right: 1.5%;
+    cursor: pointer;
 }

@@ -23,8 +23,6 @@ class ThrowableBottle extends MovableObject{
         right: 22,
         bottom: 22
     };
-    throwing_bottle_sound = new Audio('audio/throw_bottle_510ms.mp3');
-
 
     constructor(character){
         super();
