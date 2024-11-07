@@ -240,8 +240,11 @@ class World {
                     }, 1000);  
                 }
                 setTimeout(() => {
+                    displayEndscreen();
+                }, 1000);
+                setTimeout(() => {
                     playSound('mexicanHatDance');
-                }, 2000);
+                }, 1000);
             }
         }, 1000 / 60);
     }

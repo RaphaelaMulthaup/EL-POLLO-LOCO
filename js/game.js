@@ -141,3 +141,17 @@ function setStoppableInterval(fn, time){
     let id = setInterval(() => fn(id), time);
     stoppableIntervalIds.push(id);
 }
+
+function displayEndscreen(){
+    let endscreen = document.getElementById('endscreen');
+    if (world.level.enemies[world.level.enemies.length - 1].energy == 0) {
+        endscreen.src = 'img/9_intro_outro_screens/win/win_1.png';
+        endscreen.classList.remove('dNone', 'endscreenGameOver');
+        endscreen.classList.add('endscreenYouWin');
+    }
+    if (world.character.isDead()) {
+        endscreen.src = 'img/9_intro_outro_screens/game_over/game over.png';
+        endscreen.classList.remove('dNone', 'endscreenYouWin');
+        endscreen.classList.add('endscreenGameOver');
+    }
+}
