@@ -206,7 +206,7 @@ class Endboss extends MovableObject {
         }, 200);
         setInterval(() => {
             if (this.energy == 0) {
-                sounds.endbossBackgroundMusic.currentVolume = 0.15;
+                sounds.endbossBackgroundMusic.currentVolume = 0;
                 setVolume('endbossBackgroundMusic');
             }
         }, 200);
@@ -214,7 +214,7 @@ class Endboss extends MovableObject {
 
     playHurtSound(){
         setInterval(() => {
-            if (this.isHurt && !this.endbossHurtSoundIsPlaying) {
+            if (this.isHurt && !this.endbossHurtSoundIsPlaying && this.energy >= 0) {
                 this.endbossHurtSoundIsPlaying = true;
                 playSound('endbossHurtSound');
                 setTimeout(() => {

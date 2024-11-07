@@ -138,6 +138,6 @@ function pauseSound(soundName){
 }
 
 function setStoppableInterval(fn, time){
-    let id = setInterval(fn, time);
+    let id = setInterval(() => fn(id), time);
     stoppableIntervalIds.push(id);
 }

@@ -223,12 +223,11 @@ class Character extends MovableObject {
     }
 
     playSound(){
-        this.playYawningSound();
-        setStoppableInterval(this.playYawningSound, 200)
-        this.playWalkingSound();
-        this.playJumpingSound();
-        this.playHurtSound();
-        this.playDyingSound();
+        setStoppableInterval(() => this.playYawningSound(), 200);
+        setStoppableInterval(() => this.playWalkingSound(), 200);
+        setStoppableInterval(() => this.playJumpingSound(), 200);
+        setStoppableInterval(() => this.playHurtSound(), 200);
+        setStoppableInterval((id) => this.playDyingSound(id), 200);
     }
 
     playYawningSound(){
@@ -254,54 +253,46 @@ class Character extends MovableObject {
     }
 
     playWalkingSound(){
-        setInterval(() => {
-            if (this.characterIsWalking() && this.x > 0 && this.x < this.world.level.level_end_x && !this.isHurt() && !this.isDead() && !this.world.introAnimationEndboss && !this.isAboveGround(145)) {
-                if (!this.characterWalkingSoundIsPlaying) {
-                    playSound('characterWalkingSound');
-                    this.characterWalkingSoundIsPlaying = true;
-                }
-            } else {
-                pauseSound('characterWalkingSound');
-                this.characterWalkingSoundIsPlaying = false;
+        if (this.characterIsWalking() && this.x > 0 && this.x < this.world.level.level_end_x && !this.isHurt() && !this.isDead() && !this.world.introAnimationEndboss && !this.isAboveGround(145)) {
+            if (!this.characterWalkingSoundIsPlaying) {
+                playSound('characterWalkingSound');
+                this.characterWalkingSoundIsPlaying = true;
             }
-        }, 200);
+        } else {
+            pauseSound('characterWalkingSound');
+            this.characterWalkingSoundIsPlaying = false;
+        }
     }
 
     playJumpingSound(){
-        setInterval(() => {
-            if (this.speedY > 0 && !this.isDead() && !this.characterJumpingSoundIsPlaying) {
-                this.characterJumpingSoundIsPlaying = true;
-                playSound('characterJumpingSound');
-            }
-            if (this.speedY <= 0) {
-                pauseSound('characterJumpingSound');
-                this.characterJumpingSoundIsPlaying = false;
-            }
-        }, 200);
+        if (this.speedY > 0 && !this.isDead() && !this.characterJumpingSoundIsPlaying) {
+            this.characterJumpingSoundIsPlaying = true;
+            playSound('characterJumpingSound');
+        }
+        if (this.speedY <= 0) {
+            pauseSound('characterJumpingSound');
+            this.characterJumpingSoundIsPlaying = false;
+        }
     }
 
     playHurtSound(){
-        setInterval(() => {
-            if (this.isHurt() && !this.isDead() && !this.characterHurtSoundIsPlaying) {
-                this.characterHurtSoundIsPlaying = true;
-                playSound('characterHurtSound');
-                setTimeout(() => {
-                    this.characterHurtSoundIsPlaying = false;
-                }, 1000);
-            }
-        }, 200);
+        if (this.isHurt() && !this.isDead() && !this.characterHurtSoundIsPlaying) {
+            this.characterHurtSoundIsPlaying = true;
+            playSound('characterHurtSound');
+            setTimeout(() => {
+                this.characterHurtSoundIsPlaying = false;
+            }, 1000);
+        }
     }
 
-    playDyingSound(){
-        let intervalDyingSound = setInterval(() => {
-            if (this.isDead()) {
-                clearInterval(intervalDyingSound);
-                playSound('characterDyingSound');
-                setTimeout(() => {
-                    pauseSound('characterDyingSound');
-                }, 1610);
-            }
-        }, 1000 / 60);
+    playDyingSound(id){
+        if (this.isDead()) {
+            clearInterval(id);
+            playSound('characterDyingSound');
+            setTimeout(() => {
+                pauseSound('characterDyingSound');
+            }, 1610);
+        }
     }
 
     characterIsWalking(){

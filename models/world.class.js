@@ -92,7 +92,7 @@ class World {
 
     checkEvents(){
         this.checkCollisions();
-        this.checkThrowBottle();
+        setStoppableInterval(() => this.checkThrowBottle(), 1000 / 60);
         this.checkCollisionsBottlesEmemies();
         this.checkGameWasWon();
     }
@@ -142,7 +142,7 @@ class World {
                     }
                 }
             });
-        }, 200);
+        }, 100);
     }
 
     collectBottle(indexOfObj){
@@ -194,18 +194,16 @@ class World {
     }
 
     checkThrowBottle(){
-        setInterval(() => {
-            let currentTime = new Date().getTime();
-        
-            if (this.keyboard.D && currentTime - this.lastThrowTime >= 500 && this.collectedBottles != 0  && !this.introAnimationEndboss && !this.character.isHurt() && !this.character.isDead()) {
-                let throwableBottle = new ThrowableBottle(this.character);
-                this.throwableBottles.push(throwableBottle);
-                playSound('throwingBottleSound');
-                this.lastThrowTime = currentTime;
-                this.collectedBottles -= 1;
-                this.statusBarBottles.setPercentage(this.collectedBottles * 20);
-            }
-        }, 1000 / 60);
+        let currentTime = new Date().getTime();
+    
+        if (this.keyboard.D && currentTime - this.lastThrowTime >= 500 && this.collectedBottles != 0  && !this.introAnimationEndboss && !this.character.isHurt() && !this.character.isDead()) {
+            let throwableBottle = new ThrowableBottle(this.character);
+            this.throwableBottles.push(throwableBottle);
+            playSound('throwingBottleSound');
+            this.lastThrowTime = currentTime;
+            this.collectedBottles -= 1;
+            this.statusBarBottles.setPercentage(this.collectedBottles * 20);
+        }
     }
 
     checkCollisionsBottlesEmemies(){
@@ -230,9 +228,7 @@ class World {
                 clearInterval(intervalCheckGameWasWon);
                 setTimeout(() => {
                     this.playerWon = true;
-                    // Object.keys(sounds).forEach(key => {
-                    //     pauseSound(key);
-                    // });
+                    stoppableIntervalIds.forEach(clearInterval);
                 }, 600);
             }
         }, 1000 / 60);

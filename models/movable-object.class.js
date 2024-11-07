@@ -48,41 +48,37 @@ class MovableObject extends DrawableObject{
     }
 
     playSound(){
-        this.playWalkingSound();
-        this.playDyingSound();
+        setStoppableInterval(() => this.playWalkingSound(), 5000);
+        setStoppableInterval((id) => this.playDyingSound(id), 1000 / 60);
     }
 
     playWalkingSound(){
-        setInterval(() => {
-            if (this.isAlive && this.x > this.character.x - 60 && this.x < this.character.x + 660) {
-                if (this instanceof Chick) {
-                    playSound('chickWalkingSound');
-                }
-                if (this instanceof Chicken){
-                    playSound('chickenWalkingSound');
-                }
+        if (this.isAlive && this.x > this.character.x - 60 && this.x < this.character.x + 660) {
+            if (this instanceof Chick) {
+                playSound('chickWalkingSound');
             }
-        }, 5000);
+            if (this instanceof Chicken){
+                playSound('chickenWalkingSound');
+            }
+        }
     }
 
-    playDyingSound(){
-        let intervalDyingSoundEnemy = setInterval(() => {
-            if (!this.isAlive) {
-                clearInterval(intervalDyingSoundEnemy);
-                if (this instanceof Chick) {
-                    playSound('chickDyingingSound');
-                    setTimeout(() => {
-                        pauseSound('chickenDyingingSound');
-                    }, 500);
-                }
-                if (this instanceof Chicken) {
-                    playSound('chickenDyingingSound');
-                    setTimeout(() => {
-                        pauseSound('chickenDyingingSound');
-                    }, 800);
-                }
+    playDyingSound(id){
+        if (!this.isAlive) {
+            clearInterval(id);
+            if (this instanceof Chick) {
+                playSound('chickDyingingSound');
+                setTimeout(() => {
+                    pauseSound('chickenDyingingSound');
+                }, 500);
             }
-        }, 1000 / 60);
+            if (this instanceof Chicken) {
+                playSound('chickenDyingingSound');
+                setTimeout(() => {
+                    pauseSound('chickenDyingingSound');
+                }, 800);
+            }
+        }
     }
 
     applyGravity(imgTouchesGround){
