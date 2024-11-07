@@ -18,7 +18,7 @@ class World {
     coinsAnimation = [];
     introAnimationEndboss = false;
     firstEncounterEndbossHappend = false;
-    playerWon = false;
+    gameOver = false;
 
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');
@@ -37,7 +37,7 @@ class World {
     }
 
     draw() {
-        if (this.playerWon) return;
+        if (this.gameOver) return;
         
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
@@ -105,7 +105,7 @@ class World {
     checkCollisionWithEnemys(){
         setInterval(() => {
             this.level.enemies.forEach(enemy => {
-                if ((enemy instanceof Chicken || enemy instanceof Chick) && this.characterIsLandingOn(enemy) && !enemy.isCollidingWithCharacter) {
+                if ((enemy instanceof Chicken || enemy instanceof Chick) && this.characterIsLandingOn(enemy) && !enemy.isCollidingWithCharacter && !this.character.isDead()) {
                     enemy.dying();
                 } else if (this.character.isColliding(enemy) && enemy.isAlive && !enemy.isCollidingWithCharacter) {
                     this.lateralCollision(enemy);
@@ -223,13 +223,25 @@ class World {
     }
 
     checkGameWasWon(){
-        let intervalCheckGameWasWon = setInterval(() => {
-            if (this.level.enemies[this.level.enemies.length - 1].energy == 0) {
-                clearInterval(intervalCheckGameWasWon);
+        let intervalCheckGameOver = setInterval(() => {
+            if (this.level.enemies[this.level.enemies.length - 1].energy == 0 || this.character.isDead()) {
+                clearInterval(intervalCheckGameOver);
+                if (this.level.enemies[this.level.enemies.length - 1].energy == 0) {
+                    setTimeout(() => {
+                        this.gameOver = true;
+                        stoppableIntervalIds.forEach(clearInterval);
+                    }, 600);  
+                }
+                if (this.character.isDead()) {
+                    setTimeout(() => {
+                        this.gameOver = true;
+                        stoppableIntervalIds.forEach(clearInterval);
+                        pauseSound('backgroundMusicGame');
+                    }, 1000);  
+                }
                 setTimeout(() => {
-                    this.playerWon = true;
-                    stoppableIntervalIds.forEach(clearInterval);
-                }, 600);
+                    playSound('mexicanHatDance');
+                }, 2000);
             }
         }, 1000 / 60);
     }

@@ -158,31 +158,27 @@ class Endboss extends MovableObject {
     }
 
     playSound(){
-        this.playThreateningSound();
-        this.playAlertSound();       
+        setStoppableInterval((id) => this.playThreateningSound(id), 200);
+        setStoppableInterval((id) => this.playAlertSound(id), 200);
         this.playEndbossBackgroundmusic();
-        this.playDyingSound();
-        this.playHurtSound();
+        setStoppableInterval((id) => this.playDyingSound(id), 200);
+        setStoppableInterval(() => this.playHurtSound(), 200);
     }
 
-    playThreateningSound(){
-        let intervalThreateningSound = setInterval(() => {
-            //as soon as the character has reached the back, but the final boss has not yet reached his position (only happens once)
-            if (this.character.x > 2100 && this.x > 2450) {
-                clearInterval(intervalThreateningSound);
-                playSound('threateningSound'); 
-                pauseSound('backgroundMusicGame');          
-            }            
-        }, 200);
+    playThreateningSound(id){
+        //as soon as the character has reached the back, but the final boss has not yet reached his position (only happens once)
+        if (this.character.x > 2100 && this.x > 2450) {
+            clearInterval(id);
+            playSound('threateningSound'); 
+            pauseSound('backgroundMusicGame');          
+        }            
     }
 
-    playAlertSound(){
-        let intervalAlertAttackCondition = setInterval(() => {
-            if (!this.initialHit && this.world.firstEncounterEndbossHappend) {
-                this.playRandomAlertSound();
-                clearInterval(intervalAlertAttackCondition);
-            } 
-        }, 200);
+    playAlertSound(id){
+        if (!this.initialHit && this.world.firstEncounterEndbossHappend) {
+            this.playRandomAlertSound();
+            clearInterval(id);
+        } 
     }
 
     playRandomAlertSound(){
@@ -205,7 +201,7 @@ class Endboss extends MovableObject {
             }
         }, 200);
         setInterval(() => {
-            if (this.energy == 0) {
+            if (this.energy == 0 || this.world.character.isDead()) {
                 sounds.endbossBackgroundMusic.currentVolume = 0;
                 setVolume('endbossBackgroundMusic');
             }
@@ -213,30 +209,26 @@ class Endboss extends MovableObject {
     }
 
     playHurtSound(){
-        setInterval(() => {
-            if (this.isHurt && !this.endbossHurtSoundIsPlaying && this.energy >= 0) {
-                this.endbossHurtSoundIsPlaying = true;
-                playSound('endbossHurtSound');
-                setTimeout(() => {
-                    pauseSound('endbossHurtSound');
-                }, 1200);
-                setTimeout(() => {
-                    this.endbossHurtSoundIsPlaying = false;
-                }, 2000);
-            }
-        }, 200);
+        if (this.isHurt && !this.endbossHurtSoundIsPlaying && this.energy >= 0) {
+            this.endbossHurtSoundIsPlaying = true;
+            playSound('endbossHurtSound');
+            setTimeout(() => {
+                pauseSound('endbossHurtSound');
+            }, 1200);
+            setTimeout(() => {
+                this.endbossHurtSoundIsPlaying = false;
+            }, 2000);
+        }
     }
 
-    playDyingSound(){
-        let intervalDyingSound = setInterval(() => {
-            if (this.energy == 0 && !this.dyingSoundIsPlaying) {
-                this.dyingSoundIsPlaying = true;
-                playSound('endbossDyingSound');
-                setTimeout(() => {
-                    clearInterval(intervalDyingSound);
-                }, 5000);
-            }
-        }, 200);
+    playDyingSound(id){
+        if (this.energy == 0 && !this.dyingSoundIsPlaying) {
+            this.dyingSoundIsPlaying = true;
+            playSound('endbossDyingSound');
+            setTimeout(() => {
+                clearInterval(id);
+            }, 5000);
+        }
     }
 
     checkFirstEncounter(){

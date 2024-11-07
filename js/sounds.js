@@ -103,5 +103,10 @@ let sounds = {
         audio: new Audio('audio/yawn_1605ms.mp3'),
         currentVolume: 0.2,
         currentTime: 0
+    },
+    mexicanHatDance: {
+        audio: new Audio('audio/mexican-hat-dance-174873.mp3'),
+        currentVolume: 0.5,
+        currentTime: 0
     }
 };
