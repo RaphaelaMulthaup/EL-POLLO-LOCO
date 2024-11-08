@@ -148,6 +148,7 @@ function displayEndscreen(){
         endscreen.src = 'img/9_intro_outro_screens/win/win_1.png';
         endscreen.classList.remove('dNone', 'endscreenGameOver');
         endscreen.classList.add('endscreenYouWin');
+        document.getElementById('overlay').classList.remove('dNone');
     }
     if (world.character.isDead()) {
         endscreen.src = 'img/9_intro_outro_screens/game_over/game over.png';
