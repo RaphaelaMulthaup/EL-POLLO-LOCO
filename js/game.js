@@ -156,3 +156,13 @@ function displayEndscreen(){
         endscreen.classList.add('endscreenGameOver');
     }
 }
+
+function restart(){
+    pauseSound('mexicanHatDance');
+    world.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 1; i < 9999; i++) window.clearInterval(i);
+    stoppableIntervalIds = [];
+    document.getElementById('endscreen').classList.add('dNone');
+    document.getElementById('overlay').classList.add('dNone');
+    startGame();
+}

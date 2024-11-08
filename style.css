@@ -80,20 +80,43 @@ canvas{
     cursor: pointer;
 }
 
-.muteUnmute{
+.buttons{
     position: absolute;
     bottom: 3%;
-    right: 2%;
+    right: 2%;    
     height: 7%;
+    display: flex;
+    align-items: center;
+    gap: 20%;
+}
+
+.buttons img{
     opacity: 0.7;
 }
 
-.muteUnmute:hover{
-    height: 8%;
+.restart{
+    height: 70%;
+}
+
+.muteUnmute{
+    height: 100%;
+}
+
+.buttons img:hover{
+    cursor: pointer;
     opacity: 1;
+}
+
+.restart:hover{
+    height: 77%;
+}
+
+.muteUnmute:hover{
+    height: 110%;
+/*     
     bottom: 2.5%;
     right: 1.5%;
-    cursor: pointer;
+     */
 }
 
 .overlay{

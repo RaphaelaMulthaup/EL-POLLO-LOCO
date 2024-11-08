@@ -23,6 +23,7 @@ class World {
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
+        
         this.keyboard = keyboard;
         this.level.enemies.push(this.endboss);  
         this.setWorld();
@@ -222,6 +223,7 @@ class World {
         }, 1000 / 60);
     }
 
+    // Funktion aufteilen
     checkGameWasWon(){
         let intervalCheckGameOver = setInterval(() => {
             if (this.level.enemies[this.level.enemies.length - 1].energy == 0 || this.character.isDead()) {
