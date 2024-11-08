@@ -23,7 +23,7 @@ class World {
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
-        
+
         this.keyboard = keyboard;
         this.level.enemies.push(this.endboss);  
         this.setWorld();
@@ -38,7 +38,7 @@ class World {
     }
 
     draw() {
-        if (this.gameOver) return;
+        // if (this.gameOver) return;
         
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         

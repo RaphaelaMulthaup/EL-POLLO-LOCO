@@ -85,21 +85,33 @@ canvas{
     bottom: 3%;
     right: 2%;    
     height: 7%;
-    display: flex;
+    width: 18%;
+    /* display: flex;
     align-items: center;
-    gap: 20%;
+    gap: 20%; */
 }
 
 .buttons img{
     opacity: 0.7;
+    position: absolute;
+}
+
+.fullscreen{
+    height: 100%;
+    top: 0%;
+    left: 0;
 }
 
 .restart{
     height: 70%;
+    top: 15%;
+    right: 41%;
 }
 
 .muteUnmute{
     height: 100%;
+    top: 0;
+    right: 0;
 }
 
 .buttons img:hover{
@@ -107,12 +119,22 @@ canvas{
     opacity: 1;
 }
 
+.fullscreen:hover{
+    top: -5%;
+    height: 110%;
+    left: -1%;
+}
+
 .restart:hover{
+    top: 11.5%;
     height: 77%;
+    right: 40%;
 }
 
 .muteUnmute:hover{
     height: 110%;
+    top: -5%;
+    right: -1%;
 /*     
     bottom: 2.5%;
     right: 1.5%;

@@ -3,6 +3,7 @@ let world;
 let keyboard = new Keyboard();
 let muted = false;
 let stoppableIntervalIds = [];
+let defaultSounds = [];
 
 function init(){
     canvas = document.getElementById('canvas');
@@ -64,6 +65,7 @@ function addEventListeners(){
 }
 
 function startGame(){
+    defaultSounds = JSON.parse(JSON.stringify(sounds));
     document.getElementById('startButton').classList.add('dNone');
     document.getElementById('startscreen').classList.add('dNone');
     initLevel();
@@ -159,10 +161,18 @@ function displayEndscreen(){
 
 function restart(){
     pauseSound('mexicanHatDance');
-    world.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    resetSounds();
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
     stoppableIntervalIds = [];
+    world = null;
     document.getElementById('endscreen').classList.add('dNone');
     document.getElementById('overlay').classList.add('dNone');
     startGame();
+}
+
+function resetSounds() {
+    Object.keys(sounds).forEach(sound => {
+        sounds[sound].currentVolume = defaultSounds[sound].currentVolume;
+        sounds[sound].currentTime = defaultSounds[sound].currentTime;
+    });
 }
