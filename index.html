@@ -34,7 +34,7 @@
 <body onload="init()">
 
     <h1>EL POLLO LOCO</h1>
-    <div class="canvasContainer">
+    <div id="canvasContainer" class="canvasContainer">
         <canvas id="canvas" width="720px" height="480px"></canvas>
         <img id="startscreen" class="startscreen" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="startscreen">
         <svg id="startButton" class="startButton" width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -44,7 +44,8 @@
         <div id="overlay" class="overlay dNone"></div>
         <img id="endscreen" class="endscreenYouWin dNone" src="img/9_intro_outro_screens/win/win_1.png" alt="endscreen">
         <div class="buttons">
-            <img class="fullscreen" src="img/fullscreen.png" alt="fullscreen">
+            <img id="fullscreen" class="fullscreen" src="img/fullscreen.png" alt="fullscreen" onclick="fullscreen()">
+            <img id="minimize" class="minimize dNone" src="img/minimize.png" alt="minimize" onclick="minimize()">
             <img class="restart" src="img/restart.png" alt="restart" onclick="restart()">
             <img class="muteUnmute" id="muteUnmute" src="img/mute.png" alt="mute/unmute" onclick="muteUnmute()">
         </div>

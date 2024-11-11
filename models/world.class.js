@@ -38,7 +38,7 @@ class World {
     }
 
     draw() {
-        // if (this.gameOver) return;
+        if (this.gameOver) return;
         
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
@@ -236,15 +236,15 @@ class World {
                 }
                 if (this.character.isDead()) {
                     setTimeout(() => {
-                        this.gameOver = true;
                         stoppableIntervalIds.forEach(clearInterval);
+                    }, 500);
+                    setTimeout(() => {
+                        this.gameOver = true;
                         pauseSound('backgroundMusicGame');
                     }, 1000);  
                 }
                 setTimeout(() => {
                     displayEndscreen();
-                }, 1000);
-                setTimeout(() => {
                     playSound('mexicanHatDance');
                 }, 1000);
             }

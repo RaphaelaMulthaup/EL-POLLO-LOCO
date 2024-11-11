@@ -102,6 +102,12 @@ canvas{
     left: 0;
 }
 
+.minimize{
+    height: 90%;
+    top: 5%;
+    left: 0;
+}
+
 .restart{
     height: 70%;
     top: 15%;
@@ -122,6 +128,12 @@ canvas{
 .fullscreen:hover{
     top: -5%;
     height: 110%;
+    left: -1%;
+}
+
+.minimize:hover{
+    top: 0.5%;
+    height: 99%;
     left: -1%;
 }
 

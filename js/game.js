@@ -164,7 +164,7 @@ function restart(){
     resetSounds();
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
     stoppableIntervalIds = [];
-    world = null;
+    // world = null;
     document.getElementById('endscreen').classList.add('dNone');
     document.getElementById('overlay').classList.add('dNone');
     startGame();
@@ -175,4 +175,41 @@ function resetSounds() {
         sounds[sound].currentVolume = defaultSounds[sound].currentVolume;
         sounds[sound].currentTime = defaultSounds[sound].currentTime;
     });
+}
+
+function fullscreen(){
+    document.getElementById('fullscreen').classList.add('dNone');
+    document.getElementById('minimize').classList.remove('dNone');
+
+    let canvasContainer = document.getElementById('canvasContainer');
+    if (canvasContainer.requestFullscreen) {
+        canvasContainer.requestFullscreen();
+    } else if (canvasContainer.mozRequestFullScreen) {
+        canvasContainer.mozRequestFullScreen();
+    } else if (canvasContainer.webkitRequestFullscreen) {
+        canvasContainer.webkitRequestFullscreen();
+    } else if (canvasContainer.msRequestFullscreen) {   
+        canvasContainer.msRequestFullscreen();
+    }
+
+    for (let rule of document.styleSheets[0].cssRules) {
+        if (rule.style.borderRadius) {
+            rule.style.borderRadius = '0';
+        }
+    }
+}
+
+function minimize(){
+    document.getElementById('fullscreen').classList.remove('dNone');
+    document.getElementById('minimize').classList.add('dNone');
+
+    if (document.fullscreenElement) {
+        document.exitFullscreen();
+    }
+
+    for (let rule of document.styleSheets[0].cssRules) {
+        if (rule.style.borderRadius) {
+            rule.style.borderRadius = '2vw';
+        }
+    }
 }
