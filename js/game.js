@@ -213,3 +213,7 @@ function minimize(){
         }
     }
 }
+
+function openInfo(){
+    document.getElementById('infoText').classList.remove('dNone');
+}

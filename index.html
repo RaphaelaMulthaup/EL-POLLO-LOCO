@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./styleExplanationBar.css">
     <script src="./models/drawable-object.class.js"></script>
     <script src="./models/movable-object.class.js"></script>
     <script src="./models/status-bar.class.js"></script>
@@ -49,17 +50,38 @@
             <img class="restart" src="img/restart.png" alt="restart" onclick="restart()">
             <img class="muteUnmute" id="muteUnmute" src="img/mute.png" alt="mute/unmute" onclick="muteUnmute()">
         </div>
-
-    </div>
-    <div>
-        <div>
-            <p>Mache zusammen mit Pepe einen Ausflug in dei mexikanische Wüste.</p>
-            <p>Dir werden viele Hühnchen begegnen, die dir Schaden zufügen. Du kannst sie besiegen, wenn du aufsie springst oder sie mit einer Tabaskoflasche triffst. Die Flaschen kannst du unterwegs aufsammeln.</p>
+        <div id="clickBarrier"></div>
+        <div id="infoText" class="dNone">
+            <p>Mache zusammen mit Pepe einen Ausflug in die mexikanische Wüste.</p>
+            <p>Dir werden viele Hühnchen begegnen, die dir Schaden zufügen. Du kannst sie besiegen, wenn du auf sie springst oder sie mit einer Tabaskoflasche triffst. Die Flaschen kannst du unterwegs aufsammeln.</p>
             <p>Am Ende wartet ein besondes schwerer Gegner auf dich. Es ist wichtig, dass du für ihn noch einige Flaschen in petto hast.</p>
             <p>Auch Münzen wirst du unterwegs finden. Sammele sie ein. Sie geben dir extra Energie, wenn du geschwächt bist.</p>
             <p>Viel Spaß</p>
         </div>
     </div>
-    
+    <div class="explanationBar">
+        <div>
+            <div><img class="explanationBarIcon" src="img/D.png" alt="D"></div>
+            <span class="explanationBarSpan">werfen</span>
+        </div>
+        <div>
+            <div>
+                <img class="explanationBarIcon" src="img/space.png" alt="space">
+                <img class="explanationBarIcon" src="img/arrowUp.png" alt="up">
+            </div>
+            <span class="explanationBarSpan">springen</span>
+        </div>
+        <div>
+            <div>
+                <img class="explanationBarIcon" src="img/arrowLeft.png" alt="left">
+                <img class="explanationBarIcon" src="img/arrowRight.png" alt="right">
+            </div>
+            <span class="explanationBarSpan">laufen</span>
+        </div>
+        <div id="infoButton" onclick="openInfo()">
+            <div><img class="explanationBarIcon" src="img/info.png" alt="info"></div>
+        </div>
+    </div>
+
 </body>
 </html>
