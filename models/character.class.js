@@ -163,7 +163,7 @@ class Character extends MovableObject {
 
     animateHurt(){
         setInterval(() => {
-            if (this.isHurt() && !this.isDead()) {
+            if (this.isHurt() && !this.isDead() && !this.world.level.enemies[this.world.level.enemies.length - 1].energy == 0) {
                 this.playAnimation(this.IMAGES_HURT);
             } 
         }, 100);
@@ -276,7 +276,7 @@ class Character extends MovableObject {
     }
 
     playHurtSound(){
-        if (this.isHurt() && !this.isDead() && !this.characterHurtSoundIsPlaying) {
+        if (this.isHurt() && !this.isDead() && !this.characterHurtSoundIsPlaying && !this.world.level.enemies[this.world.level.enemies.length - 1].energy == 0) {
             this.characterHurtSoundIsPlaying = true;
             playSound('characterHurtSound');
             setTimeout(() => {
