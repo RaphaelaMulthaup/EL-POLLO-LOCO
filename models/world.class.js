@@ -245,6 +245,7 @@ class World {
                 }
                 setTimeout(() => {
                     displayEndscreen();
+
                     playSound('mexicanHatDance');
                 }, 1000);
             }

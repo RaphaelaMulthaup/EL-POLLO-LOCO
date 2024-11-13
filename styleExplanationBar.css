@@ -19,7 +19,7 @@
 .explanationBar>div{
     border-color: black;
     border-style: solid;
-    border-width: 0.2vw;
+    border-width: 0.2vh;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 
 }
@@ -38,7 +38,11 @@
 }
 
 #clickBarrier{
-    
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
 }
 
 #infoText{
@@ -54,4 +58,18 @@
     width: 50%;
     padding: 1vw;
     box-shadow: 2px 3px 20px rgba(0, 0, 0, 0.5);
+    font-family: 'Kranky';
+}
+
+#close{
+    position: absolute;
+    right: 2vh;
+    bottom: 2vh;
+}
+
+#close:hover{
+    cursor: pointer;
+    right: 1.5vh;
+    bottom: 1.5vh;
+    height: 5vh;
 }

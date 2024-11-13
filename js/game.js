@@ -4,6 +4,7 @@ let keyboard = new Keyboard();
 let muted = false;
 let stoppableIntervalIds = [];
 let defaultSounds = [];
+let gameStartedOnce = false;
 
 function init(){
     canvas = document.getElementById('canvas');
@@ -71,6 +72,7 @@ function startGame(){
     initLevel();
     world = new World(canvas, keyboard);
     changeBackgroundMusic();
+    gameStartedOnce = true;
 }
 
 function changeBackgroundMusic(){
@@ -215,5 +217,17 @@ function minimize(){
 }
 
 function openInfo(){
+    event.stopPropagation();
     document.getElementById('infoText').classList.remove('dNone');
+    document.getElementById('clickBarrier').classList.remove('dNone');
+    document.getElementById('startButton').classList.add('dNone');
+}
+
+function closeInfo(){
+    document.getElementById('infoText').classList.add('dNone');
+    document.getElementById('clickBarrier').classList.add('dNone');
+    if (!gameStartedOnce) {
+        document.getElementById('startButton').classList.remove('dNone');
+    }
+    
 }

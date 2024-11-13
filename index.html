@@ -32,7 +32,7 @@
     <script src="./js/sounds.js"></script>
 
 </head>
-<body onload="init()">
+<body onload="init()" onclick="closeInfo()">
 
     <h1>EL POLLO LOCO</h1>
     <div id="canvasContainer" class="canvasContainer">
@@ -50,13 +50,14 @@
             <img class="restart" src="img/restart.png" alt="restart" onclick="restart()">
             <img class="muteUnmute" id="muteUnmute" src="img/mute.png" alt="mute/unmute" onclick="muteUnmute()">
         </div>
-        <div id="clickBarrier"></div>
-        <div id="infoText" class="dNone">
+        <div id="clickBarrier" class="dNone"></div>
+        <div id="infoText" class="dNone" onclick="event.stopPropagation()">
             <p>Mache zusammen mit Pepe einen Ausflug in die mexikanische Wüste.</p>
             <p>Dir werden viele Hühnchen begegnen, die dir Schaden zufügen. Du kannst sie besiegen, wenn du auf sie springst oder sie mit einer Tabaskoflasche triffst. Die Flaschen kannst du unterwegs aufsammeln.</p>
             <p>Am Ende wartet ein besondes schwerer Gegner auf dich. Es ist wichtig, dass du für ihn noch einige Flaschen in petto hast.</p>
             <p>Auch Münzen wirst du unterwegs finden. Sammele sie ein. Sie geben dir extra Energie, wenn du geschwächt bist.</p>
             <p>Viel Spaß</p>
+            <img id="close" class="explanationBarIcon" src="img/close.png" alt="close" onclick="closeInfo()">
         </div>
     </div>
     <div class="explanationBar">
