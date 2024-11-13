@@ -35,29 +35,50 @@
 <body onload="init()" onclick="closeInfo()">
 
     <h1>EL POLLO LOCO</h1>
-    <div id="canvasContainer" class="canvasContainer">
-        <canvas id="canvas" width="720px" height="480px"></canvas>
-        <img id="startscreen" class="startscreen" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="startscreen">
-        <svg id="startButton" class="startButton" width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <circle class="circleStartButton" cx="100" cy="100" r="80" fill="none" stroke="transparent" stroke-width="20" />
-            <polygon points="75,55 75,145 150,100" fill="transparent" />
-        </svg>
-        <div id="overlay" class="overlay dNone"></div>
-        <img id="endscreen" class="endscreenYouWin dNone" src="img/9_intro_outro_screens/win/win_1.png" alt="endscreen">
-        <div class="buttons">
-            <img id="fullscreen" class="fullscreen" src="img/fullscreen.png" alt="fullscreen" onclick="fullscreen()">
-            <img id="minimize" class="minimize dNone" src="img/minimize.png" alt="minimize" onclick="minimize()">
-            <img class="restart" src="img/restart.png" alt="restart" onclick="restart()">
-            <img class="muteUnmute" id="muteUnmute" src="img/mute.png" alt="mute/unmute" onclick="muteUnmute()">
+    <div id="mobileFullscreen">
+        <div id="canvasContainer" class="canvasContainer">
+            <canvas id="canvas" width="720px" height="480px"></canvas>
+            <img id="startscreen" class="startscreen" src="img/9_intro_outro_screens/start/startscreen_1.png" alt="startscreen">
+            <svg id="startButton" class="startButton" width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <circle class="circleStartButton" cx="100" cy="100" r="80" fill="none" stroke="transparent" stroke-width="20" />
+                <polygon points="75,55 75,145 150,100" fill="transparent" />
+            </svg>
+            <div id="overlay" class="overlay dNone"></div>
+            <img id="endscreen" class="endscreenYouWin dNone" src="img/9_intro_outro_screens/win/win_1.png" alt="endscreen">
+            <div class="buttons">
+                <img id="fullscreen" class="fullscreen" src="img/fullscreen.png" alt="fullscreen" onclick="fullscreen()">
+                <img id="minimize" class="minimize dNone" src="img/minimize.png" alt="minimize" onclick="minimize()">
+                <img class="restart" src="img/restart.png" alt="restart" onclick="restart()">
+                <img class="muteUnmute" id="muteUnmute" src="img/mute.png" alt="mute/unmute" onclick="muteUnmute()">
+            </div>
+            <div id="clickBarrier" class="dNone"></div>
+            <div id="infoText" class="dNone" onclick="event.stopPropagation()">
+                <p>Mache zusammen mit Pepe einen Ausflug in die mexikanische Wüste.</p>
+                <p>Dir werden viele Hühnchen begegnen, die dir Schaden zufügen. Du kannst sie besiegen, wenn du auf sie springst oder sie mit einer Tabaskoflasche triffst. Die Flaschen kannst du unterwegs aufsammeln.</p>
+                <p>Am Ende wartet ein besondes schwerer Gegner auf dich. Es ist wichtig, dass du für ihn noch einige Flaschen in petto hast.</p>
+                <p>Auch Münzen wirst du unterwegs finden. Sammele sie ein. Sie geben dir extra Energie, wenn du geschwächt bist.</p>
+                <p>Viel Spaß</p>
+                <img id="close" class="explanationBarIcon" src="img/close.png" alt="close" onclick="closeInfo()">
+            </div>
         </div>
-        <div id="clickBarrier" class="dNone"></div>
-        <div id="infoText" class="dNone" onclick="event.stopPropagation()">
-            <p>Mache zusammen mit Pepe einen Ausflug in die mexikanische Wüste.</p>
-            <p>Dir werden viele Hühnchen begegnen, die dir Schaden zufügen. Du kannst sie besiegen, wenn du auf sie springst oder sie mit einer Tabaskoflasche triffst. Die Flaschen kannst du unterwegs aufsammeln.</p>
-            <p>Am Ende wartet ein besondes schwerer Gegner auf dich. Es ist wichtig, dass du für ihn noch einige Flaschen in petto hast.</p>
-            <p>Auch Münzen wirst du unterwegs finden. Sammele sie ein. Sie geben dir extra Energie, wenn du geschwächt bist.</p>
-            <p>Viel Spaß</p>
-            <img id="close" class="explanationBarIcon" src="img/close.png" alt="close" onclick="closeInfo()">
+        <div class="mobileActionButtons">
+            <div class="mobileActionButtonsLeft">
+                <div>
+                    <img src="img/circle.png" alt="bottle">
+                    <img class="bottle" src="img/6_salsa_bottle/salsa_bottle.png" alt="bottle">
+                </div>
+                <div>
+                    <img src="img/arrowUp.png" alt="up">
+                </div>
+            </div>
+            <div class="mobileActionButtonsLeft">
+                <div>
+                    <img src="img/arrowLeft.png" alt="left">
+                </div>
+                <div>
+                    <img src="img/arrowRight.png" alt="right">
+                </div>
+            </div>
         </div>
     </div>
     <div class="explanationBar">
