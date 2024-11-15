@@ -59,6 +59,7 @@ window.addEventListener('keyup', (event) => {
 
 function touchDeviceOrKeyboard(){
     if ('ontouchstart' in window) {
+        checkOrientation();
         document.getElementById('circle').classList.add('fillCircle');
         document.getElementById('polygon').classList.add('fillPolygon');
         document.getElementById('buttons').classList.remove('buttonsDesktop');
@@ -66,7 +67,37 @@ function touchDeviceOrKeyboard(){
         document.getElementById('mobileActionButtons').classList.remove('dNone');
         document.getElementById('infoText').classList.remove('infoTextDesktop');
         document.getElementById('infoText').classList.add('infoTextMobile');
+        window.addEventListener('orientationchange', checkOrientation);
+        document.addEventListener('contextmenu', (event) => {
+            event.preventDefault();
+          });
     }
+}
+
+function checkOrientation() {
+    setTimeout(() => {
+        let overlay = document.getElementById('orientationOverlay');
+        // overlay.style.width = `${window.innerWidth}px`;
+        // overlay.style.height = `${window.innerHeight}px`;
+        if (window.innerHeight > window.innerWidth) {
+            overlay.classList.remove('dNone');
+        } else {
+            overlay.classList.add('dNone');
+        }    
+
+        // const width = document.documentElement.clientWidth;
+        // const height = document.documentElement.clientHeight;
+
+        // overlay.style.width = `${width}px`;
+        // overlay.style.height = `${height}px`;
+
+        // if (height > width) {
+        //     overlay.classList.remove('dNone');
+        // } else {
+        //     overlay.classList.add('dNone');
+        // }
+    }, 10);
+
 }
 
 function addEventListeners(){

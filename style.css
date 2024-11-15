@@ -16,6 +16,16 @@ body{
     flex-direction: column;
     align-items: center;
     background-color: #fac77a;
+    -webkit-touch-callout: none;
+    justify-content: space-between;
+    height: 100vh;
+    margin: 0;
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 h1{
@@ -207,4 +217,26 @@ canvas{
     top: 35%;
     width: 90%;
     left: 5%;
+}
+
+#orientationOverlay{
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: #FAC77A;
+    color: white;
+    font-size: 1.5em;
+    z-index: 9999;
+    text-align: center;
+}
+
+.impressum{
+    color: white;
+    text-decoration: none;
+    font-family: 'Kranky';
 }
