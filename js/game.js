@@ -63,6 +63,9 @@ function touchDeviceOrKeyboard(){
         document.getElementById('polygon').classList.add('fillPolygon');
         document.getElementById('buttons').classList.remove('buttonsDesktop');
         document.getElementById('buttons').classList.add('buttonsMobile');
+        document.getElementById('mobileActionButtons').classList.remove('dNone');
+        document.getElementById('infoText').classList.remove('infoTextDesktop');
+        document.getElementById('infoText').classList.add('infoTextMobile');
     }
 }
 
@@ -225,10 +228,6 @@ function fullscreen(){
     document.getElementById('fullscreen').classList.add('dNone');
     document.getElementById('minimize').classList.remove('dNone');
 
-    if ('ontouchstart' in window) {
-       document.getElementById('mobileActionButtons').classList.remove('dNone');
-    }
-
     let wrapper = document.getElementById('wrapper');
     if (wrapper.requestFullscreen) {
         wrapper.requestFullscreen();
@@ -250,11 +249,6 @@ function fullscreen(){
 function minimize(){
     document.getElementById('fullscreen').classList.remove('dNone');
     document.getElementById('minimize').classList.add('dNone');
-
-    if ('ontouchstart' in window) {
-        document.getElementById('mobileActionButtons').classList.add('dNone');
-     }
- 
 
     if (document.fullscreenElement) {
         document.exitFullscreen();

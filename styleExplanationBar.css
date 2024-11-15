@@ -92,18 +92,25 @@
 
 #infoText{
     position: absolute;
-    right: 1vw;
-    bottom: 1vw;
+    right: 1.5%;
+    bottom: 2.5%;
     background-color: #BC7A0F;
     color: white;
     border-radius: 2vw;
     border-color: black;
     border-style: solid;
     font-size: 1.3vw;
-    width: 50%;
     padding: 1vw;
     box-shadow: 2px 3px 20px rgba(0, 0, 0, 0.5);
     font-family: 'Kranky';
+}
+
+.infoTextDesktop{
+    width: 50%;
+}
+
+.infoTextMobile{
+    width: 90.5%;
 }
 
 #close{
