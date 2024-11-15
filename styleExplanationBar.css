@@ -1,34 +1,45 @@
 .mobileActionButtons{
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     justify-content: space-between;
-    padding: 0 2vw 0 2vw;
+    margin-bottom: 1vw;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 5% 0 5%;
 }
 
 .mobileActionButtons>div{
     display: flex;
-    background-color: #BC7A0F;
-    padding: 0.5vw;
-    border-radius: 1.5vw;
-    border-color: black;
-    border-style: solid;
-    border-width: 0.2vh;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    margin-top: 2%;
-    gap: 1vw;
+    gap: 2vw;
 }
 
 .mobileActionButtons>div>div{
     position: relative;
+    background-color: #BC7A0F;
+    padding: 0.5vw;
+    border-radius: 50%;
+    /* border-color: black;
+    border-style: solid;
+    border-width: 0.2vh; */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    height: 7vh;
+    width: 7vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .mobileActionButtons>div>div>img{
-    height: 10vh;
+    height: 9vh;
 }
 
 .bottle{
     position: absolute;
-    left: 0.5vh;
-    top: 0.5vh;
+    left: calc((100% - 9vh) / 2);
+    top: calc((100% - 9vh) / 2);
     height: 9vh !important;
 }
 

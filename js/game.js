@@ -7,8 +7,10 @@ let defaultSounds = [];
 let gameStartedOnce = false;
 
 function init(){
+    touchDeviceOrKeyboard();
     canvas = document.getElementById('canvas');
     addEventListeners();
+    addEventListenersForMobileActionButtons();
     playSound('backgroundMusicStartScreen');
 }
 
@@ -55,6 +57,15 @@ window.addEventListener('keyup', (event) => {
 
 });
 
+function touchDeviceOrKeyboard(){
+    if ('ontouchstart' in window) {
+        document.getElementById('circle').classList.add('fillCircle');
+        document.getElementById('polygon').classList.add('fillPolygon');
+        document.getElementById('buttons').classList.remove('buttonsDesktop');
+        document.getElementById('buttons').classList.add('buttonsMobile');
+    }
+}
+
 function addEventListeners(){
     document.getElementById('startButton').addEventListener('click', function(event) {
         let clickCircle = event.target.classList.contains('circleStartButton');
@@ -65,7 +76,37 @@ function addEventListeners(){
     });
 }
 
+function addEventListenersForMobileActionButtons(){
+    document.getElementById('buttonThrow').addEventListener('touchstart', (e) => {
+       keyboard.D = true;  
+    })
+    document.getElementById('buttonThrow').addEventListener('touchend', (e) => {
+        keyboard.D = false;  
+    })
+    document.getElementById('buttonJump').addEventListener('touchstart', (e) => {
+        keyboard.UP = true;  
+    })
+     document.getElementById('buttonJump').addEventListener('touchend', (e) => {
+         keyboard.UP = false;  
+    })
+    document.getElementById('buttonLeft').addEventListener('touchstart', (e) => {
+        keyboard.LEFT = true;  
+     })
+     document.getElementById('buttonLeft').addEventListener('touchend', (e) => {
+         keyboard.LEFT = false;  
+     })
+     document.getElementById('buttonRight').addEventListener('touchstart', (e) => {
+         keyboard.RIGHT = true;  
+     })
+      document.getElementById('buttonRight').addEventListener('touchend', (e) => {
+          keyboard.RIGHT = false;  
+     })
+}
+
 function startGame(){
+    if ('ontouchstart' in window) {
+        fullscreen();
+    }
     defaultSounds = JSON.parse(JSON.stringify(sounds));
     document.getElementById('startButton').classList.add('dNone');
     document.getElementById('startscreen').classList.add('dNone');
@@ -162,6 +203,7 @@ function displayEndscreen(){
 }
 
 function restart(){
+    world.gameOver = true;
     pauseSound('mexicanHatDance');
     resetSounds();
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
@@ -183,15 +225,19 @@ function fullscreen(){
     document.getElementById('fullscreen').classList.add('dNone');
     document.getElementById('minimize').classList.remove('dNone');
 
-    let canvasContainer = document.getElementById('canvasContainer');
-    if (canvasContainer.requestFullscreen) {
-        canvasContainer.requestFullscreen();
-    } else if (canvasContainer.mozRequestFullScreen) {
-        canvasContainer.mozRequestFullScreen();
-    } else if (canvasContainer.webkitRequestFullscreen) {
-        canvasContainer.webkitRequestFullscreen();
-    } else if (canvasContainer.msRequestFullscreen) {   
-        canvasContainer.msRequestFullscreen();
+    if ('ontouchstart' in window) {
+       document.getElementById('mobileActionButtons').classList.remove('dNone');
+    }
+
+    let wrapper = document.getElementById('wrapper');
+    if (wrapper.requestFullscreen) {
+        wrapper.requestFullscreen();
+    } else if (wrapper.mozRequestFullScreen) {
+        wrapper.mozRequestFullScreen();
+    } else if (wrapper.webkitRequestFullscreen) {
+        wrapper.webkitRequestFullscreen();
+    } else if (wrapper.msRequestFullscreen) {   
+        wrapper.msRequestFullscreen();
     }
 
     for (let rule of document.styleSheets[0].cssRules) {
@@ -204,6 +250,11 @@ function fullscreen(){
 function minimize(){
     document.getElementById('fullscreen').classList.remove('dNone');
     document.getElementById('minimize').classList.add('dNone');
+
+    if ('ontouchstart' in window) {
+        document.getElementById('mobileActionButtons').classList.add('dNone');
+     }
+ 
 
     if (document.fullscreenElement) {
         document.exitFullscreen();

@@ -8,7 +8,7 @@
   }
 
 .dNone{
-    display: none;
+    display: none !important;
 }
 
 body{
@@ -23,12 +23,22 @@ h1{
     font-size: 5vh;
 }
 
-.canvasContainer{
+#wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    border-radius: 2vw;
     height: 65vh;
-    width: calc(65vh * 1.5);
+    width: calc(65vh * 1.5);   
+}
+
+.canvasContainer{
+    height: 100%;
     position: relative;
     border-radius: 2vw;
     box-shadow: 2px 3px 20px rgba(0, 0, 0, 0.5);
+    aspect-ratio: 3 / 2;
 }
 
 canvas{
@@ -63,6 +73,14 @@ canvas{
     transition: fill 1s ease;
 }
 
+.fillCircle{
+    stroke: white;
+}
+
+.fillPolygon{
+    fill: white;
+}
+
 .startButton{
     height: 50%;
     position: absolute;
@@ -82,13 +100,19 @@ canvas{
 
 .buttons{
     position: absolute;
-    bottom: 3%;
-    right: 2%;    
     height: 7%;
     width: 18%;
-    /* display: flex;
-    align-items: center;
-    gap: 20%; */
+}
+
+.buttonsDesktop{
+    bottom: 3%;
+    right: 2%; 
+}
+
+.buttonsMobile{
+    top: 3%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .buttons img{
