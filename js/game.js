@@ -6,6 +6,10 @@ let stoppableIntervalIds = [];
 let defaultSounds = [];
 let gameStartedOnce = false;
 
+document.addEventListener('DOMContentLoaded', () => {
+    checkOrientation();
+});
+
 function init(){
     touchDeviceOrKeyboard();
     canvas = document.getElementById('canvas');

@@ -15,8 +15,8 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #fac77a;
-    /* background-color: blue; */
+    /* background-color: #fac77a; */
+    background-color: blue;
 
     -webkit-touch-callout: none;
     justify-content: space-between;
