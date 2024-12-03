@@ -12,6 +12,7 @@ function init(){
     addEventListeners();
     addEventListenersForMobileActionButtons();
     playSound('backgroundMusicStartScreen');
+    addOrientationListeners();
 }
 
 window.addEventListener('keydown', (event) => {
@@ -74,12 +75,24 @@ function touchDeviceOrKeyboard(){
     }
 }
 
+function addOrientationListeners() {
+    window.addEventListener('orientationchange', checkOrientation);
+    window.addEventListener('resize', checkOrientation);
+}
+
 function checkOrientation() {
     setTimeout(() => {
         let overlay = document.getElementById('orientationOverlay');
+        const width = document.documentElement.clientWidth;
+        const height = document.documentElement.clientHeight;
+
+        // const width = window.visualViewport ? window.visualViewport.width : window.innerWidth;
+        // const height = window.visualViewport ? window.visualViewport.height : window.innerHeight;
         // overlay.style.width = `${window.innerWidth}px`;
         // overlay.style.height = `${window.innerHeight}px`;
-        if (window.innerHeight > window.innerWidth) {
+
+        overlay.offsetHeight; 
+        if (height > width) {
             overlay.classList.remove('dNone');
         } else {
             overlay.classList.add('dNone');
