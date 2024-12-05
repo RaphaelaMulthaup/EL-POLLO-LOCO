@@ -277,14 +277,18 @@ function fullscreen(){
     document.getElementById('minimize').classList.remove('dNone');
 
     let wrapper = document.getElementById('wrapper');
-    if (wrapper.requestFullscreen) {
-        wrapper.requestFullscreen();
-    } else if (wrapper.mozRequestFullScreen) {
-        wrapper.mozRequestFullScreen();
-    } else if (wrapper.webkitRequestFullscreen) {
-        wrapper.webkitRequestFullscreen();
-    } else if (wrapper.msRequestFullscreen) {   
-        wrapper.msRequestFullscreen();
+    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        wrapper.classList.add('fullscreenApple');
+    } else {
+        if (wrapper.requestFullscreen) {
+            wrapper.requestFullscreen();
+        } else if (wrapper.mozRequestFullScreen) {
+            wrapper.mozRequestFullScreen();
+        } else if (wrapper.webkitRequestFullscreen) {
+            wrapper.webkitRequestFullscreen();
+        } else if (wrapper.msRequestFullscreen) {   
+            wrapper.msRequestFullscreen();
+        }
     }
 
     for (let rule of document.styleSheets[0].cssRules) {
@@ -297,6 +301,9 @@ function fullscreen(){
 function minimize(){
     document.getElementById('fullscreen').classList.remove('dNone');
     document.getElementById('minimize').classList.add('dNone');
+
+    let wrapper = document.getElementById('wrapper');
+    wrapper.classList.remove('fullscreenApple');
 
     if (document.fullscreenElement) {
         document.exitFullscreen();

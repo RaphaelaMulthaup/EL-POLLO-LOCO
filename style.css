@@ -11,6 +11,16 @@
     display: none !important;
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+    /* height: 100%; */
+    /* overflow: hidden; */
+    /* touch-action: none; */
+    height: 101vh; /* Etwas mehr als den Viewport */
+    overflow-y: scroll;
+}
+
 body{
     display: flex;
     flex-direction: column;
@@ -20,7 +30,7 @@ body{
 
     -webkit-touch-callout: none;
     justify-content: space-between;
-    height: 100vh;
+    /* height: 100vh; */
     margin: 0;
 }
 
@@ -42,7 +52,17 @@ h1{
     background-color: black;
     border-radius: 2vw;
     height: 65vh;
-    width: calc(65vh * 1.5);   
+    width: calc(65vh * 1.5);
+    touch-action: none;   
+}
+
+.fullscreenApple{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 9998;
 }
 
 .canvasContainer{
