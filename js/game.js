@@ -97,6 +97,7 @@ function checkOrientation() {
 
         overlay.offsetHeight; 
         if (height > width) {
+            // document.body.appendChild(overlay);
             overlay.classList.remove('dNone');
         } else {
             overlay.classList.add('dNone');
