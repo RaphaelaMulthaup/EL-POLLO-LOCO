@@ -64,6 +64,7 @@ window.addEventListener('keyup', (event) => {
 
 function touchDeviceOrKeyboard(){
     if ('ontouchstart' in window) {
+        document.documentElement.classList.add('htmlScroll');
         checkOrientation();
         document.getElementById('circle').classList.add('fillCircle');
         document.getElementById('polygon').classList.add('fillPolygon');
