@@ -98,6 +98,9 @@ function checkOrientation() {
         overlay.offsetHeight; 
         if (height > width) {
             // document.body.appendChild(overlay);
+            if (/Android/i.test(navigator.userAgent)) {
+                minimize();
+            }
             overlay.classList.remove('dNone');
         } else {
             overlay.classList.add('dNone');
@@ -274,6 +277,7 @@ function resetSounds() {
 }
 
 function fullscreen(){
+    fullscreenMode = true;
     document.getElementById('fullscreen').classList.add('dNone');
     document.getElementById('minimize').classList.remove('dNone');
 
