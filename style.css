@@ -30,7 +30,7 @@ body{
 
     -webkit-touch-callout: none;
     justify-content: space-between;
-    /* height: 100vh; */
+    height: 100vh;
     margin: 0;
     padding: 0;
 }

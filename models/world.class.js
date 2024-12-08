@@ -228,7 +228,7 @@ class World {
     // Funktion aufteilen
     checkGameWasWon(){
         let intervalCheckGameOver = setInterval(() => {
-            if (this.level.enemies[this.level.enemies.length - 1].energy == 0 || this.character.isDead()) {
+            if (this.level.enemies[this.level.enemies.length - 1].energy == 0 || this.character.isDead() || world.level.enemies[world.level.enemies.length - 1].x < -1062) {
                 clearInterval(intervalCheckGameOver);
                 if (this.level.enemies[this.level.enemies.length - 1].energy == 0) {
                     setTimeout(() => {
@@ -236,7 +236,7 @@ class World {
                         stoppableIntervalIds.forEach(clearInterval);
                     }, 600);  
                 }
-                if (this.character.isDead()) {
+                if (this.character.isDead() || world.level.enemies[world.level.enemies.length - 1].x < -1062) {
                     setTimeout(() => {
                         stoppableIntervalIds.forEach(clearInterval);
                     }, 500);

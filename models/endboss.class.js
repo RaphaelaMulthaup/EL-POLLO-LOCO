@@ -70,6 +70,7 @@ class Endboss extends MovableObject {
         this.displayStatusBarEndboss();
         this.bringToLife();
         this.checkFirstEncounter();
+        // this.checkPosition();
     }
 
     setWorld(world){
@@ -287,4 +288,11 @@ class Endboss extends MovableObject {
         }, 3500 + Math.random() * 1500);
     }
 
+    // checkPosition(){
+    //     setInterval(() => {
+    //         if (this.x < -1062) {
+    //             displayEndscreen();
+    //         }
+    //     }, 200);
+    // }
 }

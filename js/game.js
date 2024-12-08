@@ -251,7 +251,7 @@ function displayEndscreen(){
         endscreen.classList.add('endscreenYouWin');
         document.getElementById('overlay').classList.remove('dNone');
     }
-    if (world.character.isDead()) {
+    if (world.character.isDead() || world.level.enemies[world.level.enemies.length - 1].x < -1062) {
         endscreen.src = 'img/9_intro_outro_screens/game_over/game over.png';
         endscreen.classList.remove('dNone', 'endscreenYouWin');
         endscreen.classList.add('endscreenGameOver');
@@ -261,6 +261,7 @@ function displayEndscreen(){
 function restart(){
     world.gameOver = true;
     pauseSound('mexicanHatDance');
+    pauseSound('endbossBackgroundMusic');
     resetSounds();
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
     stoppableIntervalIds = [];
