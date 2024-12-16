@@ -1,11 +1,11 @@
 class World {
-    character = new Character(this);
+    level = level1;
     endboss = new Endboss(this);
+    character;
     statusBarLife = new StatusBarLife();
     statusBarCoins = new StatusBarCoins();
     statusBarBottles = new StatusBarBottles();
     statusBarEndboss = [];
-    level = level1;
     canvas;
     ctx;
     keyboard;
@@ -25,7 +25,9 @@ class World {
         this.canvas = canvas;
 
         this.keyboard = keyboard;
-        this.level.enemies.push(this.endboss);  
+        this.level.enemies.push(this.endboss);
+        this.character = new Character(this);
+
         this.setWorld();
         this.draw();
         this.checkEvents();

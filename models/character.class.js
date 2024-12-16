@@ -76,10 +76,21 @@ class Character extends MovableObject {
     characterHurtSoundIsPlaying = false;
     characterJumpingSoundIsPlaying = false;
     characterWalkingSoundIsPlaying = false;
+    alignedToTheLeft = false;
+    alignedToTheRight = true;
+    endboss;
+    lastEndbossPosition;
+    lastDirectionLeft = this.alignedToTheLeft;
+    isSlowModeActive = false;
+    targetCameraX = 0;
+    smoothing = 0.1;
+
 
     constructor(world){
         super();
         this.world = world;
+        this.endboss = this.world.level.enemies[this.world.level.enemies.length - 1];
+        this.lastEndbossPosition = this.endboss.x;
         this.loadImg('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
@@ -96,79 +107,103 @@ class Character extends MovableObject {
     }
 
     camera() {
-        let endboss = this.world.level.enemies[this.world.level.enemies.length - 1];
-        let alignedToTheLeft = false;
-        let alignedToTheRight = true;
-        let lastDirectionLeft = alignedToTheLeft; // Speichert, ob die letzte Richtung des Charakters nach Links war
-        let smoothing = 0.1; // Standardgeschwindigkeit
-        let lastEndbossPosition = endboss.x;
-        let isSlowModeActive = false; // Variable für den Langsammodus
-        let targetCameraX = 0;
-
         setInterval(() => {
-            
-            if (this.world.keyboard.LEFT) {
-                alignedToTheLeft = true;
-                alignedToTheRight = false;
-            }
-            if (this.world.keyboard.RIGHT) {
-                alignedToTheLeft = false;
-                alignedToTheRight = true;
-            }
-
-            // Prüfen, ob der Endboss die relative Position geändert hat
-            let endbossSwitchedToLeft = lastEndbossPosition > this.x && endboss.x <= this.x;
-
-            let directionChanged = (alignedToTheLeft && !lastDirectionLeft) || (alignedToTheRight && lastDirectionLeft);
-
-            // Bedingung: Großer Wechsel erkannt
-            if ((this.x > endboss.x && directionChanged) || (endbossSwitchedToLeft && alignedToTheLeft)) {
-                isSlowModeActive = true; // Aktiviert den Langsammodus
-            }
-
-            // // Bestimmen der Kamerabewegungsgeschwindigkeit
-            // if ((this.x > endboss.x && directionChanged) || (endbossSwitchedToLeft && alignedToTheLeft)) {
-            //     console.log('klappt');
-                
-            //     smoothing = 0.025;  // Langsame Kamera bei großen Positionswechseln
-            // } else {
-            //     // Standardgeschwindigkeit
-            //     smoothing = 0.1;
-            // }
-
-            // Bestimmen des Zielwerts der Kamera
-            if (this.x > endboss.x && alignedToTheLeft) {
-                targetCameraX = -this.x + 500;
-            } else if (this.x < 2200) {
-                targetCameraX = -this.x + 100;
-            } else {
-                targetCameraX = -2200 + 100; // Kamera bleibt fixiert, wenn x >= 2200
-            }
-
-            // Langsam-Modus beenden, wenn Ziel erreicht
-            if (Math.abs(this.world.camera_x - targetCameraX) < 1) { // Kamera hat Ziel erreicht
-                isSlowModeActive = false; // Beendet den Langsammodus
-            }
-
-            // Geschwindigkeit anpassen
-            smoothing = isSlowModeActive ? 0.025 : 0.1;
-
-    
-            // Sanfte Bewegung (Lerp-Methode für Übergänge)
-            this.world.camera_x += (targetCameraX - this.world.camera_x) * smoothing;
-
-            // Verhindere subpixel-Bewegungen
-            this.world.camera_x = Math.floor(this.world.camera_x); // Runden auf ganze Pixel
-      
-            // **Neue Bedingung: Kamera-Begrenzung**
-            if (this.world.camera_x > 0) {
-                this.world.camera_x = 0; // Kamera darf nicht weiter nach links gehen als 0
-            }
-
-            // Vorherige Zustände aktualisieren
-            lastEndbossPosition = endboss.x;
-            lastDirectionLeft = alignedToTheLeft;
+            this.checkAlignedToTheLeft();
+            this.checkAlignedToTheRight();
+            this.checkForLargeChangesCamera();
+            this.setTargetCameraX();
+            this.speedCamera();
+            this.preventSubpixelMovements();
+            this.cameraLimitationLeft();
+            this.updatelastStates();
         }, 1000 / 60);
+    }
+
+    // camera() {
+    //     const updateCamera = () => {
+    //         this.checkAlignedToTheLeft();
+    //         this.checkAlignedToTheRight();
+    //         this.checkForLargeChangesCamera();
+    //         this.setTargetCameraX();
+    //         this.speedCamera();
+    //         this.preventSubpixelMovements();
+    //         this.cameraLimitationLeft();
+    //         this.updatelastStates();
+    
+    //         // Nächsten Frame anfordern
+    //         this.cameraAnimationId = requestAnimationFrame(updateCamera);
+    //     };
+    
+    //     // Kamera-Animation starten
+    //     this.cameraAnimationId = requestAnimationFrame(updateCamera);
+    // }
+        
+    checkAlignedToTheLeft(){
+        if (this.world.keyboard.LEFT) {
+            this.alignedToTheLeft = true;
+        }
+        if (this.world.keyboard.RIGHT) {
+            this.alignedToTheLeft = false;
+        }
+    }
+
+    checkAlignedToTheRight(){
+        if (this.world.keyboard.RIGHT) {
+            this.alignedToTheRight = true;
+        }
+        if (this.world.keyboard.LEFT) {
+            this.alignedToTheRight = false;
+        }
+    }
+
+    checkForLargeChangesCamera(){
+        // Prüfen, ob der Endboss die relative Position geändert hat
+        let endbossSwitchedToLeft = this.lastEndbossPosition > this.x && this.endboss.x <= this.x;
+
+        let directionChanged = (this.alignedToTheLeft && !this.lastDirectionLeft) || (this.alignedToTheRight && this.lastDirectionLeft);
+
+        // Bedingung: Großer Wechsel erkannt
+        if ((this.x > this.endboss.x && directionChanged) || (endbossSwitchedToLeft && this.alignedToTheLeft)) {
+            this.isSlowModeActive = true; // Aktiviert den Langsammodus
+        }
+    }
+
+    setTargetCameraX(){
+        if (this.x > this.endboss.x && this.alignedToTheLeft) {
+            this.targetCameraX = -this.x + 500;
+        } else if (this.x < 2200) {
+            this.targetCameraX = -this.x + 100;
+        } else {
+            this.targetCameraX = -2200 + 100; // Kamera bleibt fixiert, wenn x >= 2200
+        }
+    }
+
+    speedCamera(){
+        // Langsam-Modus beenden, wenn Ziel erreicht
+        if (Math.abs(this.world.camera_x - this.targetCameraX) < 1) { // Kamera hat Ziel erreicht
+            this.isSlowModeActive = false; // Beendet den Langsammodus
+        }
+
+        // Geschwindigkeit anpassen
+        this.smoothing = this.isSlowModeActive ? 0.025 : 0.1;
+
+        // Sanfte Bewegung (Lerp-Methode für Übergänge)
+        this.world.camera_x += (this.targetCameraX - this.world.camera_x) * this.smoothing;
+    }
+
+    preventSubpixelMovements(){
+        this.world.camera_x = Math.floor(this.world.camera_x); // Runden auf ganze Pixel
+    }
+
+    cameraLimitationLeft(){
+        if (this.world.camera_x > 0) {
+            this.world.camera_x = 0;
+        }
+    }
+
+    updatelastStates(){
+        this.lastEndbossPosition = this.endboss.x;
+        this.lastDirectionLeft = this.alignedToTheLeft;
     }
 
     bringToLife(){
