@@ -1,5 +1,5 @@
 class World {
-    character = new Character();
+    character = new Character(this);
     endboss = new Endboss(this);
     statusBarLife = new StatusBarLife();
     statusBarCoins = new StatusBarCoins();
@@ -9,7 +9,7 @@ class World {
     canvas;
     ctx;
     keyboard;
-    camera_x = 0;
+    camera_x = 60;
     directionClouds = Math.random() < 0.5 ? 'left' : 'right';
     throwableBottles = [];
     collectedBottles = 0;
