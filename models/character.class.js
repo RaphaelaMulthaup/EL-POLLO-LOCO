@@ -100,9 +100,9 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_LONG_IDLE);
         this.applyGravity(145);
         this.bringToLife();
-        setTimeout(() => {
+        // setTimeout(() => {
             this.camera();
-        }, 0);
+        // }, 0);
 
     }
 
