@@ -132,6 +132,11 @@ class World {
         setTimeout(() => {
             enemy.isCollidingWithCharacter = false;
         }, 1500);
+        if (this.character.energy <= 80 && this.collectedCoins == 5) {
+            setTimeout(() => {
+                this.turnCoinsIntoEnergy(); 
+            }, 750);
+        }
     }
 
     checkCollisionWithCollectibleObject(){
@@ -142,7 +147,7 @@ class World {
                 }
                 if (obj instanceof CollectibleCoin && this.character.isColliding(obj) && this.collectedCoins < 5) {
                     this.collectCoin(indexOfObj);
-                    if (this.collectedCoins == 5) {
+                    if (this.collectedCoins == 5  && this.character.energy <= 80) {
                         this.turnCoinsIntoEnergy();
                     }
                 }
