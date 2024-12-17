@@ -251,7 +251,7 @@ function displayEndscreen(){
         endscreen.classList.add('endscreenYouWin');
         document.getElementById('overlay').classList.remove('dNone');
     }
-    if (world.character.isDead() || world.level.enemies[world.level.enemies.length - 1].x < -1062) {
+    if (world.character.isDead() || world.level.enemies[world.level.enemies.length - 1].x < -343) {
         endscreen.src = 'img/9_intro_outro_screens/game_over/game over.png';
         endscreen.classList.remove('dNone', 'endscreenYouWin');
         endscreen.classList.add('endscreenGameOver');

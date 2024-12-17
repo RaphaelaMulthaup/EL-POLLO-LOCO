@@ -99,7 +99,7 @@ class World {
         this.checkCollisions();
         setStoppableInterval(() => this.checkThrowBottle(), 1000 / 60);
         this.checkCollisionsBottlesEmemies();
-        this.checkGameWasWon();
+        this.checkGameIsOver();
     }
 
     checkCollisions(){
@@ -227,32 +227,38 @@ class World {
         }, 1000 / 60);
     }
 
-    // Funktion aufteilen
-    checkGameWasWon(){
+    checkGameIsOver(){
         let intervalCheckGameOver = setInterval(() => {
-            if (this.level.enemies[this.level.enemies.length - 1].energy == 0 || this.character.isDead() || world.level.enemies[world.level.enemies.length - 1].x < -1062) {
+            if (this.endboss.energy == 0 || this.character.isDead() || this.endboss.x < -343) {
                 clearInterval(intervalCheckGameOver);
-                if (this.level.enemies[this.level.enemies.length - 1].energy == 0) {
-                    setTimeout(() => {
-                        this.gameOver = true;
-                        stoppableIntervalIds.forEach(clearInterval);
-                    }, 600);  
-                }
-                if (this.character.isDead() || world.level.enemies[world.level.enemies.length - 1].x < -1062) {
-                    setTimeout(() => {
-                        stoppableIntervalIds.forEach(clearInterval);
-                    }, 500);
-                    setTimeout(() => {
-                        this.gameOver = true;
-                        pauseSound('backgroundMusicGame');
-                    }, 1000);  
-                }
+                this.checkGameIsWon();
+                this.checkGameIsLost();
                 setTimeout(() => {
                     displayEndscreen();
-
                     playSound('mexicanHatDance');
                 }, 1000);
             }
         }, 1000 / 60);
+    }
+
+    checkGameIsWon(){
+        if (this.endboss.energy == 0) {
+            setTimeout(() => {
+                this.gameOver = true;
+                stoppableIntervalIds.forEach(clearInterval);
+            }, 600);  
+        }
+    }
+
+    checkGameIsLost(){
+        if (this.character.isDead() || this.endboss.x < -343) {
+            setTimeout(() => {
+                stoppableIntervalIds.forEach(clearInterval);
+            }, 500);
+            setTimeout(() => {
+                this.gameOver = true;
+                pauseSound('backgroundMusicGame');
+            }, 1000);  
+        }
     }
 }
