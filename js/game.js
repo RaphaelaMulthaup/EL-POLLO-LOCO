@@ -256,6 +256,7 @@ function displayEndscreen(){
         endscreen.classList.remove('dNone', 'endscreenYouWin');
         endscreen.classList.add('endscreenGameOver');
     }
+    document.getElementById('restartEndscreen').classList.remove('dNone');
 }
 
 function restart(){
@@ -268,6 +269,7 @@ function restart(){
     // world = null;
     document.getElementById('endscreen').classList.add('dNone');
     document.getElementById('overlay').classList.add('dNone');
+    document.getElementById('restartEndscreen').classList.add('dNone');
     startGame();
 }
 
