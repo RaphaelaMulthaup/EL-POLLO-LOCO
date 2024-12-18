@@ -147,6 +147,24 @@
     justify-content: center;
 }
 
+@media (min-aspect-ratio: 500/360) {
+    #restartEndscreen{
+        font-size: 2.2vw;
+    }
+}
+
+@media (min-aspect-ratio: 600/360) {
+    #restartEndscreen{
+        font-size: 1.9vw;
+    }
+}
+
+@media (min-aspect-ratio: 720/360) {
+    #restartEndscreen{
+        font-size: 1.6vw;
+    }
+}
+
 #restartEndscreen:hover{
     cursor: pointer;
     background-color: #CE912F;
