@@ -200,7 +200,8 @@ function mute(img){
     img.src = 'img/unmute.png';
     muted = true;
     Object.keys(sounds).forEach(sound => {
-        sounds[sound].audio.volume = 0;
+        // sounds[sound].audio.volume = 0;
+        sounds[sound].audio.muted = true;
     });
 }
 
@@ -208,13 +209,23 @@ function unmute(img){
     img.src = 'img/mute.png';
     muted = false;
     Object.keys(sounds).forEach(sound => {
-        sounds[sound].audio.volume = sounds[sound].currentVolume;
+        sounds[sound].audio.muted = false;
+        if (sounds[sound].theoreticalStartTime !== undefined) {
+            sounds[sound].audio.currentTime = sounds[sound].audio.currentTime + (Date.now() - sounds[sound].theoreticalStartTime) / 1000;
+            sounds[sound].audio.play();
+            delete sounds[sound].theoreticalStartTime;
+        }
     });
 }
 
 function playSound(soundName){
     let currentSound = setSound(soundName);
-    currentSound.play();
+    if (muted) {
+        sounds[soundName].theoreticalStartTime = Date.now();
+        currentSound.pause();
+    } else {
+        currentSound.play();
+    }
 }
 
 function setSound(soundName){
@@ -225,17 +236,18 @@ function setSound(soundName){
 
 function setVolume(soundName){
     let currentSound = sounds[soundName].audio;
-    if (!muted) {
+    // if (!muted) {
         currentSound.volume = sounds[soundName].currentVolume;
-    } else {
-        currentSound.volume = 0;
-    }
+    // } else {
+    //     currentSound.volume = 0;
+    // }
     return currentSound;
 }
 
 function pauseSound(soundName){
     let currentSound = sounds[soundName].audio;
-    currentSound.pause(); 
+    currentSound.pause();
+    delete sounds[soundName].theoreticalStartTime;
 }
 
 function setStoppableInterval(fn, time){
