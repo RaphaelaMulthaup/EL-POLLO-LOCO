@@ -143,20 +143,32 @@ function addEventListenersForMobileActionButtons(){
         keyboard.UP = true;  
     })
      document.getElementById('buttonJump').addEventListener('touchend', (e) => {
-         keyboard.UP = false;  
+        keyboard.UP = false;  
     })
     document.getElementById('buttonLeft').addEventListener('touchstart', (e) => {
         keyboard.LEFT = true;  
-     })
-     document.getElementById('buttonLeft').addEventListener('touchend', (e) => {
-         keyboard.LEFT = false;  
-     })
-     document.getElementById('buttonRight').addEventListener('touchstart', (e) => {
-         keyboard.RIGHT = true;  
-     })
-      document.getElementById('buttonRight').addEventListener('touchend', (e) => {
-          keyboard.RIGHT = false;  
-     })
+    })
+    document.getElementById('buttonLeft').addEventListener('touchend', (e) => {
+        keyboard.LEFT = false;  
+    })
+    document.getElementById('buttonRight').addEventListener('touchstart', (e) => {
+        keyboard.RIGHT = true;  
+    })
+    document.getElementById('buttonRight').addEventListener('touchend', (e) => {
+        keyboard.RIGHT = false;  
+    })
+    preventTouchNextToButtons();
+}
+
+
+function preventTouchNextToButtons() {
+    ['mobileActionButtons', 'canvas'].forEach(id => {
+        document.getElementById(id).addEventListener('touchstart', (e) => {
+            if (!e.target.classList.contains('mobileActionButton')) {
+                e.preventDefault();
+            }
+        });
+    });
 }
 
 function startGame(){
