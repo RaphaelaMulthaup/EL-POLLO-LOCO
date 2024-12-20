@@ -234,7 +234,7 @@ class World {
 
     checkGameIsOver(){
         let intervalCheckGameOver = setInterval(() => {
-            if (this.endboss.energy == 0 || this.character.isDead() || this.endboss.x < -343) {
+            if (this.endboss.isDead() || gameIsLost()) {
                 clearInterval(intervalCheckGameOver);
                 this.checkGameIsWon();
                 this.checkGameIsLost();
@@ -247,7 +247,7 @@ class World {
     }
 
     checkGameIsWon(){
-        if (this.endboss.energy == 0) {
+        if (this.endboss.isDead()) {
             setTimeout(() => {
                 this.gameOver = true;
                 stoppableIntervalIds.forEach(clearInterval);
@@ -256,7 +256,7 @@ class World {
     }
 
     checkGameIsLost(){
-        if (this.character.isDead() || this.endboss.x < -343) {
+        if (gameIsLost()) {
             setTimeout(() => {
                 stoppableIntervalIds.forEach(clearInterval);
             }, 500);

@@ -270,7 +270,7 @@ class Character extends MovableObject {
 
     animateHurt(){
         setInterval(() => {
-            if (this.isHurt() && !this.isDead() && !this.world.level.enemies[this.world.level.enemies.length - 1].energy == 0) {
+            if (this.isHurt() && !this.isDead() && !this.world.endboss.isDead()) {
                 this.playAnimation(this.IMAGES_HURT);
             } 
         }, 100);
@@ -360,7 +360,7 @@ class Character extends MovableObject {
     }
 
     playWalkingSound(){
-        if (this.characterIsWalking() && this.x > 0 && this.x < this.world.level.level_end_x && !this.isHurt() && !this.isDead() && !this.world.introAnimationEndboss && !this.isAboveGround(145) && !this.world.level.enemies[this.world.level.enemies.length - 1].energy == 0) {
+        if (this.characterIsWalking() && this.x > 0 && this.x < this.world.level.level_end_x && !this.isHurt() && !this.isDead() && !this.world.introAnimationEndboss && !this.isAboveGround(145) && !this.world.endboss.isDead()) {
             if (!this.characterWalkingSoundIsPlaying) {
                 playSound('characterWalkingSound');
                 this.characterWalkingSoundIsPlaying = true;
@@ -383,7 +383,7 @@ class Character extends MovableObject {
     }
 
     playHurtSound(){
-        if (this.isHurt() && !this.isDead() && !this.characterHurtSoundIsPlaying && !this.world.level.enemies[this.world.level.enemies.length - 1].energy == 0) {
+        if (this.isHurt() && !this.isDead() && !this.characterHurtSoundIsPlaying && !this.world.endboss.isDead()) {
             this.characterHurtSoundIsPlaying = true;
             playSound('characterHurtSound');
             setTimeout(() => {
