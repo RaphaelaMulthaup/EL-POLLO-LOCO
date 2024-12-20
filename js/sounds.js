@@ -1,9 +1,9 @@
 let sounds = {
-    backgroundMusicStartScreen: {
-        audio: new Audio('audio/backgroundmusic_startscreen.mp3'),
-        currentVolume: 0.3,
-        currentTime: 0
-    },
+    // backgroundMusicStartScreen: {
+    //     audio: new Audio('audio/backgroundmusic_startscreen.mp3'),
+    //     currentVolume: 0.3,
+    //     currentTime: 0
+    // },
     backgroundMusicGame: {
         audio: new Audio('audio/backgroundmusic_game.mp3'),
         currentVolume: 0.1,

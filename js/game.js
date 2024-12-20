@@ -15,7 +15,7 @@ function init(){
     canvas = document.getElementById('canvas');
     addEventListeners();
     addEventListenersForMobileActionButtons();
-    playSound('backgroundMusicStartScreen');
+    // playSound('backgroundMusicStartScreen');
     addOrientationListeners();
 }
 
@@ -180,24 +180,25 @@ function startGame(){
     document.getElementById('startscreen').classList.add('dNone');
     initLevel();
     world = new World(canvas, keyboard);
-    changeBackgroundMusic();
+    playSound('backgroundMusicGame');
+    // changeBackgroundMusic();
     gameStartedOnce = true;
 }
 
-function changeBackgroundMusic(){
-    let index = 10
-    setInterval(() => {
-        if (index > 0) {
-            sounds.backgroundMusicStartScreen.currentVolume -= 0.03;
-            setVolume('backgroundMusicStartScreen');
-            index --;   
-        }
-    }, 50);
-    setTimeout(() => {
-        pauseSound('backgroundMusicStartScreen');
-    }, 1000);
-    playSound('backgroundMusicGame');
-}
+// function changeBackgroundMusic(){
+//     let index = 10
+//     setInterval(() => {
+//         if (index > 0) {
+//             sounds.backgroundMusicStartScreen.currentVolume -= 0.03;
+//             setVolume('backgroundMusicStartScreen');
+//             index --;   
+//         }
+//     }, 50);
+//     setTimeout(() => {
+//         pauseSound('backgroundMusicStartScreen');
+//     }, 1000);
+//     playSound('backgroundMusicGame');
+// }
 
 function muteUnmute(){
     let img = document.getElementById('muteUnmute');
