@@ -1,14 +1,15 @@
 let character;
 let alignedToTheLeft = false;
 let alignedToTheRight = true;
-let lastEndbossPosition = world.endboss.x;
+let lastEndbossPosition;
 let lastDirectionLeft = this.alignedToTheLeft;
 let isSlowModeActive = false;
 let targetCameraX = 0;
 let smoothing = 0.1;
 
-function camera(characterHandOver) {
+function camera(characterHandOver, endbossHandOver) {
   character = characterHandOver;
+  lastEndbossPosition = endbossHandOver.x;
   setInterval(() => {
     checkAlignedToTheLeft();
     checkAlignedToTheRight();

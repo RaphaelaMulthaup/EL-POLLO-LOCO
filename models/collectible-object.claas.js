@@ -1,5 +1,5 @@
 class CollectibleObject extends DrawableObject {
-    constructor(){
-        super();
-    }
+  constructor() {
+    super();
+  }
 }

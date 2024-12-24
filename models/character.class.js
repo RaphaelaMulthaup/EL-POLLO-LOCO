@@ -89,7 +89,7 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_LONG_IDLE);
     this.applyGravity(145);
     this.bringToLife();
-    camera(this);
+    camera(this, world.endboss);
   }
 
   bringToLife() {
