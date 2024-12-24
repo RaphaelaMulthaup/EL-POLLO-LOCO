@@ -187,18 +187,22 @@ class Character extends MovableObject {
 
   animateIdle() {
     setInterval(() => {
-      if (
-        !this.isDead() &&
-        !this.isHurt() &&
-        !this.isAboveGround(145) &&
-        !this.characterIsWalking()
-      ) {
+      if (this.atIdle()) {
         if (this.idleTime < 15000) this.playAnimation(this.IMAGES_IDLE);
         this.idleTime += 200;
       } else {
         this.idleTime = 0;
       }
     }, 200);
+  }
+
+  atIdle() {
+    return (
+      !this.isDead() &&
+      !this.isHurt() &&
+      !this.isAboveGround(145) &&
+      !this.buttonsForWalkingArePressed()
+    );
   }
 
   animateLongIdle() {
@@ -209,15 +213,18 @@ class Character extends MovableObject {
 
   animateWalking() {
     setInterval(() => {
-      if (
-        !this.world.introAnimationEndboss &&
-        !this.isDead() &&
-        !this.isHurt() &&
-        !this.isAboveGround(145) &&
-        this.characterIsWalking()
-      )
-        this.playAnimation(this.IMAGES_WALKING);
+      if (this.isWalking()) this.playAnimation(this.IMAGES_WALKING);
     }, 100);
+  }
+
+  isWalking() {
+    return (
+      !this.world.introAnimationEndboss &&
+      !this.isDead() &&
+      !this.isHurt() &&
+      !this.isAboveGround(145) &&
+      this.buttonsForWalkingArePressed()
+    );
   }
 
   animateJumping() {
@@ -260,44 +267,45 @@ class Character extends MovableObject {
 
   movementRight() {
     setInterval(() => {
-      if (
-        this.world.keyboard.RIGHT &&
-        this.x < this.world.level.level_end_x &&
-        !this.isHurt() &&
-        !this.world.introAnimationEndboss &&
-        !this.isDead()
-      ) {
+      if (this.conditionsMovingRightMet()) {
         this.moveRight();
         this.otherDirection = false;
       }
     }, 1000 / 60);
   }
 
+  conditionsMovingRightMet() {
+    return (
+      this.world.keyboard.RIGHT &&
+      this.x < this.world.level.level_end_x &&
+      !this.isHurt() &&
+      !this.world.introAnimationEndboss &&
+      !this.isDead()
+    );
+  }
+
   movementLeft() {
     setInterval(() => {
-      if (
-        this.world.keyboard.LEFT &&
-        this.x > 0 &&
-        !this.isHurt() &&
-        !this.world.introAnimationEndboss &&
-        !this.isDead()
-      ) {
+      if (this.conditionsMovingLeftMet()) {
         this.moveLeft();
         this.otherDirection = true;
       }
     }, 1000 / 60);
   }
 
+  conditionsMovingLeftMet() {
+    return (
+      this.world.keyboard.LEFT &&
+      this.x > 0 &&
+      !this.isHurt() &&
+      !this.world.introAnimationEndboss &&
+      !this.isDead()
+    );
+  }
+
   movementJumping() {
     setInterval(() => {
-      if (
-        (this.world.keyboard.SPACE || this.world.keyboard.UP) &&
-        !this.isAboveGround(145) &&
-        !this.isHurt() &&
-        !this.world.introAnimationEndboss &&
-        !this.isDead()
-      )
-        this.jump(30);
+      if (this.conditionsJumpingMet()) this.jump(30);
     }, 1000 / 60);
     let intervalJumpingWhileDying = setInterval(() => {
       if (this.isDead() && !this.isAboveGround(145)) {
@@ -307,6 +315,16 @@ class Character extends MovableObject {
         }, 200);
       }
     }, 1000 / 60);
+  }
+
+  conditionsJumpingMet() {
+    return (
+      (this.world.keyboard.SPACE || this.world.keyboard.UP) &&
+      !this.isAboveGround(145) &&
+      !this.isHurt() &&
+      !this.world.introAnimationEndboss &&
+      !this.isDead()
+    );
   }
 
   playSound() {
@@ -338,16 +356,7 @@ class Character extends MovableObject {
   }
 
   playWalkingSound() {
-    if (
-      this.characterIsWalking() &&
-      this.x > 0 &&
-      this.x < this.world.level.level_end_x &&
-      !this.isHurt() &&
-      !this.isDead() &&
-      !this.world.introAnimationEndboss &&
-      !this.isAboveGround(145) &&
-      !this.world.endboss.isDead()
-    ) {
+    if (this.conditionsWalkingSoundMet()) {
       if (!this.characterWalkingSoundIsPlaying) {
         playSound("characterWalkingSound");
         this.characterWalkingSoundIsPlaying = true;
@@ -358,12 +367,21 @@ class Character extends MovableObject {
     }
   }
 
-  playJumpingSound() {
-    if (
-      this.speedY > 0 &&
+  conditionsWalkingSoundMet() {
+    return (
+      this.buttonsForWalkingArePressed() &&
+      this.x > 0 &&
+      this.x < this.world.level.level_end_x &&
+      !this.isHurt() &&
       !this.isDead() &&
-      !this.characterJumpingSoundIsPlaying
-    ) {
+      !this.world.introAnimationEndboss &&
+      !this.isAboveGround(145) &&
+      !this.world.endboss.isDead()
+    );
+  }
+
+  playJumpingSound() {
+    if (this.conditionsJumpingSoundMet()) {
       this.characterJumpingSoundIsPlaying = true;
       playSound("characterJumpingSound");
     }
@@ -373,19 +391,29 @@ class Character extends MovableObject {
     }
   }
 
+  conditionsJumpingSoundMet() {
+    return (
+      this.speedY > 0 && !this.isDead() && !this.characterJumpingSoundIsPlaying
+    );
+  }
+
   playHurtSound() {
-    if (
-      this.isHurt() &&
-      !this.isDead() &&
-      !this.characterHurtSoundIsPlaying &&
-      !this.world.endboss.isDead()
-    ) {
+    if (this.conditionHurtSoundMet()) {
       this.characterHurtSoundIsPlaying = true;
       playSound("characterHurtSound");
       setTimeout(() => {
         this.characterHurtSoundIsPlaying = false;
       }, 1000);
     }
+  }
+
+  conditionHurtSoundMet() {
+    return (
+      this.isHurt() &&
+      !this.isDead() &&
+      !this.characterHurtSoundIsPlaying &&
+      !this.world.endboss.isDead()
+    );
   }
 
   playDyingSound(id) {
@@ -398,7 +426,7 @@ class Character extends MovableObject {
     }
   }
 
-  characterIsWalking() {
+  buttonsForWalkingArePressed() {
     return world.keyboard.RIGHT || world.keyboard.LEFT;
   }
 }
