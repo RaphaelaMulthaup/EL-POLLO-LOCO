@@ -11,13 +11,6 @@ class Character extends MovableObject {
   characterHurtSoundIsPlaying = false;
   characterJumpingSoundIsPlaying = false;
   characterWalkingSoundIsPlaying = false;
-  alignedToTheLeft = false;
-  alignedToTheRight = true;
-  lastEndbossPosition;
-  lastDirectionLeft = this.alignedToTheLeft;
-  isSlowModeActive = false;
-  targetCameraX = 0;
-  smoothing = 0.1;
   world;
 
   IMAGES_WALKING = [
@@ -87,7 +80,6 @@ class Character extends MovableObject {
   constructor(world) {
     super();
     this.world = world;
-    this.lastEndbossPosition = this.world.endboss.x;
     this.loadImg("img/2_character_pepe/2_walk/W-21.png");
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
@@ -97,77 +89,7 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_LONG_IDLE);
     this.applyGravity(145);
     this.bringToLife();
-    this.camera();
-  }
-
-  camera() {
-    setInterval(() => {
-      this.checkAlignedToTheLeft();
-      this.checkAlignedToTheRight();
-      this.checkForLargeChangesCamera();
-      this.setTargetCameraX();
-      this.speedCamera();
-      this.preventSubpixelMovements();
-      this.cameraLimitationLeft();
-      this.updatelastStates();
-    }, 1000 / 60);
-  }
-
-  checkAlignedToTheLeft() {
-    if (this.world.keyboard.LEFT) this.alignedToTheLeft = true;
-    if (this.world.keyboard.RIGHT) this.alignedToTheLeft = false;
-  }
-
-  checkAlignedToTheRight() {
-    if (this.world.keyboard.RIGHT) this.alignedToTheRight = true;
-    if (this.world.keyboard.LEFT) this.alignedToTheRight = false;
-  }
-
-  checkForLargeChangesCamera() {
-    let endbossSwitchedToLeft =
-      this.lastEndbossPosition > this.x && this.world.endboss.x <= this.x;
-    let directionChanged =
-      (this.alignedToTheLeft && !this.lastDirectionLeft) ||
-      (this.alignedToTheRight && this.lastDirectionLeft);
-
-    if (
-      (this.x > this.world.endboss.x && directionChanged) ||
-      (endbossSwitchedToLeft && this.alignedToTheLeft)
-    )
-      this.isSlowModeActive = true;
-  }
-
-  setTargetCameraX() {
-    if (this.x > this.world.endboss.x && this.alignedToTheLeft) {
-      this.targetCameraX = -this.x + 500;
-    } else if (this.x < 2200) {
-      this.targetCameraX = -this.x + 100;
-    } else {
-      this.targetCameraX = -2200 + 100;
-    }
-  }
-
-  speedCamera() {
-    if (Math.abs(this.world.camera_x - this.targetCameraX) < 1)
-      this.isSlowModeActive = false;
-
-    this.smoothing = this.isSlowModeActive ? 0.025 : 0.1;
-
-    this.world.camera_x +=
-      (this.targetCameraX - this.world.camera_x) * this.smoothing;
-  }
-
-  preventSubpixelMovements() {
-    this.world.camera_x = Math.floor(this.world.camera_x);
-  }
-
-  cameraLimitationLeft() {
-    if (this.world.camera_x > 0) this.world.camera_x = 0;
-  }
-
-  updatelastStates() {
-    this.lastEndbossPosition = this.world.endboss.x;
-    this.lastDirectionLeft = this.alignedToTheLeft;
+    camera(this);
   }
 
   bringToLife() {
