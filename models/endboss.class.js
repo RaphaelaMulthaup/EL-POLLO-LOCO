@@ -195,30 +195,28 @@ class Endboss extends MovableObject {
     }
   }
 
-
-//   hier weiter aufräumen
   playAlertSound(id) {
-    if (!this.initialHit && this.world.firstEncounterEndbossHappend) {
+    if (this.firstEncounterNoHit()) {
       this.playRandomAlertSound();
       clearInterval(id);
     }
   }
 
+  firstEncounterNoHit() {
+    return !this.initialHit && this.world.firstEncounterEndbossHappend;
+  }
+
   playRandomAlertSound() {
-    if (!this.initialHit && this.world.firstEncounterEndbossHappend) {
+    if (this.firstEncounterNoHit()) {
       playSound("endbossAlertSound");
-      setTimeout(() => {
-        pauseSound("endbossAlertSound");
-      }, 1500);
+      setTimeout(() => pauseSound("endbossAlertSound"), 1500);
     }
-    setTimeout(() => {
-      this.playRandomAlertSound();
-    }, 2500 + Math.random() * 2500);
+    setTimeout(() => this.playRandomAlertSound(), 2500 + Math.random() * 2500);
   }
 
   playEndbossBackgroundmusic() {
     let intervalEndbossBackgroundMusic = setInterval(() => {
-      if (this.initialHit && !this.threateningSound && !this.isDead()) {
+      if (this.conditionsBackgroundMusicEndbossMet()) {
         clearInterval(intervalEndbossBackgroundMusic);
         playSound("endbossBackgroundMusic");
       }
@@ -231,34 +229,38 @@ class Endboss extends MovableObject {
     }, 1000);
   }
 
+  conditionsBackgroundMusicEndbossMet() {
+    return this.initialHit && !this.threateningSound && !this.isDead();
+  }
+
   playHurtSound() {
-    if (this.isHurt && !this.endbossHurtSoundIsPlaying && this.energy >= 0) {
+    if (this.conditionsHurtSoundMet()) {
       this.endbossHurtSoundIsPlaying = true;
       playSound("endbossHurtSound");
-      setTimeout(() => {
-        pauseSound("endbossHurtSound");
-      }, 1200);
-      setTimeout(() => {
-        this.endbossHurtSoundIsPlaying = false;
-      }, 2000);
+      setTimeout(() => pauseSound("endbossHurtSound"), 1200);
+      setTimeout(() => (this.endbossHurtSoundIsPlaying = false), 2000);
     }
   }
 
+  conditionsHurtSoundMet() {
+    return this.isHurt && !this.endbossHurtSoundIsPlaying && this.energy >= 0;
+  }
+
   playDyingSound(id) {
-    if (this.isDead() && !this.dyingSoundIsPlaying) {
+    if (this.conditionsDyingSoundMet()) {
       this.dyingSoundIsPlaying = true;
       playSound("endbossDyingSound");
-      setTimeout(() => {
-        clearInterval(id);
-      }, 5000);
+      setTimeout(() => clearInterval(id), 5000);
     }
+  }
+
+  conditionsDyingSoundMet() {
+    return this.isDead() && !this.dyingSoundIsPlaying;
   }
 
   checkFirstEncounter() {
     setInterval(() => {
-      if (this.x <= 2450) {
-        this.world.firstEncounterEndbossHappend = true;
-      }
+      if (this.x <= 2450) this.world.firstEncounterEndbossHappend = true;
     }, 200);
     let intervalCheckIntroAnimationEndboss = setInterval(() => {
       if (this.x < 2600) {
@@ -287,9 +289,7 @@ class Endboss extends MovableObject {
       bottle.collisionWithEnemy = true;
       this.energy -= 1;
       this.world.statusBarEndboss[0].setPercentage(this.energy * 20);
-      setTimeout(() => {
-        this.isHurt = false;
-      }, 2000);
+      setTimeout(() => (this.isHurt = false), 2000);
     }
   }
 
@@ -304,17 +304,7 @@ class Endboss extends MovableObject {
   randomAttacks() {
     this.randomAttackInterval = setInterval(() => {
       this.isAttacking = true;
-      setTimeout(() => {
-        this.isAttacking = false;
-      }, 2500);
+      setTimeout(() => (this.isAttacking = false), 2500);
     }, 3500 + Math.random() * 1500);
   }
-
-  // checkPosition(){
-  //     setInterval(() => {
-  //         if (this.x < -1062) {
-  //             displayEndscreen();
-  //         }
-  //     }, 200);
-  // }
 }
