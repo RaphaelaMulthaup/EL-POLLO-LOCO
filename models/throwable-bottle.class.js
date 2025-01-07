@@ -77,11 +77,7 @@ class ThrowableBottle extends MovableObject {
   movementInterval() {
     this.movement = setInterval(() => {
       if (world.character.buttonsForWalkingArePressed()) this.speed = 7;
-      if (this.otherDirection) {
-        this.moveLeft();
-      } else {
-        this.moveRight();
-      }
+      this.otherDirection ? this.moveLeft() : this.moveRight();
     }, 1000 / 60);
   }
 
