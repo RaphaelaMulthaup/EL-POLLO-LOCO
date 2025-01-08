@@ -284,12 +284,19 @@ class World {
         clearInterval(intervalCheckGameOver);
         this.checkGameIsWon();
         this.checkGameIsLost();
-        setTimeout(() => {
-          displayEndscreen();
-          playSound("mexicanHatDance");
-        }, 1000);
+        this.endscreenAndBreakMusic();
       }
     }, 1000 / 60);
+  }
+
+  endscreenAndBreakMusic(){
+    setTimeout(() => {
+      displayEndscreen();
+      playSound("mexicanHatDance");
+      setInterval(() => {
+        if (this.gameOver) playSound("mexicanHatDance");
+      }, 37000);
+    }, 1000);
   }
 
   checkGameIsWon() {
