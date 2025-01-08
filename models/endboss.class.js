@@ -222,7 +222,7 @@ class Endboss extends MovableObject {
       }
     }, 200);
     setInterval(() => {
-      if (this.isDead() || gameIsLost()) {
+      if (this.world.gameOver) {
         sounds.endbossBackgroundMusic.currentVolume = 0;
         setVolume("endbossBackgroundMusic");
       }

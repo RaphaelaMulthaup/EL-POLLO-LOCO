@@ -19,6 +19,7 @@ class World {
   introAnimationEndboss = false;
   firstEncounterEndbossHappend = false;
   gameOver = false;
+  gameOverStopDrawing = false;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -40,7 +41,7 @@ class World {
   }
 
   draw() {
-    if (this.gameOver) return;
+    if (this.gameOverStopDrawing) return;
 
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.camera_x, 0);
@@ -149,8 +150,7 @@ class World {
     return (
       this.character.energy <= 80 &&
       this.collectedCoins == 5 &&
-      !this.endboss.isDead() &&
-      this.character.energy > 0
+      !this.gameOver
     );
   }
 
@@ -294,15 +294,16 @@ class World {
       displayEndscreen();
       playSound("mexicanHatDance");
       setInterval(() => {
-        if (this.gameOver) playSound("mexicanHatDance");
+        if (this.gameOverStopDrawing) playSound("mexicanHatDance");
       }, 37000);
     }, 1000);
   }
 
   checkGameIsWon() {
     if (this.endboss.isDead()) {
+      this.gameOver = true;
       setTimeout(() => {
-        this.gameOver = true;
+        this.gameOverStopDrawing = true;
         stoppableIntervalIds.forEach(clearInterval);
       }, 600);
     }
@@ -310,9 +311,10 @@ class World {
 
   checkGameIsLost() {
     if (gameIsLost()) {
+      this.gameOver = true;
       setTimeout(() => stoppableIntervalIds.forEach(clearInterval), 500);
       setTimeout(() => {
-        this.gameOver = true;
+        this.gameOverStopDrawing = true;
         pauseSound("backgroundMusicGame");
       }, 1000);
     }

@@ -283,7 +283,7 @@ function displayEndsreenLost(endscreen) {
 }
 
 function restart() {
-  world.gameOver = true;
+  world.gameOverStopDrawing = true;
   restartSounds();
   restartIntervals();
   restartClasses();

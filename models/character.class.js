@@ -165,7 +165,7 @@ class Character extends MovableObject {
 
   animateHurt() {
     setInterval(() => {
-      if (this.isHurt() && !this.isDead() && !this.world.endboss.isDead())
+      if (this.isHurt() && !this.world.gameOver)
         this.playAnimation(this.IMAGES_HURT);
     }, 100);
   }
@@ -295,10 +295,9 @@ class Character extends MovableObject {
       this.x > 0 &&
       this.x < this.world.level.level_end_x &&
       !this.isHurt() &&
-      !this.isDead() &&
       !this.world.introAnimationEndboss &&
       !this.isAboveGround(145) &&
-      !this.world.endboss.isDead()
+      !this.world.gameOver
     );
   }
 
@@ -332,9 +331,8 @@ class Character extends MovableObject {
   conditionHurtSoundMet() {
     return (
       this.isHurt() &&
-      !this.isDead() &&
       !this.characterHurtSoundIsPlaying &&
-      !this.world.endboss.isDead()
+      !this.world.gameOver
     );
   }
 
