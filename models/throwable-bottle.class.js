@@ -64,13 +64,10 @@ class ThrowableBottle extends MovableObject {
   playSplashAnimation() {
     let index = 0;
     let splashInterval = setInterval(() => {
-      if (index < this.IMAGES_SPLASH.length) {
-        this.img = this.imageCache[this.IMAGES_SPLASH[index]];
-        index++;
-      } else {
-        clearInterval(splashInterval);
-        setTimeout(() => this.removeThrowableBottle(), 50);
-      }
+      index < this.IMAGES_SPLASH.length
+        ? ((this.img = this.imageCache[this.IMAGES_SPLASH[index]]), index++)
+        : (clearInterval(splashInterval),
+          setTimeout(() => this.removeThrowableBottle(), 50));
     }, 35);
   }
 

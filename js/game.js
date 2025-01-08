@@ -131,9 +131,7 @@ function checkOrientation() {
     overlay.offsetHeight;
 
     if (height > width) {
-      if (/Android/i.test(navigator.userAgent)) {
-        minimize();
-      }
+      if (/Android/i.test(navigator.userAgent)) minimize();
       overlay.classList.remove("dNone");
     } else {
       overlay.classList.add("dNone");
@@ -232,12 +230,9 @@ function startAtNewCurrentTime(audio, theoreticalStartTime) {
 
 function playSound(soundName) {
   let currentSound = setSound(soundName);
-  if (muted) {
-    sounds[soundName].theoreticalStartTime = Date.now();
-    currentSound.pause();
-  } else {
-    currentSound.play();
-  }
+  muted 
+  ? (sounds[soundName].theoreticalStartTime = Date.now(), currentSound.pause()) 
+  : currentSound.play();
 }
 
 function setSound(soundName) {

@@ -18,11 +18,10 @@ class CollectibleBottle extends CollectibleObject {
   chooseImg() {
     let coincidence = Math.random();
     let path;
-    if (coincidence >= 0.5) {
-      path = "img/6_salsa_bottle/1_salsa_bottle_on_ground.png";
-    } else {
-      path = "img/6_salsa_bottle/2_salsa_bottle_on_ground.png";
-    }
+    path =
+      coincidence >= 0.5
+        ? "img/6_salsa_bottle/1_salsa_bottle_on_ground.png"
+        : "img/6_salsa_bottle/2_salsa_bottle_on_ground.png";
     this.loadImg(path);
   }
 }

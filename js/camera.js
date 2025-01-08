@@ -47,13 +47,15 @@ function checkForLargeChangesCamera() {
 }
 
 function setTargetCameraX() {
-  if (character.x > world.endboss.x && alignedToTheLeft) {
-    targetCameraX = -character.x + 500;
-  } else if (character.x < 2200) {
-    targetCameraX = -character.x + 100;
-  } else {
-    targetCameraX = -2200 + 100;
-  }
+  targetCameraX = spaceLeftOfCharacterVisible()
+    ? -character.x + 500
+    : character.x < 2200
+    ? -character.x + 100
+    : -2200 + 100;
+}
+
+function spaceLeftOfCharacterVisible() {
+  return character.x > world.endboss.x && alignedToTheLeft;
 }
 
 function speedCamera() {

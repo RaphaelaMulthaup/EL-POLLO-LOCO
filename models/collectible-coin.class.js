@@ -17,10 +17,6 @@ class CollectibleCoin extends CollectibleObject {
 
   setY() {
     let coincidence = Math.random();
-    if (coincidence >= 0.5) {
-      this.y = 110;
-    } else {
-      this.y = 160;
-    }
+    this.y = coincidence >= 0.5 ? 110 : 160;
   }
 }

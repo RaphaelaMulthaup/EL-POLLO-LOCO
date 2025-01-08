@@ -27,14 +27,10 @@ class Cloud extends MovableObject {
   }
 
   animate() {
-    if (this.world.directionClouds == "left") {
-      setInterval(() => {
-        this.moveLeft();
-      }, 1000 / 60);
-    } else {
-      setInterval(() => {
-        this.moveRight();
-      }, 1000 / 60);
-    }
+    setInterval(() => {
+      this.world.directionClouds === "left"
+        ? this.moveLeft()
+        : this.moveRight();
+    }, 1000 / 60);
   }
 }
