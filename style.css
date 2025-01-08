@@ -1,277 +1,261 @@
 /* kranky-regular - latin */
 @font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-    font-family: 'Kranky';
-    font-style: normal;
-    font-weight: 400;
-    src: url('fonts/kranky-v28-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-  }
-
-.dNone{
-    display: none !important;
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Kranky";
+  font-style: normal;
+  font-weight: 400;
+  src: url("fonts/kranky-v28-latin-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
-.htmlScroll{
-    /* margin: 0; */
-    
-    /* height: 100%; */
-    /* overflow: hidden; */
-    /* touch-action: none; */
-    height: 101vh; /* Etwas mehr als den Viewport */
-    overflow-y: scroll;
+.dNone {
+  display: none !important;
 }
 
-body{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #fac77a;
-    /* background-color: blue; */
-
-    -webkit-touch-callout: none;
-    justify-content: space-between;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
+.htmlScroll {
+  height: 101vh;
+  overflow-y: scroll;
 }
 
-.content{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fac77a;
+  -webkit-touch-callout: none;
+  justify-content: space-between;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
-h1{
-    font-family: 'Kranky';
-    font-size: 5vh;
-    text-shadow: 0.5vw 0.2vw 1vw rgba(0, 0, 0, 0.5);
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-#wrapper{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: black;
-    border-radius: 2vw;
-    height: 65vh;
-    width: calc(65vh * 1.5);
-    touch-action: none;   
+h1 {
+  font-family: "Kranky";
+  font-size: 5vh;
+  text-shadow: 0.5vw 0.2vw 1vw rgba(0, 0, 0, 0.5);
 }
 
-/* #wrapper:fullscreen {
-    z-index: 9998 !important;
-} */
-
-.fullscreenApple{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw !important;
-    height: 100vh !important;
-    z-index: 9998;
+#wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  border-radius: 2vw;
+  height: 65vh;
+  width: calc(65vh * 1.5);
+  touch-action: none;
 }
 
-.canvasContainer{
-    height: 100%;
-    position: relative;
-    border-radius: 2vw;
-    box-shadow: 2px 3px 20px rgba(0, 0, 0, 0.5);
-    aspect-ratio: 3 / 2;
+.fullscreenApple {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 9998;
 }
 
-canvas{
-    background-color: black;
-    height: 100%;
-    width: 100%;
-    display: block;
-    border-radius: 2vw;
-    border-color: black;
-    border-style: solid;
-
+.canvasContainer {
+  height: 100%;
+  position: relative;
+  border-radius: 2vw;
+  box-shadow: 2px 3px 20px rgba(0, 0, 0, 0.5);
+  aspect-ratio: 3 / 2;
 }
 
-.startscreen{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 2vw;
-    border-color: black;
-    border-style: solid;
+canvas {
+  background-color: black;
+  height: 100%;
+  width: 100%;
+  display: block;
+  border-radius: 2vw;
+  border-color: black;
+  border-style: solid;
+}
+
+.startscreen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 2vw;
+  border-color: black;
+  border-style: solid;
 }
 
 .canvasContainer:hover svg circle {
-    stroke: white;
-    transition: stroke 1s ease;
+  stroke: white;
+  transition: stroke 1s ease;
 }
 
 .canvasContainer:hover svg polygon {
-    fill: white;
-    transition: fill 1s ease;
+  fill: white;
+  transition: fill 1s ease;
 }
 
-.fillCircle{
-    stroke: white;
+.fillCircle {
+  stroke: white;
 }
 
-.fillPolygon{
-    fill: white;
+.fillPolygon {
+  fill: white;
 }
 
-.startButton{
-    height: 50%;
-    position: absolute;
-    top: 25%;
+.startButton {
+  height: 50%;
+  position: absolute;
+  top: 25%;
 }
 
-.startButton circle{
-    pointer-events: visible;
+.startButton circle {
+  pointer-events: visible;
 }
 
-.startButton circle:hover{
-    cursor: pointer;
+.startButton circle:hover {
+  cursor: pointer;
 }
-.startButton polygon:hover{
-    cursor: pointer;
-}
-
-.buttons{
-    position: absolute;
-    height: 7%;
-    width: 18%;
+.startButton polygon:hover {
+  cursor: pointer;
 }
 
-.buttonsDesktop{
-    bottom: 3%;
-    right: 2%; 
+.buttons {
+  position: absolute;
+  height: 7%;
+  width: 18%;
 }
 
-.buttonsMobile{
-    top: 3%;
-    left: 50%;
-    transform: translateX(-50%);
+.buttonsDesktop {
+  bottom: 3%;
+  right: 2%;
 }
 
-.buttons img{
-    opacity: 0.7;
-    position: absolute;
+.buttonsMobile {
+  top: 3%;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.fullscreen{
-    height: 100%;
-    top: 0%;
-    left: 0;
+.buttons img {
+  opacity: 0.7;
+  position: absolute;
 }
 
-.minimize{
-    height: 90%;
-    top: 5%;
-    left: 0;
+.fullscreen {
+  height: 100%;
+  top: 0%;
+  left: 0;
 }
 
-.restart{
-    height: 70%;
-    top: 15%;
-    right: 41%;
+.minimize {
+  height: 90%;
+  top: 5%;
+  left: 0;
 }
 
-.muteUnmute{
-    height: 100%;
-    top: 0;
-    right: 0;
+.restart {
+  height: 70%;
+  top: 15%;
+  right: 41%;
 }
 
-.buttons img:hover{
-    cursor: pointer;
-    opacity: 1;
+.muteUnmute {
+  height: 100%;
+  top: 0;
+  right: 0;
 }
 
-.fullscreen:hover{
-    top: -5%;
-    height: 110%;
-    left: -1%;
+.buttons img:hover {
+  cursor: pointer;
+  opacity: 1;
 }
 
-.minimize:hover{
-    top: 0.5%;
-    height: 99%;
-    left: -1%;
+.fullscreen:hover {
+  top: -5%;
+  height: 110%;
+  left: -1%;
 }
 
-.restart:hover{
-    top: 11.5%;
-    height: 77%;
-    right: 40%;
+.minimize:hover {
+  top: 0.5%;
+  height: 99%;
+  left: -1%;
 }
 
-.muteUnmute:hover{
-    height: 110%;
-    top: -5%;
-    right: -1%;
-/*     
-    bottom: 2.5%;
-    right: 1.5%;
-     */
+.restart:hover {
+  top: 11.5%;
+  height: 77%;
+  right: 40%;
 }
 
-.overlay{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    pointer-events: none;
-    border-radius: 2vw;
-    border-color: black;
-    border-style: solid;
+.muteUnmute:hover {
+  height: 110%;
+  top: -5%;
+  right: -1%;
 }
 
-.endscreenGameOver{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 2vw;
-    border-color: black;
-    border-style: solid;
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  border-radius: 2vw;
+  border-color: black;
+  border-style: solid;
 }
 
-.endscreenYouWin{
-    position: absolute;
-    height: 30%;
-    top: 35%;
-    width: 90%;
-    left: 5%;
+.endscreenGameOver {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 2vw;
+  border-color: black;
+  border-style: solid;
 }
 
-#orientationOverlay{
-    position: fixed;
-    display: flex;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    align-items: center;
-    justify-content: center;
-    background-color: #FAC77A;
-    color: white;
-    font-size: 1.5em;
-    z-index: 9999;
-    text-align: center;
-    font-family: 'Kranky';
-    font-size: 11vw;
-    padding: 10vw;
+.endscreenYouWin {
+  position: absolute;
+  height: 30%;
+  top: 35%;
+  width: 90%;
+  left: 5%;
 }
 
-.impressum{
-    color: white;
-    text-decoration: none;
-    font-family: 'Kranky';
+#orientationOverlay {
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  align-items: center;
+  justify-content: center;
+  background-color: #fac77a;
+  color: white;
+  font-size: 1.5em;
+  z-index: 9999;
+  text-align: center;
+  font-family: "Kranky";
+  font-size: 11vw;
+  padding: 10vw;
 }
 
-.impressum:hover{
-    font-size: 2.3vh;
+.impressum {
+  color: white;
+  text-decoration: none;
+  font-family: "Kranky";
+}
+
+.impressum:hover {
+  font-size: 2.3vh;
 }
