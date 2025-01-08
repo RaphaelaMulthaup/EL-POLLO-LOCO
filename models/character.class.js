@@ -279,11 +279,13 @@ class Character extends MovableObject {
 
   playWalkingSound() {
     if (this.conditionsWalkingSoundMet()) {
-      this.characterWalkingSoundIsPlaying
-        ? (pauseSound("characterWalkingSound"),
-          (this.characterWalkingSoundIsPlaying = false))
-        : (playSound("characterWalkingSound"),
-          (this.characterWalkingSoundIsPlaying = true));
+      if (!this.characterWalkingSoundIsPlaying) {
+        playSound("characterWalkingSound");
+        this.characterWalkingSoundIsPlaying = true;
+      }
+    } else {
+      pauseSound("characterWalkingSound");
+      this.characterWalkingSoundIsPlaying = false;
     }
   }
 
