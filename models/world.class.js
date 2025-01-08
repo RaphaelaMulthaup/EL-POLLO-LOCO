@@ -146,7 +146,12 @@ class World {
   }
 
   conditionsForTurningCoinsIntoEnergyMet() {
-    return this.character.energy <= 80 && this.collectedCoins == 5;
+    return (
+      this.character.energy <= 80 &&
+      this.collectedCoins == 5 &&
+      !this.endboss.isDead() &&
+      this.character.energy > 0
+    );
   }
 
   checkCollisionWithCollectibleObject() {
