@@ -353,6 +353,7 @@ function openInfo() {
   document.getElementById("infoText").classList.remove("dNone");
   document.getElementById("clickBarrier").classList.remove("dNone");
   document.getElementById("startButton").classList.add("dNone");
+  document.getElementById("infoButton").setAttribute("onclick", "closeInfo()");
 }
 
 function closeInfo() {
@@ -360,4 +361,5 @@ function closeInfo() {
   document.getElementById("clickBarrier").classList.add("dNone");
   if (!gameStartedOnce)
     document.getElementById("startButton").classList.remove("dNone");
+  document.getElementById("infoButton").setAttribute("onclick", "openInfo()");
 }
