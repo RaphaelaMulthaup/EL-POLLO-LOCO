@@ -63,6 +63,8 @@ function touchDeviceOrKeyboard() {
     changeClassesForTouchDeviceDesign();
     window.addEventListener("orientationchange", checkOrientation);
     document.addEventListener("contextmenu", (event) => event.preventDefault());
+  } else {
+    document.documentElement.classList.add("htmltOverflowHidden");
   }
 }
 
