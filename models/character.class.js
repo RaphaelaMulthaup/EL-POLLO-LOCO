@@ -77,6 +77,11 @@ class Character extends MovableObject {
     bottom: 15,
   };
 
+  /**
+   * This function allows access to 'MovableObject', loads images for different aninmations, applys Gravity, brings the character to life and inserts the camera.
+   *
+   * @param {class} world - The world class is passed.
+   */
   constructor(world) {
     super();
     this.world = world;
@@ -92,12 +97,18 @@ class Character extends MovableObject {
     camera(this, world.endboss);
   }
 
+  /**
+   * This function animates the character, lets him move and uses appropriate sounds.
+   */
   bringToLife() {
     this.animate();
     this.movement();
     this.playSound();
   }
 
+  /**
+   * This function animates the character.
+   */
   animate() {
     this.animateIdle();
     this.animateLongIdle();
@@ -107,6 +118,9 @@ class Character extends MovableObject {
     this.animateDying();
   }
 
+  /**
+   * This function continuously checks whether the character is at idle state. If this is the case, but not longer than 15 seconds, the idle animation will be played. The idle time is also saved.
+   */
   animateIdle() {
     setInterval(() => {
       if (this.atIdle()) {
@@ -118,6 +132,11 @@ class Character extends MovableObject {
     }, 200);
   }
 
+  /**
+   * This function checks the conditions for idle state.
+   *
+   * @returns {boolean} - Returns `true` if all conditions for being idle are met, otherwise `false`.
+   */
   atIdle() {
     return (
       !this.isDead() &&
@@ -127,18 +146,28 @@ class Character extends MovableObject {
     );
   }
 
+  /**
+   * This function continuously checks whether the character is at idle state for min 15 seconds. If this is the case, the long idle animation will be played.
+   */
   animateLongIdle() {
     setInterval(() => {
       if (this.idleTime >= 15000) this.playAnimation(this.IMAGES_LONG_IDLE);
     }, 200);
   }
-
+  /**
+   * This function continuously checks whether the character is walking and, if necessary, plays the walking animation.
+   */
   animateWalking() {
     setInterval(() => {
       if (this.isWalking()) this.playAnimation(this.IMAGES_WALKING);
     }, 100);
   }
 
+  /**
+   * This function checks the conditions for walking state.
+   *
+   * @returns {boolean} - Returns `true` if all conditions for walking state are met, otherwise `false`.
+   */
   isWalking() {
     return (
       !this.world.introAnimationEndboss &&
@@ -149,6 +178,9 @@ class Character extends MovableObject {
     );
   }
 
+  /**
+   * This function continuously checks whether the character is jumping and, if necessary, plays the jumping animation. When the character is back on the ground, the animation is reset to start over again with a new jump.
+   */
   animateJumping() {
     let index;
     setInterval(() => {
@@ -163,6 +195,9 @@ class Character extends MovableObject {
     }, 90);
   }
 
+  /**
+   * This function continuously checks whether the character is hurt and, if necessary, plays the hurt animation.
+   */
   animateHurt() {
     setInterval(() => {
       if (this.isHurt() && !this.world.gameOver)
@@ -170,6 +205,9 @@ class Character extends MovableObject {
     }, 100);
   }
 
+  /**
+   * This function continuously checks whether the character is dead and, if necessary, plays the dying animation once.
+   */
   animateDying() {
     let index = 0;
     let intervalCharacterAnimation = setInterval(() => {
@@ -181,12 +219,18 @@ class Character extends MovableObject {
     }, 100);
   }
 
+  /**
+   * this function lets the character move.
+   */
   movement() {
     this.movementRight();
     this.movementLeft();
     this.movementJumping();
   }
 
+  /**
+   * This function continuously checks whether the character is moving right and, if necessary, lets him move right and sets 'ohterDirection' to false.
+   */
   movementRight() {
     setInterval(() => {
       if (this.conditionsMovingRightMet()) {
@@ -196,6 +240,11 @@ class Character extends MovableObject {
     }, 1000 / 60);
   }
 
+  /**
+   * This function checks the conditions for moving right state.
+   *
+   * @returns {boolean} - Returns `true` if all conditions for moving right state are met, otherwise `false`.
+   */
   conditionsMovingRightMet() {
     return (
       this.world.keyboard.RIGHT &&
@@ -206,6 +255,9 @@ class Character extends MovableObject {
     );
   }
 
+  /**
+   * This function continuously checks whether the character is moving left and, if necessary, lets him move left and sets 'ohterDirection' to true.
+   */
   movementLeft() {
     setInterval(() => {
       if (this.conditionsMovingLeftMet()) {
@@ -215,6 +267,11 @@ class Character extends MovableObject {
     }, 1000 / 60);
   }
 
+  /**
+   * This function checks the conditions for moving left state.
+   *
+   * @returns {boolean} - Returns `true` if all conditions for moving left state are met, otherwise `false`.
+   */
   conditionsMovingLeftMet() {
     return (
       this.world.keyboard.LEFT &&
@@ -225,20 +282,28 @@ class Character extends MovableObject {
     );
   }
 
+  /**
+   * This function makes the character jump.
+   */
   movementJumping() {
+    this.movementJumpingStandart();
+    this.movementJumpingDeath();
+  }
+
+  /**
+   * This function continuously checks whether the character is jumping and, if necessary, lets him jump.
+   */
+  movementJumpingStandart() {
     setInterval(() => {
       if (this.conditionsJumpingMet()) this.jump(30);
     }, 1000 / 60);
-    let intervalJumpingWhileDying = setInterval(() => {
-      if (this.isDead() && !this.isAboveGround(145)) {
-        setTimeout(() => {
-          this.jump(10);
-          clearInterval(intervalJumpingWhileDying);
-        }, 200);
-      }
-    }, 1000 / 60);
   }
 
+  /**
+   * This function checks the conditions for jumping state.
+   *
+   * @returns {boolean} - Returns `true` if all conditions for jumping state are met, otherwise `false`.
+   */
   conditionsJumpingMet() {
     return (
       (this.world.keyboard.SPACE || this.world.keyboard.UP) &&
@@ -249,22 +314,61 @@ class Character extends MovableObject {
     );
   }
 
-  playSound() {
-    setStoppableInterval(() => this.playYawningSound(), 200);
-    setStoppableInterval(() => this.playWalkingSound(), 200);
-    setStoppableInterval(() => this.playJumpingSound(), 200);
-    setStoppableInterval(() => this.playHurtSound(), 200);
-    setStoppableInterval((id) => this.playDyingSound(id), 200);
+  /**
+   * This function continuously checks whether the character is dead and, if that's the case and he's not jumping already, lets him jump with a small delay.
+   */
+  movementJumpingDeath() {
+    let intervalJumpingWhileDying = setInterval(() => {
+      if (this.isDead() && !this.isAboveGround(145)) {
+        setTimeout(() => {
+          this.jump(10);
+          clearInterval(intervalJumpingWhileDying);
+        }, 200);
+      }
+    }, 1000 / 60);
   }
 
-  playYawningSound() {
-    if (this.idleTime >= 15000 && !this.isYawning) {
+  /**
+   * This function sets intervals to play sounds.
+   */
+  playSound() {
+    setStoppableInterval(() => this.yawningSound(), 200);
+    setStoppableInterval(() => this.walkingSound(), 200);
+    setStoppableInterval(() => this.jumpingSound(), 200);
+    setStoppableInterval(() => this.hurtSound(), 200);
+    setStoppableInterval((id) => this.dyingSound(id), 200);
+  }
+
+  /**
+   * This function checks whether the yawningSound should be started and whether the boolean isYawning needs to be reset to false.
+   */
+  yawningSound() {
+    this.startYawningSound();
+    this.resetIsYawning();
+  }
+
+  /**
+   * This function checks whether the yawningSound can be played. If necessary, the corresponding function is called and the boolean isYawning is set to true.
+   */
+  startYawningSound() {
+    if (this.conditionsStartYawningSoundMet()) {
       this.isYawning = true;
       this.yawningSoundActive();
     }
-    if (this.idleTime < 1500) this.isYawning = false;
   }
 
+  /**
+   * This function checks the conditions for starting the yawning sound.
+   *
+   * @returns {boolean} - Returns `true` if all conditions for starting the yawning sound are met, otherwise `false`.
+   */
+  conditionsStartYawningSoundMet() {
+    return this.idleTime >= 15000 && !this.isYawning;
+  }
+
+  /**
+   * If the boolean isYawning is true, this function plays the yawnings sound for a specific period of time. The function repeats as long as the condition is met.
+   */
   yawningSoundActive() {
     if (this.isYawning) {
       playSound("characterYawningSound");
@@ -277,18 +381,47 @@ class Character extends MovableObject {
     }
   }
 
-  playWalkingSound() {
+  /**
+   * If the idleTime is shorter than 15 seconds, the boolean isYawning is set to false.
+   */
+  resetIsYawning() {
+    if (this.idleTime < 1500) this.isYawning = false;
+  }
+  
+  /**
+   * This function checks whether the conditions for the character walking sound are met and executes the corresponding function.
+   */
+  walkingSound() {
     if (this.conditionsWalkingSoundMet()) {
-      if (!this.characterWalkingSoundIsPlaying) {
-        playSound("characterWalkingSound");
-        this.characterWalkingSoundIsPlaying = true;
-      }
+      this.playCharacterWalkingSound();
     } else {
-      pauseSound("characterWalkingSound");
-      this.characterWalkingSoundIsPlaying = false;
+      this.pauseCharacterWalkingSound();
     }
   }
 
+  /**
+   * If the character walking sound is not already playing, this function starts it and sets the boolean characterWalkingSoundIsPlaying to true.
+   */
+  playCharacterWalkingSound() {
+    if (!this.characterWalkingSoundIsPlaying) {
+      playSound("characterWalkingSound");
+      this.characterWalkingSoundIsPlaying = true;
+    }
+  }
+
+  /**
+   * This function pauses the character walking sound and sets the boolean characterWalkingSoundIsPlaying to false.
+   */
+  pauseCharacterWalkingSound() {
+    pauseSound("characterWalkingSound");
+    this.characterWalkingSoundIsPlaying = false;
+  }
+
+  /**
+   * This function checks the conditions for the walking sound.
+   *
+   * @returns {boolean} - Returns `true` if all conditions for the walking sound are met, otherwise `false`.
+   */
   conditionsWalkingSoundMet() {
     return (
       this.buttonsForWalkingArePressed() &&
@@ -301,24 +434,49 @@ class Character extends MovableObject {
     );
   }
 
-  playJumpingSound() {
+  /**
+   * This function controls the jumping sound.
+   */
+  jumpingSound() {
+    this.playJumpingSound();
+    this.pauseJumpingSound();
+  }
+
+  /**
+   * If the conditions are met, this function plays the jumping sound and sets the boolean characterJumpingSoundIsPlaying to true.
+   */
+  playJumpingSound(){
     if (this.conditionsJumpingSoundMet()) {
       this.characterJumpingSoundIsPlaying = true;
       playSound("characterJumpingSound");
     }
-    if (this.speedY <= 0) {
-      pauseSound("characterJumpingSound");
-      this.characterJumpingSoundIsPlaying = false;
-    }
   }
 
+  /**
+   * This function checks the conditions for the jumping sound.
+   *
+   * @returns {boolean} - Returns `true` if all conditions for the jumping sound are met, otherwise `false`.
+   */
   conditionsJumpingSoundMet() {
     return (
       this.speedY > 0 && !this.isDead() && !this.characterJumpingSoundIsPlaying
     );
   }
 
-  playHurtSound() {
+  /**
+   * If speedY is less than or equal to zero, this function pauses the jumping sound and sets the boolean characterJumpingSoundIsPlaying to false.
+   */
+  pauseJumpingSound(){
+    if (this.speedY <= 0) {
+      pauseSound("characterJumpingSound");
+      this.characterJumpingSoundIsPlaying = false;
+    }
+  }
+
+  /**
+   * If the conditions for are met, this function plays the hurt sound and sets the boolean characterHurtSoundIsPlaying to true for this time.
+   */
+  hurtSound() {
     if (this.conditionHurtSoundMet()) {
       this.characterHurtSoundIsPlaying = true;
       playSound("characterHurtSound");
@@ -328,15 +486,23 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * This function checks the conditions for the hurt sound.
+   *
+   * @returns {boolean} - Returns `true` if all conditions for the hurt sound are met, otherwise `false`.
+   */
   conditionHurtSoundMet() {
     return (
-      this.isHurt() &&
-      !this.characterHurtSoundIsPlaying &&
-      !this.world.gameOver
+      this.isHurt() && !this.characterHurtSoundIsPlaying && !this.world.gameOver
     );
   }
 
-  playDyingSound(id) {
+  /**
+   * If the character is dead, this function plays the dying sound exactly once and deletes the interval that executes the dying sound function.
+   * 
+   * @param {string} id - This is interval that executes the dying sound function.
+   */
+  dyingSound(id) {
     if (this.isDead()) {
       clearInterval(id);
       playSound("characterDyingSound");
@@ -345,7 +511,12 @@ class Character extends MovableObject {
       }, 1610);
     }
   }
-
+  
+  /**
+   * This function checks whether the walking buttons are pressed.
+   *
+   * @returns {boolean} - Returns `true` if the walking buttons are pressed, otherwise `false`.
+   */
   buttonsForWalkingArePressed() {
     return world.keyboard.RIGHT || world.keyboard.LEFT;
   }
