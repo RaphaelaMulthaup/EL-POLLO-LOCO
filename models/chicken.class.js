@@ -15,6 +15,9 @@ class Chicken extends MovableObject {
     bottom: 19,
   };
 
+  /**
+   * This function allows access to 'MovableObject', loads images for different aninmations, sets the values ​​for x and speed and brings the chick to life.
+   */
   constructor() {
     super();
     this.loadImg("img/3_enemies_chicken/chicken_normal/1_walk/1_w.png");
