@@ -6,6 +6,9 @@ class CollectibleBottle extends CollectibleObject {
     bottom: 9,
   };
 
+  /**
+   * This function allows access to 'CollectibleObject', sets an image, its position and size.
+   */
   constructor() {
     super();
     this.chooseImg();
@@ -15,6 +18,9 @@ class CollectibleBottle extends CollectibleObject {
     this.height = 70;
   }
 
+  /**
+   * This function randomly selects an image and loads it.
+   */
   chooseImg() {
     let coincidence = Math.random();
     let path;
