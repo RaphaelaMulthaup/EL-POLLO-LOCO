@@ -18,7 +18,7 @@ class Cloud extends MovableObject {
   /**
    * This function sets the world inside cloud.class.js.
    * 
-   * @param {class} world - The world of the game.
+   * @param {object} world - The world of the game.
    */
   setWorld(world) {
     this.world = world;

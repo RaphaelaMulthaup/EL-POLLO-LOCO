@@ -59,7 +59,7 @@ class Endboss extends MovableObject {
   /**
    * This function allows access to 'MovableObject', loads images for different aninmations, sets the world and the character inside endboss.class.js, displays the statusbar for the endboss, brings the endboss to life and checks if the first encounter with the character had happend.
    *
-   * @param {class} world - The world of the game.
+   * @param {object} world - The world of the game.
    */
   constructor(world) {
     super();
@@ -79,7 +79,7 @@ class Endboss extends MovableObject {
   /**
    * This function sets the world and the character inside endboss.class.js
    *
-   * @param {class} world - The world of the game.
+   * @param {object} world - The world of the game.
    */
   setWorld(world) {
     this.world = world;

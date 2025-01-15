@@ -80,7 +80,7 @@ class Character extends MovableObject {
   /**
    * This function allows access to 'MovableObject', loads images for different aninmations, applys Gravity, brings the character to life and inserts the camera.
    *
-   * @param {class} world - The world class is passed.
+   * @param {object} world - The world class is passed.
    */
   constructor(world) {
     super();
