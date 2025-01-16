@@ -422,12 +422,18 @@ function restart() {
   startGame();
 }
 
+/**
+ * This function pauses running background sounds and resets all sounds when restarting.
+ */
 function restartSounds() {
   pauseSound("mexicanHatDance");
   pauseSound("endbossBackgroundMusic");
   resetSounds();
 }
 
+/**
+ * This function resets the sounds to their default values.
+ */
 function resetSounds() {
   Object.keys(sounds).forEach((sound) => {
     sounds[sound].currentVolume = defaultSounds[sound].currentVolume;
@@ -435,28 +441,43 @@ function resetSounds() {
   });
 }
 
+/**
+ * This function clears all active intervals.
+ */
 function restartIntervals() {
   for (let i = 1; i < 9999; i++) window.clearInterval(i);
   stoppableIntervalIds = [];
 }
 
+/**
+ * This function resets the end screen and overlay classes.
+ */
 function restartClasses() {
   document.getElementById("endscreen").classList.add("dNone");
   document.getElementById("overlay").classList.add("dNone");
   document.getElementById("restartEndscreen").classList.add("dNone");
 }
 
+/**
+ * This function switches the game to fullscreen mode.
+ */
 function fullscreen() {
   fullscreenClasses();
   wrapperToFullscreen();
   removeBorderRadius();
 }
 
+/**
+ * This function swaps the fullscreen icon for the minimize icon.
+ */
 function fullscreenClasses() {
   document.getElementById("fullscreen").classList.add("dNone");
   document.getElementById("minimize").classList.remove("dNone");
 }
 
+/**
+ * This function adjusts the wrapper to fullscreen based on the device.
+ */
 function wrapperToFullscreen() {
   let wrapper = document.getElementById("wrapper");
   if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
@@ -474,12 +495,18 @@ function wrapperToFullscreen() {
   }
 }
 
+/**
+ * This function removes border-radius styles from the game for fullscreen mode.
+ */
 function removeBorderRadius() {
   for (let rule of document.styleSheets[0].cssRules) {
     if (rule.style.borderRadius) rule.style.borderRadius = "0";
   }
 }
 
+/**
+ * This function opens the information overlay and the info button is assigned a onclick attribute to close the info.
+ */
 function openInfo() {
   event.stopPropagation();
   document.getElementById("infoText").classList.remove("dNone");
@@ -488,6 +515,9 @@ function openInfo() {
   document.getElementById("infoButton").setAttribute("onclick", "closeInfo()");
 }
 
+/**
+ * This function closes the information overlay, the info button is again assigned the onclick attribute to open the info and if the game has not yet been initially started, the start button will be displayed again.
+ */
 function closeInfo() {
   document.getElementById("infoText").classList.add("dNone");
   document.getElementById("clickBarrier").classList.add("dNone");
