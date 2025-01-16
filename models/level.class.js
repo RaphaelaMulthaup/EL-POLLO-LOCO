@@ -6,7 +6,7 @@ class Level {
   level_end_x = 2700;
 
   /**
-   * 
+   * This function assigns different arrays to variables in the Level class.
    * 
    * @param {array} enemies - array with enemies
    * @param {array} clouds - array with clouds
