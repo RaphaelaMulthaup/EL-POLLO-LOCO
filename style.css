@@ -11,13 +11,23 @@
   display: none !important;
 }
 
+html::-webkit-scrollbar {
+  display: none;
+}
+
+html{
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
 .htmlScroll {
   height: 101vh;
   overflow-y: scroll;
 }
 
-.htmltOverflowHidden {
+.htmlOverflowHidden {
   overflow: hidden;
+  height: 100vh;
 }
 
 body {
@@ -30,6 +40,10 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0;
+}
+
+.overflowHidden {
+  overflow: hidden;
 }
 
 .content {

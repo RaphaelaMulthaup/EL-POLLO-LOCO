@@ -8,6 +8,9 @@ class StatusBarEndboss extends StatusBar {
     "img/7_statusbars/2_statusbar_endboss/green/green100.png",
   ];
 
+  /**
+   * This function allows access to 'StatusBar', sets the position and the percent to hundred.
+   */
   constructor() {
     super();
     this.y = 18;

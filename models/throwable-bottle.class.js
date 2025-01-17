@@ -25,6 +25,11 @@ class ThrowableBottle extends MovableObject {
     bottom: 22,
   };
 
+  /**
+   * This function sets up the bottle's initial position, size, speed, and animations.
+   *
+   * @param {Object} character - The character object that throws the bottle.
+   */
   constructor(character) {
     super();
     this.otherDirection = character.otherDirection;
@@ -40,11 +45,17 @@ class ThrowableBottle extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Starts the animation for rotation and movement of the bottle.
+   */
   animate() {
     this.rotationInterval();
     this.movementInterval();
   }
 
+  /**
+   * Handles the rotation animation of the bottle. Stops the rotation and starts the splash animation when the bottle hits the ground or collides with an enemy.
+   */
   rotationInterval() {
     this.rotation = setInterval(() => {
       this.playAnimation(this.IMAGES_ROTATION);
@@ -57,10 +68,18 @@ class ThrowableBottle extends MovableObject {
     }, 100);
   }
 
+  /**
+   * Checks if the conditions for playing the splash animation are met.
+   *
+   * @returns {boolean} - True if the bottle is on the ground or has collided with an enemy, otherwise false.
+   */
   conditionSplashAnimationMet() {
     return !this.isAboveGround(365) || this.collisionWithEnemy;
   }
 
+  /**
+   * Plays the splash animation when the bottle breaks. Removes the bottle object from the game world after the animation completes.
+   */
   playSplashAnimation() {
     let index = 0;
     let splashInterval = setInterval(() => {
@@ -71,6 +90,9 @@ class ThrowableBottle extends MovableObject {
     }, 35);
   }
 
+  /**
+   * Handles the movement of the bottle. Adjusts speed based on whether the character is walking and moves the bottle left or right depending on the direction.
+   */
   movementInterval() {
     this.movement = setInterval(() => {
       if (world.character.buttonsForWalkingArePressed()) this.speed = 7;
@@ -78,6 +100,9 @@ class ThrowableBottle extends MovableObject {
     }, 1000 / 60);
   }
 
+  /**
+   * Removes the throwable bottle from the game world by splicing it out of the `world.throwableBottles` array.
+   */
   removeThrowableBottle() {
     let index = world.throwableBottles.indexOf(this);
     world.throwableBottles.splice(index, 1);

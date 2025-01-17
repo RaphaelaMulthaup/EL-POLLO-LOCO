@@ -72,7 +72,7 @@ function touchDeviceOrKeyboard() {
   if ("ontouchstart" in window) {
     setUpTouchDevice();
   } else {
-    document.documentElement.classList.add("htmltOverflowHidden");
+    document.documentElement.classList.add("htmlOverflowHidden");
   }
 }
 
@@ -167,10 +167,16 @@ function checkOrientation() {
     overlay.offsetHeight;
 
     if (height > width) {
+      document.getElementById("body").classList.add("overflowHidden");
+      document.documentElement.classList.remove("htmlScroll");
+      document.documentElement.classList.add("htmlOverflowHidden");
       if (/Android/i.test(navigator.userAgent)) minimize();
       overlay.classList.remove("dNone");
     } else {
       overlay.classList.add("dNone");
+      document.getElementById("body").classList.remove("overflowHidden");
+      document.documentElement.classList.add("htmlScroll");
+      document.documentElement.classList.remove("htmlOverflowHidden");
     }
   }, 10);
 }
@@ -251,7 +257,7 @@ function preventTouchNextToButtons() {
 
 /**
  * This function creates an interval that can be stopped manually later and pushes the associated id into the array 'stoppableIntervalIds'.
- * 
+ *
  * @param {function} fn - A function that repeats through an interval.
  * @param {number} time - the time period in milliseconds after which the interval should be repeated
  */
@@ -272,7 +278,7 @@ function displayEndscreen() {
 
 /**
  * This function displays the endscreen in case the game has been won.
- * 
+ *
  * @param {html element} endscreen - the endscreen of the game
  */
 function displayEndscreenWon(endscreen) {
@@ -284,7 +290,7 @@ function displayEndscreenWon(endscreen) {
 
 /**
  * This function checks if the game has been lost (either character is dead or endboss is out of bounds).
- * 
+ *
  * @returns {boolean}  Returns `true` if the game has been lost, otherwise `false`.
  */
 function gameIsLost() {
@@ -293,7 +299,7 @@ function gameIsLost() {
 
 /**
  * This function displays the endscreen in case the game was lost.
- * 
+ *
  * @param {html element} endscreen - the endscreen of the game
  */
 function displayEndsreenLost(endscreen) {
@@ -303,13 +309,15 @@ function displayEndsreenLost(endscreen) {
 }
 
 /**
- * This function restarts the game by resetting relevant elements and sounds.
+ * This function restarts the game. If the game has been already started once, by resetting relevant elements and sounds.
  */
 function restart() {
-  world.gameOverStopDrawing = true;
-  restartSounds();
-  restartIntervals();
-  restartClasses();
+  if (gameStartedOnce) {
+    world.gameOverStopDrawing = true;
+    restartSounds();
+    restartIntervals();
+    restartClasses();
+  }
   startGame();
 }
 

@@ -8,6 +8,9 @@ class StatusBarCoins extends StatusBar {
     "img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png",
   ];
 
+  /**
+   * This function allows access to 'StatusBar', sets the y value and the percent to zero.
+   */
   constructor() {
     super();
     this.y = 55;
