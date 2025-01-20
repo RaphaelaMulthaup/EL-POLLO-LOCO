@@ -1,4 +1,4 @@
-class CollectibleBottle extends CollectibleObject {
+class CollectableBottle extends CollectableObject {
   offset = {
     top: 13,
     left: 31,
@@ -7,7 +7,7 @@ class CollectibleBottle extends CollectibleObject {
   };
 
   /**
-   * This function allows access to 'CollectibleObject', sets an image, its position and size.
+   * This function allows access to 'CollectableObject', sets an image, its position and size.
    */
   constructor() {
     super();

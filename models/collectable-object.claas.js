@@ -1,4 +1,4 @@
-class CollectibleObject extends DrawableObject {
+class CollectableObject extends DrawableObject {
 
   /**
    *  This function allows access to 'DrawableObject'.

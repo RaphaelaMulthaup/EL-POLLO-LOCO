@@ -1,4 +1,4 @@
-class CollectibleCoin extends CollectibleObject {
+class CollectableCoin extends CollectableObject {
   offset = {
     top: 38,
     left: 38,
@@ -7,7 +7,7 @@ class CollectibleCoin extends CollectibleObject {
   };
   
   /**
-   * This function allows access to 'CollectibleObject', loads an image, sets its position and size.
+   * This function allows access to 'CollectableObject', loads an image, sets its position and size.
    */
   constructor() {
     super();
