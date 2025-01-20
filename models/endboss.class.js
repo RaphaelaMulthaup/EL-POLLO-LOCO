@@ -88,7 +88,7 @@ class Endboss extends MovableObject {
 
   /**
    * With an interval, this function checks whether the function firstEncounterWithCharacterNotYetCompleted() returns true and then creats a new StatusBarEndboss which it places in the aarray StatusBarEndboss in the world and ends the interval.
-   */ 
+   */
   displayStatusBarEndboss() {
     let intervalDisplayStatusBarEnndboss = setInterval(() => {
       if (this.firstEncounterWithCharacterNotYetCompleted()) {
@@ -105,7 +105,7 @@ class Endboss extends MovableObject {
   bringToLife() {
     this.animate();
     this.endbossMovesLeft();
-    this.playSound();
+    playSoundsEndboss(this);
   }
 
   /**
@@ -252,146 +252,6 @@ class Endboss extends MovableObject {
   }
 
   /**
-   * This function sets intervals to play sounds.
-   */
-  playSound() {
-    setStoppableInterval((id) => this.playThreateningSound(id), 200);
-    setStoppableInterval((id) => this.playAlertSound(id), 200);
-    this.endbossBackgroundmusic();
-    setStoppableInterval((id) => this.playDyingSound(id), 200);
-    setStoppableInterval(() => this.playHurtSound(), 200);
-  }
-
-  /**
-   * If the first encounter with the character is not yet completed, this function plays the threatening sound, pauses the backgound music and deletes the interval that executes the threatening sound function.
-   *
-   * @param {string} id - This is interval that executes the threatening sound function.
-   */
-  playThreateningSound(id) {
-    if (this.firstEncounterWithCharacterNotYetCompleted()) {
-      clearInterval(id);
-      playSound("threateningSound");
-      pauseSound("backgroundMusicGame");
-    }
-  }
-
-  /**
-   * As soon as the first encounter with the character has taken place, but no initial hit has yet taken place, the playRandomAlertSound() function is called. The interval that calls playAlertSound() is then ended.
-   *
-   * @param {string} id - This is interval that executes the alert sound function.
-   */
-  playAlertSound(id) {
-    if (this.firstEncounterNoHit()) {
-      this.playRandomAlertSound();
-      clearInterval(id);
-    }
-  }
-
-  /**
-   * This function checks whether the first encounter with the character has taken place, but not an initial hit.
-   *
-   * @returns {boolean} - Returns `true` if the first encounter with the character has taken place, but not an initial hit, otherwise `false`.
-   */
-  firstEncounterNoHit() {
-    return !this.initialHit && this.world.firstEncounterEndbossHappend;
-  }
-
-  /**
-   * This function checks whether the first encounter with the character has taken place, but not an initial hit, if necessary plays the alert sound exactly once and calls the function again after a random period of time.
-   */
-  playRandomAlertSound() {
-    if (this.firstEncounterNoHit()) {
-      playSound("endbossAlertSound");
-      setTimeout(() => pauseSound("endbossAlertSound"), 1500);
-    }
-    setTimeout(() => this.playRandomAlertSound(), 2500 + Math.random() * 2500);
-  }
-
-  /**
-   * This function controls the endboss backgroundmusic.
-   */
-  endbossBackgroundmusic() {
-    this.playEndbossBackgroundmusic();
-    this.stopEndbossBackgroundmusic();
-  }
-
-  /**
-   * This function checks whether the conditions for the background music endboss are met until the corresponding function can be executed.
-   */
-  playEndbossBackgroundmusic() {
-    let intervalEndbossBackgroundMusic = setInterval(() => {
-      if (this.conditionsBackgroundMusicEndbossMet()) {
-        clearInterval(intervalEndbossBackgroundMusic);
-        playSound("endbossBackgroundMusic");
-      }
-    }, 200);
-  }
-
-  /**
-   * This function checks whether the conditions for the background music endboss are met.
-   *
-   * @returns {boolean} - Returns `true` if all conditions for the background music endboss are met, otherwise `false`.
-   */
-  conditionsBackgroundMusicEndbossMet() {
-    return this.initialHit && !this.threateningSound && !this.isDead();
-  }
-
-  /**
-   * This function continuously checks whether the game has ended and, if so, sets the endboss background music volume to 0.
-   */
-  stopEndbossBackgroundmusic() {
-    setInterval(() => {
-      if (this.world.gameOver) {
-        sounds.endbossBackgroundMusic.currentVolume = 0;
-        setVolume("endbossBackgroundMusic");
-      }
-    }, 1000);
-  }
-
-  /**
-   * If the conditions for the hurt sound are met, this function sets the boolean endbossHurtSoundIsPlaying to true, plays the hurt sound exactly once and then sets the boolean back to false.
-   */
-  playHurtSound() {
-    if (this.conditionsHurtSoundMet()) {
-      this.endbossHurtSoundIsPlaying = true;
-      playSound("endbossHurtSound");
-      setTimeout(() => pauseSound("endbossHurtSound"), 1200);
-      setTimeout(() => (this.endbossHurtSoundIsPlaying = false), 2000);
-    }
-  }
-
-  /**
-   * This function checks whether the conditions for the hurt sound are met.
-   *
-   * @returns {boolean} - Returns `true` if all conditions for the hurt sound are met, otherwise `false`.
-   */
-  conditionsHurtSoundMet() {
-    return this.isHurt && !this.endbossHurtSoundIsPlaying && this.energy >= 0;
-  }
-
-  /**
-   * If the conditions for the dying sound are met, this function sets the boolean dyingSoundIsPlaying to true, plays the dying sound and, afer a timeout, deletes the interval that executes the dying sound function.
-   *
-   * @param {string} id - This is interval that executes the dying sound function.
-   */
-  playDyingSound(id) {
-    if (this.conditionsDyingSoundMet()) {
-      this.dyingSoundIsPlaying = true;
-      playSound("endbossDyingSound");
-      setTimeout(() => clearInterval(id), 5000);
-    }
-  }
-
-  /**
-   * This function checks whether the conditions for the dying sound are met.
-   *
-   * @returns {boolean} - Returns `true` if all conditions for the dying sound are met, otherwise `false`.
-   */
-  conditionsDyingSoundMet() {
-    return this.isDead() && !this.dyingSoundIsPlaying;
-  }
-
-  /**
    * This function controls the first encounter of endboss and character.
    */
   checkFirstEncounter() {
@@ -402,7 +262,7 @@ class Endboss extends MovableObject {
   /**
    * This function sets the boolean 'firstEncounterEndbossHappend' to true if x is less than 2450.
    */
-  didFirstEncounterEndbossHappend(){
+  didFirstEncounterEndbossHappend() {
     setInterval(() => {
       if (this.x <= 2450) this.world.firstEncounterEndbossHappend = true;
     }, 200);
@@ -411,7 +271,7 @@ class Endboss extends MovableObject {
   /**
    * With an interval, this function checks whether x is less than 2600 and then sets the boolean introAnimationEndboss to true. After a second, it sets it back to false and ends the interval.
    */
-  setIntroAnimationEndboss(){
+  setIntroAnimationEndboss() {
     let intervalCheckIntroAnimationEndboss = setInterval(() => {
       if (this.x < 2600) {
         world.introAnimationEndboss = true;
@@ -425,7 +285,7 @@ class Endboss extends MovableObject {
 
   /**
    * This function checks whether the endboss is not already hurt. If this is not the case, the booleans 'isHurt' and 'collisionWithEnemy' of the bottle are set to true, the energy is reduced by one point, the startus bar of the endboss is updated and after a timeout 'isHurt' is set to false again.
-   * 
+   *
    * @param {object} bottle - throwable bottle
    */
   isHit(bottle) {
@@ -440,7 +300,7 @@ class Endboss extends MovableObject {
 
   /**
    * This function gets the images of the dying animation one after the other from the image chace and puts them on img.
-   * 
+   *
    * @param {array} images - Array 'IMAGES_DYING' whith image pathes.
    */
   playDyingAnimation(images) {
