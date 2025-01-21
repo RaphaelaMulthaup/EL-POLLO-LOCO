@@ -254,6 +254,7 @@ function checkCollisionsBottlesEmemies() {
           enemy.deadFromCollision(bottle);
         } else if (bottleHitsEndboss(enemy, bottle)) {
           enemy.isHit(bottle);
+          // Funktion einfügen durch die der Character zurcük fliegt      
         }
       });
     });

@@ -12,6 +12,8 @@ class Character extends MovableObject {
   characterJumpingSoundIsPlaying = false;
   characterWalkingSoundIsPlaying = false;
   world;
+  recoil = false;
+  recoilJump = false;
 
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
@@ -171,6 +173,7 @@ class Character extends MovableObject {
    */
   isWalking() {
     return (
+      !this.recoil &&
       !this.world.introAnimationEndboss &&
       !this.isDead() &&
       !this.isHurt() &&
@@ -248,6 +251,7 @@ class Character extends MovableObject {
    */
   conditionsMovingRightMet() {
     return (
+      !this.recoil &&
       this.world.keyboard.RIGHT &&
       this.x < this.world.level.level_end_x &&
       !this.isHurt() &&
@@ -275,6 +279,7 @@ class Character extends MovableObject {
    */
   conditionsMovingLeftMet() {
     return (
+      !this.recoil &&
       this.world.keyboard.LEFT &&
       this.x > 0 &&
       !this.isHurt() &&
@@ -288,6 +293,7 @@ class Character extends MovableObject {
    */
   movementJumping() {
     this.movementJumpingStandart();
+    this.movementRecoilJump();
     this.movementJumpingDeath();
   }
 
@@ -307,12 +313,61 @@ class Character extends MovableObject {
    */
   conditionsJumpingMet() {
     return (
+      !this.recoil &&
       (this.world.keyboard.SPACE || this.world.keyboard.UP) &&
       !this.isAboveGround(145) &&
       !this.isHurt() &&
       !this.world.introAnimationEndboss &&
       !this.isDead()
     );
+  }
+
+  /**
+   * This function causes the character to recoil when he hits the endboss with a bottle. It causes a jump and movement away from the endboss.
+   */
+  movementRecoilJump() {
+    setInterval(() => {
+      if (this.conditionsRecoilJumpMet()) {
+        this.recoil = true;
+        this.recoilJump = true;
+        this.jump(24);
+        this.movingDirectionRecoil();
+        setTimeout(() => this.recoil = false, 700);
+        setTimeout(() => this.recoilJump = false, 2000);
+      }
+    }, 1000 / 60);
+  }
+
+  /**
+   * This function checks the conditions for the recoil jump state.
+   *
+   * @returns {boolean} - Returns `true` if all conditions for the recoil jump state are met, otherwise `false`.
+   */
+  conditionsRecoilJumpMet() {
+    return (
+      !this.recoilJump &&
+      world.endboss.isHurt &&
+      !this.isAboveGround(145) &&
+      !this.isHurt() &&
+      !this.world.introAnimationEndboss &&
+      !this.isDead()
+    );
+  }
+
+  /**
+   * This function checks from which side the recoil occurs and moves the character accordingly. After the jump ends, the interval is stopped.
+   */
+  movingDirectionRecoil() {
+    let movingBackwarts = setInterval(() => {
+      if (this.x < world.endboss.x) {
+        this.moveLeft();
+      } else {
+        this.moveRight();
+      }
+    }, 1000 / 60);
+    setTimeout(() => {
+      clearInterval(movingBackwarts);
+    }, 700);
   }
 
   /**
