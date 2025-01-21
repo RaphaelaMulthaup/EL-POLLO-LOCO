@@ -87,7 +87,7 @@ function setUpTouchDevice() {
 }
 
 /**
- * This function changes some classes. Minimal scrolling is permitted, the start button is made permanently visible, the buttons and the info text are adapted for the mobile version and the mobile action buttons are made visible.
+ * This function modifies some classes. Minimal scrolling is allowed, the start button is made permanently visible, the buttons, the explanation bar and the information text are adapted for the mobile version and the mobile action buttons are made visible.
  */
 function changeClassesForTouchDeviceDesign() {
   document.documentElement.classList.add("htmlScroll");
@@ -98,6 +98,11 @@ function changeClassesForTouchDeviceDesign() {
   document.getElementById("mobileActionButtons").classList.remove("dNone");
   document.getElementById("infoText").classList.remove("infoTextDesktop");
   document.getElementById("infoText").classList.add("infoTextMobile");
+  document.getElementById("explanationBarThrowingD").classList.add("dNone");
+  document.getElementById("explanationBarThrowingBottle").classList.remove("dNone");
+  document.getElementById("space").classList.add("dNone");
+  document.getElementById("fullscreen").classList.add("dNone");
+  document.getElementById("home").classList.remove("dNone");
 }
 
 /**
@@ -348,11 +353,13 @@ function fullscreen() {
 }
 
 /**
- * This function swaps the fullscreen icon for the minimize icon.
+ * This function swaps the fullscreen icon for the minimize icon, if it is a desktop device.
  */
 function fullscreenClasses() {
   document.getElementById("fullscreen").classList.add("dNone");
-  document.getElementById("minimize").classList.remove("dNone");
+  if (!"ontouchstart" in window) {
+    document.getElementById("minimize").classList.remove("dNone");
+  }
 }
 
 /**
@@ -360,8 +367,17 @@ function fullscreenClasses() {
  */
 function wrapperToFullscreen() {
   let wrapper = document.getElementById("wrapper");
+  // let wrapperRatio = wrapper.offsetWidth / wrapper.offsetHeight;
+  // let screenRatio = window.innerWidth / window.innerHeight;
   if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
     wrapper.classList.add("fullscreenApple");
+    // if (screenRatio > wrapperRatio) {
+    //   wrapper.style.width = "100vw";
+    //   wrapper.style.height = "auto";
+    // } else {
+    //   wrapper.style.width = "auto";
+    //   wrapper.style.height = "100vh";
+    // }
   } else {
     if (wrapper.requestFullscreen) {
       wrapper.requestFullscreen();
@@ -404,4 +420,11 @@ function closeInfo() {
   if (!gameStartedOnce)
     document.getElementById("startButton").classList.remove("dNone");
   document.getElementById("infoButton").setAttribute("onclick", "openInfo()");
+}
+
+/**
+ * This function reloads the game.
+ */
+function home(){
+  location.reload();
 }

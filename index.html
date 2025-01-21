@@ -37,11 +37,7 @@
     <script src="./js/camera.js"></script>
     <script src="./js/playSoundsCharacterAndEndboss.js"></script>
     <script src="./js/gameEvents.js"></script>
-    <link
-      rel="icon"
-      href="img/favicon.ico"
-      type="image/x-icon"
-    />
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
   </head>
   <body id="body" onload="init()" onclick="closeInfo()">
     <div class="content">
@@ -114,6 +110,13 @@
           </div>
           <div id="buttons" class="buttons buttonsDesktop">
             <img
+              id="home"
+              class="home dNone"
+              src="img/home.png"
+              alt="home"
+              onclick="home()"
+            />
+            <img
               id="fullscreen"
               class="fullscreen"
               src="img/fullscreen.png"
@@ -176,13 +179,38 @@
         </div>
       </div>
       <div class="explanationBar">
-        <div>
-          <div><img class="explanationBarIcon" src="img/D.png" alt="D" /></div>
+        <div id="explanationBarThrowingBottle" class="dNone">
+          <div>
+            <div id="explanationBarIconBottle">
+              <img
+                src="img/circle.png"
+                alt="bottle"
+                class="explanationBarIcon"
+              />
+              <img
+                src="img/6_salsa_bottle/salsa_bottle.png"
+                alt="bottle"
+                class="bottleExplanationBar"
+              />
+            </div>
+          </div>
+          <span class="explanationBarSpan">werfen</span>
+        </div>
+
+        <div id="explanationBarThrowingD">
+          <div>
+            <img class="explanationBarIcon" src="img/D.png" alt="D" />
+          </div>
           <span class="explanationBarSpan">werfen</span>
         </div>
         <div>
           <div>
-            <img class="explanationBarIcon" src="img/space.png" alt="space" />
+            <img
+              id="space"
+              class="explanationBarIcon"
+              src="img/space.png"
+              alt="space"
+            />
             <img class="explanationBarIcon" src="img/arrowUp.png" alt="up" />
           </div>
           <span class="explanationBarSpan">springen</span>

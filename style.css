@@ -78,6 +78,12 @@ h1 {
   z-index: 9998;
 }
 
+#wrapper > * {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
 .canvasContainer {
   height: 100%;
   position: relative;
@@ -162,6 +168,12 @@ canvas {
 .buttons img {
   opacity: 0.7;
   position: absolute;
+}
+
+.home {
+  height: 100%;
+  top: 0%;
+  left: 0;
 }
 
 .fullscreen {

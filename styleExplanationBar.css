@@ -40,6 +40,13 @@
   height: 9vh !important;
 }
 
+.bottleExplanationBar {
+  position: absolute;
+  left: calc((100% - 4vh) / 2);
+  top: calc((100% - 4vh) / 2);
+  height: 4vh !important;
+}
+
 .explanationBar {
   display: flex;
   font-family: "Kranky";
@@ -67,6 +74,10 @@
 
 .explanationBarIcon {
   height: 4vh;
+}
+
+#explanationBarIconBottle {
+  position: relative;
 }
 
 .explanationBarSpan {
