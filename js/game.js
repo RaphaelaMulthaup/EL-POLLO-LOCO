@@ -367,17 +367,8 @@ function fullscreenClasses() {
  */
 function wrapperToFullscreen() {
   let wrapper = document.getElementById("wrapper");
-  // let wrapperRatio = wrapper.offsetWidth / wrapper.offsetHeight;
-  // let screenRatio = window.innerWidth / window.innerHeight;
   if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
     wrapper.classList.add("fullscreenApple");
-    // if (screenRatio > wrapperRatio) {
-    //   wrapper.style.width = "100vw";
-    //   wrapper.style.height = "auto";
-    // } else {
-    //   wrapper.style.width = "auto";
-    //   wrapper.style.height = "100vh";
-    // }
   } else {
     if (wrapper.requestFullscreen) {
       wrapper.requestFullscreen();

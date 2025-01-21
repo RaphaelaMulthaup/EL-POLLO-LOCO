@@ -142,7 +142,8 @@ class Character extends MovableObject {
       !this.isDead() &&
       !this.isHurt() &&
       !this.isAboveGround(145) &&
-      !this.buttonsForWalkingArePressed()
+      !this.buttonsForWalkingArePressed() &&
+      new Date().getTime() - world.lastThrowTime >= 500
     );
   }
 
