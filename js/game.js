@@ -7,6 +7,24 @@ let defaultSounds = [];
 let gameStartedOnce = false;
 
 /**
+ * This function adds a keydown listener for the ESC key.
+ */
+window.addEventListener("keydown", (event) => {
+  if (event.code == "Escape") { 
+    minimize();
+  }
+});
+
+/**
+ * This function adds an event listener that calls the minimize() function if fullscreen mode is exited.
+ */
+document.addEventListener("fullscreenchange", () => {
+  if (!document.fullscreenElement) {
+    minimize();
+  }
+});
+
+/**
  * This event listener sets variables that represent keyboard keys to true when the corresponding key was pressed down.
  */
 window.addEventListener("keydown", (event) => {
@@ -63,6 +81,7 @@ function init() {
   addEventListeners();
   addEventListenersForMobileActionButtons();
   addOrientationListeners();
+  getMuteStatus();
 }
 
 /**
@@ -357,7 +376,7 @@ function fullscreen() {
  */
 function fullscreenClasses() {
   document.getElementById("fullscreen").classList.add("dNone");
-  if (!"ontouchstart" in window) {
+  if (!("ontouchstart" in window)) {
     document.getElementById("minimize").classList.remove("dNone");
   }
 }

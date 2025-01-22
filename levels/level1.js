@@ -1,5 +1,8 @@
 let level1;
 
+/**
+ * This function initializes the game level by creating and organizing all enemies, collectibles, clouds, and background elements into a Level instance.
+ */
 function initLevel() {
   level1 = new Level(
     [

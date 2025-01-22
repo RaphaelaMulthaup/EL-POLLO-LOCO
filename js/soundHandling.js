@@ -1,4 +1,15 @@
 /**
+ * This function retrieves the mute status from local storage. If it is true, the mute function is executed.
+ */
+function getMuteStatus(){
+  let muteStatus = localStorage.getItem('muteStatus');
+  if (muteStatus === 'true') {
+    let img = document.getElementById("muteUnmute");
+    mute(img);
+  }
+}
+
+/**
  * This function toggles between mute and unmute state when called.
  */
 function muteUnmute() {
@@ -7,24 +18,26 @@ function muteUnmute() {
 }
 
 /**
- * This function mutes all sounds and updates the mute icon.
+ * This function updates the mute icon, saves the mute status in the local storage and mutes all sounds.
  *
  * @param {html element} img - image that shows the mute or unmute icon
  */
 function mute(img) {
   img.src = "img/unmute.png";
   muted = true;
+  localStorage.setItem('muteStatus', muted);
   Object.keys(sounds).forEach((sound) => (sounds[sound].audio.muted = true));
 }
 
 /**
- * This function unmutes all sounds and restores the audio to the theoretical start time if saved.
+ * This function updates the mute icon, saves the mute status in the local storage, unmutes all sounds and restores the audio to the theoretical start time if saved.
  *
  * @param {html element} img - image that shows the mute or unmute icon
  */
 function unmute(img) {
   img.src = "img/mute.png";
   muted = false;
+  localStorage.setItem('muteStatus', muted);
   Object.keys(sounds).forEach((sound) => {
     let audio = sounds[sound].audio;
     let theoreticalStartTime = sounds[sound].theoreticalStartTime;
