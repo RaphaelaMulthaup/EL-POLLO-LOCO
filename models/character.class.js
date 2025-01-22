@@ -11,6 +11,7 @@ class Character extends MovableObject {
   characterHurtSoundIsPlaying = false;
   characterJumpingSoundIsPlaying = false;
   characterWalkingSoundIsPlaying = false;
+  characterUffSoundIsPlaying = false;
   world;
   recoil = false;
   recoilJump = false;

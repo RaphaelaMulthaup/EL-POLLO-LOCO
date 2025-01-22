@@ -7,6 +7,7 @@ function playSoundsCharacter() {
   setStoppableInterval(() => yawningSound(), 200);
   setStoppableInterval(() => walkingSound(), 200);
   setStoppableInterval(() => jumpingSound(), 200);
+  setStoppableInterval(() => uffSound(), 200);
   setStoppableInterval(() => playHurtSoundCharacter(), 200);
   setStoppableInterval((id) => playDyingSoundCharacter(id), 200);
 }
@@ -133,7 +134,8 @@ function conditionsJumpingSoundMet() {
   return (
     character.speedY > 0 &&
     !character.isDead() &&
-    !character.characterJumpingSoundIsPlaying
+    !character.characterJumpingSoundIsPlaying &&
+    !character.recoil
   );
 }
 
@@ -144,6 +146,48 @@ function pauseJumpingSound() {
   if (character.speedY <= 0) {
     pauseSound("characterJumpingSound");
     character.characterJumpingSoundIsPlaying = false;
+  }
+}
+
+/**
+ * This function controls the uff sound.
+ */
+function uffSound() {
+  playUffSound();
+  pauseUffSound();
+}
+
+/**
+ * If the conditions are met, this function plays the uff sound and sets the boolean characterUffSoundIsPlaying to true.
+ */
+function playUffSound() {
+  if (conditionsUffSoundMet()) {
+    character.characterUffSoundIsPlaying = true;
+    playSound("characterUffSound");
+  }
+}
+
+/**
+ * This function checks the conditions for the uff sound.
+ *
+ * @returns {boolean} - Returns `true` if all conditions for the uff sound are met, otherwise `false`.
+ */
+function conditionsUffSoundMet() {
+  return (
+    character.speedY > 0 &&
+    !character.isDead() &&
+    !character.characterUffSoundIsPlaying &&
+    character.recoil
+  );
+}
+
+/**
+ * When a recoil is over, this function pauses the uff sound and sets the boolean characterUffSoundIsPlaying to false.
+ */
+function pauseUffSound() {
+  if (!character.recoil) {
+    pauseSound("characterUffSound");
+    character.characterUffSoundIsPlaying = false;
   }
 }
 
@@ -271,11 +315,7 @@ function playEndbossBackgroundmusic() {
  * @returns {boolean} - Returns `true` if all conditions for the background music endboss are met, otherwise `false`.
  */
 function conditionsBackgroundMusicEndbossMet() {
-  return (
-    endboss.initialHit &&
-    !endboss.threateningSound &&
-    !endboss.isDead()
-  );
+  return endboss.initialHit && !endboss.threateningSound && !endboss.isDead();
 }
 
 /**
@@ -309,9 +349,7 @@ function playHurtSoundEndboss() {
  */
 function conditionsHurtSoundEndbossMet() {
   return (
-    endboss.isHurt &&
-    !endboss.endbossHurtSoundIsPlaying &&
-    endboss.energy >= 0
+    endboss.isHurt && !endboss.endbossHurtSoundIsPlaying && endboss.energy >= 0
   );
 }
 

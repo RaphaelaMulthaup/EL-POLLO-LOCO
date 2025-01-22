@@ -234,6 +234,7 @@ function checkThrowBottle() {
  */
 function conditionsForThrowingBottleMet(currentTime) {
   return (
+    !character.recoil &&
     world.keyboard.D &&
     currentTime - world.lastThrowTime >= 500 &&
     world.collectedBottles != 0 &&

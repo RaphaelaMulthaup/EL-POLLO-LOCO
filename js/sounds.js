@@ -104,4 +104,9 @@ let sounds = {
     currentVolume: 0.5,
     currentTime: 0,
   },
+  characterUffSound: {
+    audio: new Audio("audio/uff.mp3"),
+    currentVolume: 1,
+    currentTime: 0.042,
+  }
 };
