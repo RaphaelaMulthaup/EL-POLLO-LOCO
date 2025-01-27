@@ -9,9 +9,9 @@ let gameStartedOnce = false;
 /**
  * This function adds code listens for the load event to ensure all page resources are fully loaded before hiding the loading overlay by setting its display property to none.
  */
-// window.addEventListener("load", () => {
-//   document.getElementById("loadingOverlay").style.display = "none";
-// });
+window.addEventListener("load", () => {
+  document.getElementById("loadingOverlay").style.display = "none";
+});
 
 /**
  * This function adds a keydown listener for the ESC key.
