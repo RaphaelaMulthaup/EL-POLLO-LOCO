@@ -7,7 +7,7 @@ Join Pepe on his adventure through the Mexican desert — dodge angry 🐔 chick
 
 ## 🎮 Game Description
 
-Join Pepe on a trip through the Mexican desert.
+**Join Pepe on a trip through the Mexican desert.**
 
 Along the way, you’ll meet all kinds of chickens that can harm you.  
 Jump on them or throw **Tabasco bottles** to defeat them.  
