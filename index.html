@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, height=device-height, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>El Pollo Loco</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./styleExplanationBar.css" />
+    <script src="./models/keyboard.class.js"></script>
+    <script src="./js/game.js"></script>
+    <script src="./js/soundHandling.js"></script>
+    <script src="./models/world.class.js"></script>
+    <script src="./models/drawable-object.class.js"></script>
+    <script src="./models/movable-object.class.js"></script>
+    <script src="./models/character.class.js"></script>
+    <script src="./js/camera.js"></script>
+    <script src="./js/gameEvents.js"></script>
+    <script src="./models/level.class.js"></script>
+    <script src="./levels/level1.js"></script>
+    <script src="./models/chicken.class.js"></script>
+    <script src="./models/chick.class.js"></script>
+    <script src="./models/collectable-object.claas.js"></script>
+    <script src="./models/collectable-bottle.class.js"></script>
+    <script src="./models/collectable-coin.class.js"></script>
+    <script src="./models/background-object.class.js"></script>
+    <script src="./models/cloud.class.js"></script>
+    <script src="./models/status-bar.class.js"></script>
+    <script src="./models/status-bar-life.class.js"></script>
+    <script src="./models/status-bar-coins.class.js"></script>
+    <script src="./models/status-bar-bottles.class.js"></script>
+    <script src="./js/sounds.js"></script>
+    <script src="./js/playSoundsCharacterAndEndboss.js"></script>
+    <script src="./models/coin-animation.class.js"></script>
+    <script src="./models/throwable-bottle.class.js"></script>
+    <script src="./models/endboss.class.js"></script>
+    <script src="./models/status-bar-endboss.class.js"></script>
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+  </head>
+  <body id="body" onload="init()" onclick="closeInfo()">
+    <div id="loadingOverlay">
+      <div class="loadingMessage">
+        <p>Die Seite wird geladen...</p>
+        <div class="spinner"></div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>EL POLLO LOCO</h1>
+      <div id="wrapper">
+        <div id="canvasContainer" class="canvasContainer">
+          <canvas id="canvas" width="720px" height="480px"></canvas>
+          <div id="mobileActionButtons" class="mobileActionButtons dNone">
+            <div class="mobileActionButtonsLeft">
+              <div class="mobileActionButton" id="buttonThrow">
+                <img src="img/circle.png" alt="bottle" />
+                <img
+                  class="bottle"
+                  src="img/6_salsa_bottle/salsa_bottle.png"
+                  alt="bottle"
+                />
+              </div>
+              <div class="mobileActionButton" id="buttonJump">
+                <img src="img/arrowUp.png" alt="up" />
+              </div>
+            </div>
+            <div class="mobileActionButtonsRight">
+              <div class="mobileActionButton" id="buttonLeft">
+                <img src="img/arrowLeft.png" alt="left" />
+              </div>
+              <div class="mobileActionButton" id="buttonRight">
+                <img src="img/arrowRight.png" alt="right" />
+              </div>
+            </div>
+          </div>
+          <img
+            id="startscreen"
+            class="startscreen"
+            src="img/9_intro_outro_screens/start/startscreen_1.png"
+            alt="startscreen"
+          />
+          <svg
+            id="startButton"
+            class="startButton"
+            width="100%"
+            height="100%"
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              id="circle"
+              class="circleStartButton"
+              cx="100"
+              cy="100"
+              r="80"
+              fill="none"
+              stroke="transparent"
+              stroke-width="20"
+            />
+            <polygon
+              id="polygon"
+              points="75,55 75,145 150,100"
+              fill="transparent"
+            />
+          </svg>
+          <div id="overlay" class="overlay dNone"></div>
+          <img
+            id="endscreen"
+            class="endscreenYouWin dNone"
+            src="img/9_intro_outro_screens/win/win_1.png"
+            alt="endscreen"
+          />
+          <div id="restartEndscreen" class="dNone" onclick="restart()">
+            <span>Noch einmal spielen!</span>
+          </div>
+          <div id="buttons" class="buttons buttonsDesktop">
+            <img
+              id="home"
+              class="home dNone"
+              src="img/home.png"
+              alt="home"
+              onclick="home()"
+            />
+            <img
+              id="fullscreen"
+              class="fullscreen"
+              src="img/fullscreen.png"
+              alt="fullscreen"
+              onclick="fullscreen()"
+            />
+            <img
+              id="minimize"
+              class="minimize dNone"
+              src="img/minimize.png"
+              alt="minimize"
+              onclick="minimize()"
+            />
+            <img
+              class="restart"
+              src="img/restart.png"
+              alt="restart"
+              onclick="restart()"
+            />
+            <img
+              class="muteUnmute"
+              id="muteUnmute"
+              src="img/mute.png"
+              alt="mute/unmute"
+              onclick="muteUnmute()"
+            />
+          </div>
+          <div id="clickBarrier" class="dNone"></div>
+          <div
+            id="infoText"
+            class="dNone infoTextDesktop"
+            onclick="event.stopPropagation()"
+          >
+            <p>
+              Mache zusammen mit Pepe einen Ausflug in die mexikanische Wüste.
+            </p>
+            <p>
+              Dir werden viele Hühnchen begegnen, die dir Schaden zufügen. Du
+              kannst sie besiegen, wenn du auf sie springst oder sie mit einer
+              Tabaskoflasche triffst. Die Flaschen kannst du unterwegs
+              aufsammeln.
+            </p>
+            <p>
+              Am Ende wartet ein besondes schwerer Gegner auf dich. Es ist
+              wichtig, dass du für ihn noch einige Flaschen in petto hast.
+            </p>
+            <p>
+              Auch Münzen wirst du unterwegs finden. Sammele sie ein. Sie geben
+              dir extra Energie, wenn du geschwächt bist.
+            </p>
+            <p>Viel Spaß</p>
+            <img
+              id="close"
+              class="explanationBarIcon"
+              src="img/close.png"
+              alt="close"
+              onclick="closeInfo()"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="explanationBar">
+        <div id="explanationBarThrowingBottle" class="dNone">
+          <div>
+            <div id="explanationBarIconBottle">
+              <img
+                src="img/circle.png"
+                alt="bottle"
+                class="explanationBarIcon"
+              />
+              <img
+                src="img/6_salsa_bottle/salsa_bottle.png"
+                alt="bottle"
+                class="bottleExplanationBar"
+              />
+            </div>
+          </div>
+          <span class="explanationBarSpan">werfen</span>
+        </div>
+
+        <div id="explanationBarThrowingD">
+          <div>
+            <img class="explanationBarIcon" src="img/D.png" alt="D" />
+          </div>
+          <span class="explanationBarSpan">werfen</span>
+        </div>
+        <div>
+          <div>
+            <img
+              id="space"
+              class="explanationBarIcon"
+              src="img/space.png"
+              alt="space"
+            />
+            <img class="explanationBarIcon" src="img/arrowUp.png" alt="up" />
+          </div>
+          <span class="explanationBarSpan">springen</span>
+        </div>
+        <div>
+          <div>
+            <img
+              class="explanationBarIcon"
+              src="img/arrowLeft.png"
+              alt="left"
+            />
+            <img
+              class="explanationBarIcon"
+              src="img/arrowRight.png"
+              alt="right"
+            />
+          </div>
+          <span class="explanationBarSpan">laufen</span>
+        </div>
+        <div id="infoButton" onclick="openInfo()">
+          <div>
+            <img class="explanationBarIcon" src="img/info.png" alt="info" />
+          </div>
+        </div>
+      </div>
+      <div id="orientationOverlay" class="dNone">
+        <p>Bitte das Gerät ins Querformat drehen.</p>
+      </div>
+    </div>
+    <a class="impressum" href="impressum.html" target="_blank">Impressum</a>
+  </body>
+</html>

@@ -1,0 +1,187 @@
+.mobileActionButtons {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1vw;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 5% 0 5%;
+}
+
+.mobileActionButtons > div {
+  display: flex;
+  gap: 4vw;
+}
+
+.mobileActionButtons > div > div {
+  position: relative;
+  background-color: #bc7a0f;
+  padding: 0.5vw;
+  border-radius: 50%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  height: 9vh;
+  width: 9vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobileActionButtons > div > div > img {
+  height: 12vh;
+}
+
+.bottle {
+  position: absolute;
+  left: calc((100% - 9vh) / 2);
+  top: calc((100% - 9vh) / 2);
+  height: 9vh !important;
+}
+
+.bottleExplanationBar {
+  position: absolute;
+  left: calc((100% - 4vh) / 2);
+  top: calc((100% - 4vh) / 2);
+  height: 4vh !important;
+}
+
+.explanationBar {
+  display: flex;
+  font-family: "Kranky";
+  font-size: 2.5vw;
+  margin-top: 4%;
+  color: white;
+  gap: 1vw;
+}
+
+.explanationBar div {
+  display: flex;
+  align-items: center;
+  background-color: #bc7a0f;
+  padding: 0.5vw;
+  border-radius: 1.5vw;
+  gap: 0.5vw;
+}
+
+.explanationBar > div {
+  border-color: black;
+  border-style: solid;
+  border-width: 0.2vh;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.explanationBarIcon {
+  height: 4vh;
+}
+
+#explanationBarIconBottle {
+  position: relative;
+}
+
+.explanationBarSpan {
+  margin-right: 0.5vw;
+}
+
+#infoButton:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+#clickBarrier {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+#infoText {
+  position: absolute;
+  right: 1.5%;
+  bottom: 2.5%;
+  background-color: #bc7a0f;
+  color: white;
+  border-radius: 2vw;
+  border-color: black;
+  border-style: solid;
+  font-size: 1.3vw;
+  padding: 1vw;
+  box-shadow: 2px 3px 20px rgba(0, 0, 0, 0.5);
+  font-family: "Kranky";
+}
+
+.infoTextDesktop {
+  width: 50%;
+}
+
+.infoTextMobile {
+  width: 90.5%;
+}
+
+#close {
+  position: absolute;
+  right: 2vh;
+  bottom: 2vh;
+}
+
+#close:hover {
+  cursor: pointer;
+  right: 1.5vh;
+  bottom: 1.5vh;
+  height: 5vh;
+}
+
+#restartEndscreen {
+  position: absolute;
+  height: 8%;
+  top: 82%;
+  width: 36%;
+  left: 32%;
+  border-color: black;
+  border-style: solid;
+  border-width: 0.2vh;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  background-color: #bc7a0f;
+  padding: 0.5vw;
+  border-radius: 1.5vw;
+  font-family: "Kranky";
+  font-size: 2.5vw;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 1000px) {
+  #restartEndscreen {
+    border-width: 0.3vh;
+  }
+  .explanationBar > div {
+    border-width: 0.3vh;
+  }
+}
+
+@media (min-aspect-ratio: 500/360) {
+  #restartEndscreen {
+    font-size: 2.2vw;
+  }
+}
+
+@media (min-aspect-ratio: 600/360) {
+  #restartEndscreen {
+    font-size: 1.9vw;
+  }
+}
+
+@media (min-aspect-ratio: 720/360) {
+  #restartEndscreen {
+    font-size: 1.6vw;
+  }
+}
+
+#restartEndscreen:hover {
+  cursor: pointer;
+  background-color: #ce912f;
+}
