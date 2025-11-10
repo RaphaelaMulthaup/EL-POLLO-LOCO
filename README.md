@@ -7,11 +7,11 @@ Join Pepe on his adventure through the Mexican desert — dodge angry 🐔 chick
 
 ## 🎮 Game Description
 
-> “Join Pepe on a trip through the Mexican desert.”
+Join Pepe on a trip through the Mexican desert.
 
-Along the way, you’ll meet all kinds of chickens that can harm you.  
-Jump on them or throw **Tabasco bottles** to defeat them.  
-At the end of the level, a powerful **final boss** awaits — save up your bottles to win!
+> Along the way, you’ll meet all kinds of chickens that can harm you.  
+> Jump on them or throw **Tabasco bottles** to defeat them.  
+> At the end of the level, a powerful **final boss** awaits — save up your bottles to win!
 
 🪙 **Coins** restore some of your energy when you’re hurt.  
 🍾 **Bottles** can be collected and thrown at enemies.  
@@ -85,7 +85,7 @@ class World {
 
 2. Open index.html in your browser
 
-3. Click Start — and the adventure begins!
+3. Click Start ... and the adventure begins!
 
 ---
 
@@ -99,13 +99,13 @@ class World {
 
 ## 🧠 Developer Notes
 
-Fully object-oriented class structure
+- Fully object-oriented class structure
 
-Continuous game loop handles drawing and logic
+- Continuous game loop handles drawing and logic
 
-Smooth camera movement following the character
+- Smooth camera movement following the character
 
-Subpixel rendering issues are avoided using Math.floor()
+- Subpixel rendering issues are avoided using Math.floor()
 
 ---
 
