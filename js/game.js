@@ -5,13 +5,14 @@ let muted = false;
 let stoppableIntervalIds = [];
 let defaultSounds = [];
 let gameStartedOnce = false;
+const allImagePaths = [];
 
-/**
- * This function adds code listens for the load event to ensure all page resources are fully loaded before hiding the loading overlay by setting its display property to none.
- */
-window.addEventListener("load", () => {
-  document.getElementById("loadingOverlay").style.display = "none";
-});
+// /**
+//  * This function adds code listens for the load event to ensure all page resources are fully loaded before hiding the loading overlay by setting its display property to none.
+//  */
+// window.addEventListener("load", () => {
+//   document.getElementById("loadingOverlay").style.display = "none";
+// });
 
 /**
  * This function adds a keydown listener for the ESC key.
@@ -82,14 +83,60 @@ window.addEventListener("keyup", (event) => {
 /**
  * As soon as the page has finished loading, this function checks whether the game is being played on a touch device or a desktop computer, the canvas is passed to an appropriate variable and various event listeners and an orientation listener are set up.
  */
-function init() {
+async function init() {
+  // showLoadingScreen();
+  collectImagePaths(imagePaths);
+  await Promise.all(allImagePaths.map((src) => preloadImage(src)));
   touchDeviceOrKeyboard();
   canvas = document.getElementById("canvas");
   addEventListeners();
   addEventListenersForMobileActionButtons();
   addOrientationListeners();
   getMuteStatus();
+  document.getElementById("loadingOverlay").style.display = "none";
+  // document.getElementById("loadingScreen")?.remove();
 }
+
+// Helper-Funktion um rekursiv alle Strings in einem Objekt zu sammeln
+function collectImagePaths(obj) {
+  for (let key in obj) {
+    if (!obj.hasOwnProperty(key)) continue;
+    const value = obj[key];
+    if (typeof value === "string") {
+      allImagePaths.push(value);
+    } else if (Array.isArray(value)) {
+      value.forEach(v => {
+        if (typeof v === "string") allImagePaths.push(v);
+        else collectImagePaths(v);
+      });
+    } else if (typeof value === "object" && value !== null) {
+      collectImagePaths(value);
+    }
+  }
+}
+const imageCache = {};
+
+function preloadImage(src) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => {
+      imageCache[src] = img;
+      resolve();
+    };
+  });
+}
+
+// function showLoadingScreen() {
+//   const canvas = document.getElementById("canvas");
+//   const ctx = canvas.getContext("2d");
+//   ctx.fillStyle = "#000";
+//   ctx.fillRect(0, 0, canvas.width, canvas.height);
+//   ctx.fillStyle = "#fff";
+//   ctx.font = "30px Arial";
+//   ctx.textAlign = "center";
+//   ctx.fillText("Loading...", canvas.width / 2, canvas.height / 2);
+// }
 
 /**
  * This function checks what kind of device the game is being played on. If it is a touch device, a function is called to set up the game accordingly. Otherwise a class with overflow hidden is added.
@@ -215,14 +262,13 @@ function checkOrientation() {
       if (/Android/i.test(navigator.userAgent)) {
         try {
           minimize();
-        } catch(e) {
+        } catch (e) {
           console.warn("minimize() fehlgeschlagen:", e);
         }
       }
 
       // Reflow erzwingen (optional, für Bugfix)
       void overlay.offsetHeight;
-
     } else {
       // Overlay verstecken
       overlay.classList.add("dNone");
