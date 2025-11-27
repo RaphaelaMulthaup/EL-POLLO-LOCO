@@ -74,7 +74,7 @@ h1 {
   top: 0;
   left: 0;
   width: 100vw !important;
-  height: 100vh !important;
+  height: 100dvh !important;
   z-index: 9997;
 }
 
