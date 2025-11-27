@@ -193,26 +193,51 @@ document.addEventListener("DOMContentLoaded", checkOrientation);
  * This function checks the screen orientation and displays an overlay if the orientation is incorrect. It also adjusts classes for mobile designs.
  */
 function checkOrientation() {
-  setTimeout(() => {
-    let overlay = document.getElementById("orientationOverlay");
-    const width = document.documentElement.clientWidth;
-    const height = document.documentElement.clientHeight;
-    overlay.offsetHeight;
+  const overlay = document.getElementById("orientationOverlay");
 
-    if (height > width) {
-      document.getElementById("body").classList.add("overflowHidden");
-      document.documentElement.classList.remove("htmlScroll");
-      document.documentElement.classList.add("htmlOverflowHidden");
-      if (/Android/i.test(navigator.userAgent)) minimize();
+  setTimeout(() => {
+    // Verwende matchMedia für zuverlässige Portrait-Erkennung auf OnePlus
+    const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+
+    const body = document.getElementById("body");
+    const html = document.documentElement;
+
+    if (isPortrait) {
+      // Overlay zeigen
       overlay.classList.remove("dNone");
+
+      // Scroll- und Overflow-Anpassungen
+      body.classList.add("overflowHidden");
+      html.classList.remove("htmlScroll");
+      html.classList.add("htmlOverflowHidden");
+
+      // minimize auf Android ausführen
+      if (/Android/i.test(navigator.userAgent)) {
+        try {
+          minimize();
+        } catch(e) {
+          console.warn("minimize() fehlgeschlagen:", e);
+        }
+      }
+
+      // Reflow erzwingen (optional, für Bugfix)
+      void overlay.offsetHeight;
+
     } else {
+      // Overlay verstecken
       overlay.classList.add("dNone");
-      document.getElementById("body").classList.remove("overflowHidden");
-      document.documentElement.classList.add("htmlScroll");
-      document.documentElement.classList.remove("htmlOverflowHidden");
+
+      // Scroll- und Overflow zurücksetzen
+      body.classList.remove("overflowHidden");
+      html.classList.add("htmlScroll");
+      html.classList.remove("htmlOverflowHidden");
     }
-  }, 10);
+  }, 250); // 250ms Verzögerung für OnePlus Timing-Bug
 }
+
+// Event-Listener hinzufügen
+window.addEventListener("orientationchange", checkOrientation);
+window.addEventListener("resize", checkOrientation);
 
 /**
  * This function exit the fullscreen mode, showes the fullscreen button and hides the minimize button, and adds a border radius to specific elements.
