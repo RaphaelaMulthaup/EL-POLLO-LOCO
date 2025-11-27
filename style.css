@@ -15,7 +15,7 @@ html::-webkit-scrollbar {
   display: none;
 }
 
-html{
+html {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -313,20 +313,22 @@ canvas {
   align-items: center;
 }
 
-.spinner {
-  width: 10vh;
-  height: 10vh;
-  border: 1.5vh solid #fff;
-  border-top-color: transparent;
-  border-radius: 50%;
+.ring {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.5vh;
+  stroke-linecap: butt;
+  stroke-dasharray: 188 63;
+  transform-origin: 50% 50%;
+  transform-box: fill-box;
   animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
   from {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
   to {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
