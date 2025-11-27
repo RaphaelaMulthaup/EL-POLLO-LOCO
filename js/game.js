@@ -17,7 +17,7 @@ window.addEventListener("load", () => {
  * This function adds a keydown listener for the ESC key.
  */
 window.addEventListener("keydown", (event) => {
-  if (event.code == "Escape") { 
+  if (event.code == "Escape") {
     minimize();
   }
 });
@@ -125,7 +125,9 @@ function changeClassesForTouchDeviceDesign() {
   document.getElementById("infoText").classList.remove("infoTextDesktop");
   document.getElementById("infoText").classList.add("infoTextMobile");
   document.getElementById("explanationBarThrowingD").classList.add("dNone");
-  document.getElementById("explanationBarThrowingBottle").classList.remove("dNone");
+  document
+    .getElementById("explanationBarThrowingBottle")
+    .classList.remove("dNone");
   document.getElementById("space").classList.add("dNone");
   document.getElementById("fullscreen").classList.add("dNone");
   document.getElementById("home").classList.remove("dNone");
@@ -412,8 +414,13 @@ function wrapperToFullscreen() {
  * This function removes border-radius styles from the game for fullscreen mode.
  */
 function removeBorderRadius() {
-  for (let rule of document.styleSheets[0].cssRules) {
-    if (rule.style.borderRadius) rule.style.borderRadius = "0";
+  const sheet = document.styleSheets[0];
+  if (!sheet) return;
+
+  for (let rule of sheet.cssRules) {
+    if (rule.style && rule.style.borderRadius) {
+      rule.style.borderRadius = "0";
+    }
   }
 }
 
@@ -442,6 +449,6 @@ function closeInfo() {
 /**
  * This function reloads the game.
  */
-function home(){
+function home() {
   location.reload();
 }
