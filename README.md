@@ -30,11 +30,12 @@ At the end of the level, a powerful **final boss** awaits — save up your bottl
 | ESC       | Exit fullscreen |
 
 ### Touch (Mobile)
-- Arrows: Move  
-- 🆙: Jump  
-- 🍾: Throw bottle  
-- 🔇: Toggle sound  
-- 🏠: Restart  
+- ◀ / ▶ : Move  
+- ▲ : Jump  
+- 🍾 : Throw bottle  
+- 🔊 / 🔇 : Toggle sound  
+- 🔄 : Restart  
+- 🏠 : Landing Page
 
 The game automatically detects if you’re on a desktop or mobile device and adjusts the layout accordingly.
 
