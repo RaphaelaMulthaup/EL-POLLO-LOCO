@@ -1,5 +1,5 @@
 /**
- * Object containing all image paths organized by category
+ * Object containing all image paths organized by category.
  */
 const imagePaths = {
   character: {

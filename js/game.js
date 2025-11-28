@@ -6,13 +6,7 @@ let stoppableIntervalIds = [];
 let defaultSounds = [];
 let gameStartedOnce = false;
 const allImagePaths = [];
-
-// /**
-//  * This function adds code listens for the load event to ensure all page resources are fully loaded before hiding the loading overlay by setting its display property to none.
-//  */
-// window.addEventListener("load", () => {
-//   document.getElementById("loadingOverlay").style.display = "none";
-// });
+const imageCache = {};
 
 /**
  * This function adds a keydown listener for the ESC key.
@@ -84,7 +78,6 @@ window.addEventListener("keyup", (event) => {
  * As soon as the page has finished loading, this function checks whether the game is being played on a touch device or a desktop computer, the canvas is passed to an appropriate variable and various event listeners and an orientation listener are set up.
  */
 async function init() {
-  // showLoadingScreen();
   collectImagePaths(imagePaths);
   await Promise.all(allImagePaths.map((src) => preloadImage(src)));
   touchDeviceOrKeyboard();
@@ -94,10 +87,13 @@ async function init() {
   addOrientationListeners();
   getMuteStatus();
   document.getElementById("loadingOverlay").style.display = "none";
-  // document.getElementById("loadingScreen")?.remove();
 }
 
-// Helper-Funktion um rekursiv alle Strings in einem Objekt zu sammeln
+/**
+ * Helper function to recursively collect all strings in an object
+ * 
+ * @param {*} obj The paths of the images to be preloaded.
+ */
 function collectImagePaths(obj) {
   for (let key in obj) {
     if (!obj.hasOwnProperty(key)) continue;
@@ -114,8 +110,13 @@ function collectImagePaths(obj) {
     }
   }
 }
-const imageCache = {};
 
+/**
+ * This function preloads an image from the given source URL and stores it in the imageCache once it has fully loaded.
+ * 
+ * @param {*} src image path
+ * @returns A promise that resolves as soon as the image has fully loaded.
+ */
 function preloadImage(src) {
   return new Promise((resolve) => {
     const img = new Image();
@@ -126,17 +127,6 @@ function preloadImage(src) {
     };
   });
 }
-
-// function showLoadingScreen() {
-//   const canvas = document.getElementById("canvas");
-//   const ctx = canvas.getContext("2d");
-//   ctx.fillStyle = "#000";
-//   ctx.fillRect(0, 0, canvas.width, canvas.height);
-//   ctx.fillStyle = "#fff";
-//   ctx.font = "30px Arial";
-//   ctx.textAlign = "center";
-//   ctx.fillText("Loading...", canvas.width / 2, canvas.height / 2);
-// }
 
 /**
  * This function checks what kind of device the game is being played on. If it is a touch device, a function is called to set up the game accordingly. Otherwise a class with overflow hidden is added.
@@ -237,51 +227,59 @@ function addEventListenersForMobileActionButtons() {
 document.addEventListener("DOMContentLoaded", checkOrientation);
 
 /**
- * This function checks the screen orientation and displays an overlay if the orientation is incorrect. It also adjusts classes for mobile designs.
+ * Applies the correct classes when the device is in portrait mode.
+ */
+function handlePortraitMode(overlay, body, html) {
+  overlay.classList.remove("dNone");
+  body.classList.add("overflowHidden");
+  html.classList.remove("htmlScroll");
+  html.classList.add("htmlOverflowHidden");
+  if (/Android/i.test(navigator.userAgent)) {
+    tryMinimize();
+  }
+  void overlay.offsetHeight;
+}
+
+/**
+ * Applies the correct classes when the device is in landscape mode.
+ */
+function handleLandscapeMode(overlay, body, html) {
+  overlay.classList.add("dNone");
+  body.classList.remove("overflowHidden");
+  html.classList.add("htmlScroll");
+  html.classList.remove("htmlOverflowHidden");
+}
+
+/**
+ * Tries to call minimize() on Android devices.
+ */
+function tryMinimize() {
+  try {
+    minimize();
+  } catch (e) {
+    console.warn("minimize() fehlgeschlagen:", e);
+  }
+}
+
+/**
+ * This function checks the screen orientation and displays an overlay 
+ * if the orientation is incorrect. It also adjusts classes for mobile designs.
  */
 function checkOrientation() {
   const overlay = document.getElementById("orientationOverlay");
-
+  const body = document.getElementById("body");
+  const html = document.documentElement;
   setTimeout(() => {
-    // Verwende matchMedia für zuverlässige Portrait-Erkennung auf OnePlus
     const isPortrait = window.matchMedia("(orientation: portrait)").matches;
-
-    const body = document.getElementById("body");
-    const html = document.documentElement;
-
     if (isPortrait) {
-      // Overlay zeigen
-      overlay.classList.remove("dNone");
-
-      // Scroll- und Overflow-Anpassungen
-      body.classList.add("overflowHidden");
-      html.classList.remove("htmlScroll");
-      html.classList.add("htmlOverflowHidden");
-
-      // minimize auf Android ausführen
-      if (/Android/i.test(navigator.userAgent)) {
-        try {
-          minimize();
-        } catch (e) {
-          console.warn("minimize() fehlgeschlagen:", e);
-        }
-      }
-
-      // Reflow erzwingen (optional, für Bugfix)
-      void overlay.offsetHeight;
+      handlePortraitMode(overlay, body, html);
     } else {
-      // Overlay verstecken
-      overlay.classList.add("dNone");
-
-      // Scroll- und Overflow zurücksetzen
-      body.classList.remove("overflowHidden");
-      html.classList.add("htmlScroll");
-      html.classList.remove("htmlOverflowHidden");
+      handleLandscapeMode(overlay, body, html);
     }
-  }, 250); // 250ms Verzögerung für OnePlus Timing-Bug
+  }, 250);
 }
 
-// Event-Listener hinzufügen
+// Event listener for the orientation of the device
 window.addEventListener("orientationchange", checkOrientation);
 window.addEventListener("resize", checkOrientation);
 
